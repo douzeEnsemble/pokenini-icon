@@ -1,0 +1,17 @@
+egg;egg
+bulbasaur;bulbasaur
+ivysaur;ivysaur
+venusaur;venusaur
+venusaur;venusaur
+venusaur-mega;venusaur-mega
+venusaur-gigantamax;venusaur-gmax
+charmander;charmander
+charmeleon;charmeleon
+charizard;charizard
+charizard-mega-x;charizard-mega-x
+charizard-mega-y;charizard-mega-y
+charizard-gigantamax;charizard-gmax
+roaring-moon;roaring-moon
+iron-valiant;iron-valiant
+koraidon;koraidon
+miraidon;miraidon

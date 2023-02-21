@@ -24,4 +24,10 @@ docker stop pokenini-icon
 
 ### Scripts
 
-Todo
+#### Downloads sprites from PokemonDB
+
+```
+bash src/download-from-pokemon-db/download-from-pokemondb.sh src/download-from-pokemon-db/pokemons-list.txt
+```
+
+And see report.*txt files
