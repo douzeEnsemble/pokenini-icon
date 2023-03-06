@@ -31,3 +31,19 @@ bash src/download-from-pokemon-db/download-from-pokemondb.sh src/download-from-p
 ```
 
 And see report.*txt files
+
+#### Cut MBCMechachu sprites
+
+##### Requirement
+
+```
+sudo apt-get update && sudo apt-get install imagemagick tesseract-ocr libtesseract-dev
+```
+
+Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-824897934 and https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-Shiny-910547529
+
+```
+bash src/cut-mbcmechachu-sprites/cut-mbcmechachu-sprites.sh 2> src/cut-mbcmechachu-sprites/errors.log
+```
+
+And see errors.log files
