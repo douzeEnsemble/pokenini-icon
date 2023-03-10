@@ -3,16 +3,16 @@
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 IMAGICK="convert"
-TESSERACT="tesseract --psm 7 "
 
 size=$1
-# Use 5520X2720 for complete image
-# Use 5520X97 for first row only
-# Use 758X97 for the first 11 pokemons only
 case $size in
 
     "complete")
         dimension='5520X2720'
+        ;;
+
+    "3lines")
+        dimension='5520X291'
         ;;
 
     "line")
@@ -52,12 +52,15 @@ case $cat in
         ;;
 esac
 
+namesMatchesFile=$3
+
 echo '' > "$SCRIPT_DIR/report_equals.txt"
 echo '' > "$SCRIPT_DIR/report_notequals.txt"
+echo '' > "$SCRIPT_DIR/report_spritenotfound.txt"
+echo '' > "$SCRIPT_DIR/report_symbolmistake.txt"
 
 startAll=`date +%s`
 
-#for file in 'regulars' 'shinies'
 for file in ${types[@]};
 do
     echo "Start $file"
@@ -83,37 +86,87 @@ do
     do
         filename=${tile##*/}
 
+        numberFilename="$SCRIPT_DIR/images/temp/$file/number_${filename%.*}.png"
+
         # Detect number line text
         ## Crop number line
         $IMAGICK "$SCRIPT_DIR/images/temp/$file/$filename" -crop 61X10+8+16 +repage \
             -alpha off -fill white -fuzz 5% +opaque "#112037" \
             -fill black -opaque "#112037" \
-            -bordercolor white -border 5 \
-            -resize 415% -sharpen 0x7 \
-            "$SCRIPT_DIR/images/temp/$file/number_${filename%.*}.png"
+            -define png:color-type=2 -colorspace sRGB \
+            "$numberFilename"
 
         # Detect number line text
-        $TESSERACT "$SCRIPT_DIR/images/temp/$file/number_${filename%.*}.png" \
-            "$SCRIPT_DIR/images/temp/$file/number_${filename%.*}" \
-            --psm 7 -c page_separator="" \
-            -c load_system_dawg=false -c load_freq_dawg=false \
-            -c tessedit_char_whitelist="GMFUXYN0123456789-" \
-            1>/dev/null 2>&1
+        resultFile="$SCRIPT_DIR/images/temp/$file/number_${filename%.*}_result.txt"
+        echo '' > "$resultFile"
 
-        cp "$SCRIPT_DIR/images/temp/$file/number_${filename%.*}.txt" "$SCRIPT_DIR/images/temp/$file/number_${filename%.*}_original.txt"
+        symbols="$SCRIPT_DIR/symbols/*.png"
+        for symbolPath in $symbols
+        do
+            symbolFilename=${symbolPath##*/}
+            symbol=${symbolFilename%%.*}
 
-        # Fix character detections
-        sed -i '/-$/s/$/M/gI' "$SCRIPT_DIR/images/temp/$file/number_${filename%.*}.txt"
+            symbolToAlert=false
 
-        originalNumber=$(cat "$SCRIPT_DIR/images/temp/$file/number_${filename%.*}_original.txt")
-        number=$(cat "$SCRIPT_DIR/images/temp/$file//number_${filename%.*}.txt")
+            case $symbol in
+                '19')
+                symbolToAlert=true
+                ;;
+                '67')
+                symbolToAlert=true
+                ;;
 
-        if [[ $originalNumber == $number ]]
-        then
-            printf '%s %-10s == %-10s\n' "$filename" "$originalNumber" "$number" >> "$SCRIPT_DIR/report_equals.txt"
-        else
-            printf '%s %-10s != %-10s\n' "$filename" "$originalNumber" "$number" >> "$SCRIPT_DIR/report_notequals.txt"
-        fi
+                '7dm')
+                symbol='7-'
+                symbolToAlert=true
+                ;;
+                'dm_')
+                symbol='-'
+                symbolToAlert=true
+                ;;
+                'M_')
+                symbol='M'
+                symbolToAlert=true
+                ;;
+
+                'dm')
+                symbol='-'
+                ;;
+                'qmqmqm')
+                symbol='E'
+                ;;
+                *)
+                ;;
+            esac
+
+            result=$(visgrep $numberFilename $symbolPath)
+
+            if [[ "" == $result ]]
+            then
+                continue
+            fi
+
+            if [ "$symbolToAlert" = true ]
+            then
+                echo "$symbol in $numberFilename">> "$SCRIPT_DIR/report_symbolmistake.txt"
+            fi
+
+            while IFS= read -r line;
+            do
+                IFS=, read -ra x <<< $line
+
+                echo "$x $symbol" >> "$resultFile"
+            done <<< "$result"
+        done
+
+        sorted=$(sort -k 1 -h "$resultFile")
+        echo "$sorted" > "$resultFile"
+
+        number=''
+        while read order symbol;
+        do
+            number+="$symbol"
+        done < $resultFile
 
         if [[ $number == "" || $number == "0" || $number == "00" ]]
         then
@@ -134,7 +187,7 @@ do
 
         if [[ "$nbPixel" -ge 5 ]]
         then
-            $IMAGICK "$SCRIPT_DIR/images/$file/$number.png" -fuzz 5% -transparent "#6fb881" "$SCRIPT_DIR/images/$file/$number.png"
+            $IMAGICK "$SCRIPT_DIR/images/$file/$number.png" -fuzz 2% -transparent "#6fb881" "$SCRIPT_DIR/images/$file/$number.png"
         fi
 
         runtime=$(((`date +%s`)-startAll))
@@ -150,6 +203,19 @@ do
 
         ((i+=1))
     done
+
+    mkdir -p "$SCRIPT_DIR/images/icon_$file"
+
+    while read line; do
+        IFS=, read -a data <<< "$line"
+
+        spriteName=${data[0]}
+        iconName=${data[1]}
+
+        mv "$SCRIPT_DIR/images/$file/$spriteName.png" \
+            "$SCRIPT_DIR/images/icon_$file/$iconName.png" \
+            2>> "$SCRIPT_DIR/report_spritenotfound.txt"
+    done <$namesMatchesFile
 
     runtime=$(((`date +%s`)-startAll))
 
