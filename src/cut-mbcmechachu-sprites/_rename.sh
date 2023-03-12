@@ -2,8 +2,7 @@
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-IMAGICK="convert"
-TESSERACT="tesseract"
+namesMatchesFile=$1
 
 cat=$2
 case $cat in
@@ -29,27 +28,40 @@ case $cat in
         ;;
 esac
 
-namesMatchesFile=$3
-
 echo '' > "$SCRIPT_DIR/report_spritenotfound.txt"
 
+echo '' >> "$namesMatchesFile"
 IFS=','
-#for file in 'regulars' 'shinies'
 for file in ${types[@]};
 do
     echo "Start $file"
 
-    mkdir -p "$SCRIPT_DIR/images/icon_$file"
+    case $file in
+        "shinies")
+            finalDir='shiny'
+            ;;
+
+        "regulars")
+            finalDir='regular'
+            ;;
+    esac
+
+    mkdir -p "$SCRIPT_DIR/images/final/small/$finalDir"
 
     while read line; do
-        read -a data <<< "$line"
+        IFS=, read -a data <<< "$line"
 
         spriteName=${data[0]}
         iconName=${data[1]}
 
+        if [[ $line == "" || $spriteName == "" || $iconName == "" ]]
+        then
+            continue
+        fi
+
         cp "$SCRIPT_DIR/images/$file/$spriteName.png" \
-            "$SCRIPT_DIR/images/icon_$file/$iconName.png" \
+            "$SCRIPT_DIR/images/final/small/$finalDir/$iconName.png" \
             2>> "$SCRIPT_DIR/report_spritenotfound.txt"
-    done <$namesMatchesFile
+    done < $namesMatchesFile
 done
 IFS=''

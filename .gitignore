@@ -1,5 +1,7 @@
-src/download-from-pokemon-db/images/final
-src/download-from-pokemon-db/images/temp
+src/download-from-pokemon-db/images/*
+src/download-from-pokemon-db/report_*.txt
+src/download-from-pokemon-db/errors.log
 
-src/download-from-pokemon-db/report.*.txt
 src/cut-mbcmechachu-sprites/images/*
+src/cut-mbcmechachu-sprites/report_*.txt
+src/cut-mbcmechachu-sprites/errors.log

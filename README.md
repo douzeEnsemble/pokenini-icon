@@ -27,10 +27,10 @@ docker stop pokenini-icon
 #### Downloads sprites from PokemonDB
 
 ```
-bash src/download-from-pokemon-db/download-from-pokemondb.sh src/download-from-pokemon-db/pokemons-list.txt
+bash src/download-from-pokemon-db/download-from-pokemondb.sh src/download-from-pokemon-db/pokemons-list.txt rs 2> src/download-from-pokemon-db/errors.log
 ```
 
-And see report.*txt files
+And see report_*.txt and errors.log files
 
 #### Cut MBCMechachu sprites
 
@@ -43,5 +43,8 @@ sudo apt-get update && sudo apt-get install imagemagick tesseract-ocr libtessera
 Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-824897934 and https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-Shiny-910547529
 
 ```
-bash src/cut-mbcmechachu-sprites/cut-mbcmechachu-sprites.sh complete rs src/cut-mbcmechachu-sprites/pokemons-list.txt
+bash src/cut-mbcmechachu-sprites/cut-mbcmechachu-sprites.sh complete r 2> src/cut-mbcmechachu-sprites/errors_regulars.log
+bash src/cut-mbcmechachu-sprites/cut-mbcmechachu-sprites.sh complete s 2> src/cut-mbcmechachu-sprites/errors_shinies.log
 ```
+
+And see report_*.txt and errors.log files

@@ -1,2 +1,1 @@
 
-mv: cannot stat '/mnt/d/projects/pokenini-icon/src/cut-mbcmechachu-sprites/images/regulars/1009.png': No such file or directory
