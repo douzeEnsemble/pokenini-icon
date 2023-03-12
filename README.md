@@ -48,3 +48,16 @@ bash src/cut-mbcmechachu-sprites/cut-mbcmechachu-sprites.sh complete s 2> src/cu
 ```
 
 And see report_*.txt and errors.log files
+
+### Transfert des données
+
+```
+gcloud storage cp ./images/banner/* gs://pokenini-pokemons-icons/banner/
+
+gcloud storage cp ./images/big/regular/* gs://pokenini-pokemons-icons/big/regular
+gcloud storage cp ./images/big/shiny/* gs://pokenini-pokemons-icons/big/shiny
+
+gcloud storage cp ./images/small/regular/* gs://pokenini-pokemons-icons/small/regular
+gcloud storage cp ./images/small/shiny/* gs://pokenini-pokemons-icons/small/shiny
+```
+
