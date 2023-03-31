@@ -65,12 +65,12 @@ bash src/placeholders/make_them_all.sh b
 ### Transfert des données
 
 ```
-gcloud storage cp ./images/banner/* gs://pokenini-pokemons-icons/banner/
+gcloud -m storage cp -n ./images/banner/* gs://pokenini-pokemons-icons/banner/
 
-gcloud storage cp ./images/big/regular/* gs://pokenini-pokemons-icons/big/regular
-gcloud storage cp ./images/big/shiny/* gs://pokenini-pokemons-icons/big/shiny
+gcloud -m storage cp -n ./images/big/regular/* gs://pokenini-pokemons-icons/big/regular
+gcloud -m storage cp -n ./images/big/shiny/* gs://pokenini-pokemons-icons/big/shiny
 
-gcloud storage cp ./images/small/regular/* gs://pokenini-pokemons-icons/small/regular
-gcloud storage cp ./images/small/shiny/* gs://pokenini-pokemons-icons/small/shiny
+gcloud -m storage cp -n ./images/small/regular/* gs://pokenini-pokemons-icons/small/regular
+gcloud -m storage cp -n ./images/small/shiny/* gs://pokenini-pokemons-icons/small/shiny
 ```
 
