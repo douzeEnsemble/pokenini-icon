@@ -37,7 +37,7 @@ And see report_*.txt and errors.log files
 ##### Requirement
 
 ```
-sudo apt-get update && sudo apt-get install imagemagick tesseract-ocr libtesseract-dev
+sudo apt-get update && sudo apt-get install imagemagick
 ```
 
 Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-824897934 and https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-Shiny-910547529
@@ -48,6 +48,19 @@ bash src/cut-mbcmechachu-sprites/cut-mbcmechachu-sprites.sh complete s 2> src/cu
 ```
 
 And see report_*.txt and errors.log files
+
+#### Placeholders sprites
+
+##### Requirement
+
+```
+sudo apt-get update && sudo apt-get install imagemagick
+```
+
+```
+bash src/placeholders/make_them_all.sh s
+bash src/placeholders/make_them_all.sh b
+```
 
 ### Transfert des données
 
