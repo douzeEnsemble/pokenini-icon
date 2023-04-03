@@ -32,6 +32,13 @@ bash src/download-from-pokemon-db/download-from-pokemondb.sh src/download-from-p
 
 And see report_*.txt and errors.log files
 
+To copy downloaded images to the final dir
+
+```
+bash src/download-from-pokemon-db/cp.sh r
+bash src/download-from-pokemon-db/cp.sh s
+```
+
 #### Cut MBCMechachu sprites
 
 ##### Requirement
@@ -49,6 +56,13 @@ bash src/cut-mbcmechachu-sprites/cut-mbcmechachu-sprites.sh complete s 2> src/cu
 
 And see report_*.txt and errors.log files
 
+To copy cut images to the final dir
+
+```
+bash src/cut-mbcmechachu-sprites/cp.sh r
+bash src/cut-mbcmechachu-sprites/cp.sh s
+```
+
 #### Placeholders sprites
 
 ##### Requirement
@@ -64,6 +78,14 @@ bash src/placeholders/make_them_all.sh b
 
 ### Transfert des données
 
+#### Uniquement les images nouvelles et mises à jour
+
+```
+git add -A -n images | sed -E "s/^.*images\/(.*\.png)'$/\1/" | xargs -n1 sh -c 'gcloud storage cp ./images/$0 gs://pokenini-pokemons-icons/$0'
+```
+
+#### Toutes les données
+
 ```
 gcloud -m storage cp -n ./images/banner/* gs://pokenini-pokemons-icons/banner/
 
@@ -74,3 +96,4 @@ gcloud -m storage cp -n ./images/small/regular/* gs://pokenini-pokemons-icons/sm
 gcloud -m storage cp -n ./images/small/shiny/* gs://pokenini-pokemons-icons/small/shiny
 ```
 
+gcloud storage cp ./images/small/regular/* gs://pokenini-pokemons-icons/small/regular
