@@ -172,7 +172,7 @@ kingler-gigantamax,kingler-gmax
 voltorb,voltorb
 voltorb-hisuian,voltorb-hisui
 electrode,electrode
-electrode,electrode
+electrode-hisui,electrode-hisuian
 exeggcute,exeggcute
 exeggutor,exeggutor
 exeggutor-alolan,exeggutor-alola
