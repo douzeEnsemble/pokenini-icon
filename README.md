@@ -87,13 +87,13 @@ git add -A -n images | sed -E "s/^.*images\/(.*\.png)'$/\1/" | xargs -n1 sh -c '
 #### Toutes les données
 
 ```
-gcloud -m storage cp -n ./images/banner/* gs://pokenini-pokemons-icons/banner/
+gcloud storage cp -n ./images/banner/* gs://pokenini-pokemons-icons/banner/
 
-gcloud -m storage cp -n ./images/big/regular/* gs://pokenini-pokemons-icons/big/regular
-gcloud -m storage cp -n ./images/big/shiny/* gs://pokenini-pokemons-icons/big/shiny
+gcloud storage cp -n ./images/big/regular/* gs://pokenini-pokemons-icons/big/regular
+gcloud storage cp -n ./images/big/shiny/* gs://pokenini-pokemons-icons/big/shiny
 
-gcloud -m storage cp -n ./images/small/regular/* gs://pokenini-pokemons-icons/small/regular
-gcloud -m storage cp -n ./images/small/shiny/* gs://pokenini-pokemons-icons/small/shiny
+gcloud storage cp -n ./images/small/regular/* gs://pokenini-pokemons-icons/small/regular
+gcloud storage cp -n ./images/small/shiny/* gs://pokenini-pokemons-icons/small/shiny
 ```
 
 gcloud storage cp ./images/small/regular/* gs://pokenini-pokemons-icons/small/regular
