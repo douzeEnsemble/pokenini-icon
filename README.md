@@ -7,19 +7,19 @@
 #### Run
 
 ```
-docker run -dit --name pokenini-icon -p 8082:80 -v "$PWD/images":/usr/local/apache2/htdocs/ httpd:2.4
+make install
 ```
 
 #### Start
 
 ```
-docker start pokenini-icon
+make start
 ```
 
 #### Stop
 
 ```
-docker stop pokenini-icon
+make stop
 ```
 
 ### Scripts
@@ -32,12 +32,19 @@ bash src/download-from-pokemon-db/download-from-pokemondb.sh src/download-from-p
 
 And see report_*.txt and errors.log files
 
+To copy downloaded images to the final dir
+
+```
+bash src/download-from-pokemon-db/cp.sh r
+bash src/download-from-pokemon-db/cp.sh s
+```
+
 #### Cut MBCMechachu sprites
 
 ##### Requirement
 
 ```
-sudo apt-get update && sudo apt-get install imagemagick tesseract-ocr libtesseract-dev
+sudo apt-get update && sudo apt-get install imagemagick
 ```
 
 Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-824897934 and https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-Shiny-910547529
@@ -49,15 +56,44 @@ bash src/cut-mbcmechachu-sprites/cut-mbcmechachu-sprites.sh complete s 2> src/cu
 
 And see report_*.txt and errors.log files
 
+To copy cut images to the final dir
+
+```
+bash src/cut-mbcmechachu-sprites/cp.sh r
+bash src/cut-mbcmechachu-sprites/cp.sh s
+```
+
+#### Placeholders sprites
+
+##### Requirement
+
+```
+sudo apt-get update && sudo apt-get install imagemagick
+```
+
+```
+bash src/placeholders/make_them_all.sh s
+bash src/placeholders/make_them_all.sh b
+```
+
 ### Transfert des données
 
-```
-gcloud storage cp ./images/banner/* gs://pokenini-pokemons-icons/banner/
+#### Uniquement les images nouvelles et mises à jour
 
-gcloud storage cp ./images/big/regular/* gs://pokenini-pokemons-icons/big/regular
-gcloud storage cp ./images/big/shiny/* gs://pokenini-pokemons-icons/big/shiny
+```
+git add -A -n images | sed -E "s/^.*images\/(.*\.png)'$/\1/" | xargs -n1 sh -c 'gcloud storage cp ./images/$0 gs://pokenini-pokemons-icons/$0'
+```
+
+#### Toutes les données
+
+```
+gcloud storage cp -n ./images/banner/* gs://pokenini-pokemons-icons/banner/
+
+gcloud storage cp -n ./images/big/regular/* gs://pokenini-pokemons-icons/big/regular
+gcloud storage cp -n ./images/big/shiny/* gs://pokenini-pokemons-icons/big/shiny
+
+gcloud storage cp -n ./images/small/regular/* gs://pokenini-pokemons-icons/small/regular
+gcloud storage cp -n ./images/small/shiny/* gs://pokenini-pokemons-icons/small/shiny
+```
 
 gcloud storage cp ./images/small/regular/* gs://pokenini-pokemons-icons/small/regular
-gcloud storage cp ./images/small/shiny/* gs://pokenini-pokemons-icons/small/shiny
-```
-

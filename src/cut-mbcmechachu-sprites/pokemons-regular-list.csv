@@ -171,7 +171,7 @@ G099,kingler-gmax
 100-00,voltorb
 100-01,voltorb-hisui
 101-00,electrode
-101-01,electrode
+101-01,electrode-hisui
 102,exeggcute
 103-00,exeggutor
 103-01,exeggutor-alola
@@ -1512,8 +1512,8 @@ G892-01,urshifu-rapid-strike-gmax
 996,frigibax
 997,arctibax
 998,baxcalibur
-999-00,gimmighoul
-999-01,gimmighoul-roaming
+999-00,gimmighoul-roaming
+999-01,gimmighoul-chest
 1000,gholdengo
 1001,wo-chien
 1002,chien-pao
@@ -1525,4 +1525,3 @@ G892-01,urshifu-rapid-strike-gmax
 1008,miraidon
 1009,walking-wake
 1010,iron-leaves
-

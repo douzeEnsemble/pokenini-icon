@@ -5,3 +5,5 @@ src/download-from-pokemon-db/errors.log
 src/cut-mbcmechachu-sprites/images/*
 src/cut-mbcmechachu-sprites/report_*.txt
 src/cut-mbcmechachu-sprites/errors.log
+
+src/placeholders/tmp/*

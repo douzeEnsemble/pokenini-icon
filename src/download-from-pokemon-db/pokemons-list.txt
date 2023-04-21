@@ -172,7 +172,7 @@ kingler-gigantamax,kingler-gmax
 voltorb,voltorb
 voltorb-hisuian,voltorb-hisui
 electrode,electrode
-electrode,electrode
+electrode-hisui,electrode-hisuian
 exeggcute,exeggcute
 exeggutor,exeggutor
 exeggutor-alolan,exeggutor-alola
@@ -1589,8 +1589,8 @@ iron-thorns,iron-thorns
 frigibax,frigibax
 arctibax,arctibax
 baxcalibur,baxcalibur
-gimmighoul,gimmighoul
 gimmighoul-roaming,gimmighoul-roaming
+gimmighoul-chest,gimmighoul-chest
 gholdengo,gholdengo
 wo-chien,wo-chien
 chien-pao,chien-pao
@@ -1602,4 +1602,3 @@ koraidon,koraidon
 miraidon,miraidon
 walking-wake,walking-wake
 iron-leaves,iron-leaves
-
