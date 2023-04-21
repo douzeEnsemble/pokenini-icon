@@ -7,19 +7,19 @@
 #### Run
 
 ```
-docker run -dit --name pokenini-icon -p 8082:80 -v "$PWD/images":/usr/local/apache2/htdocs/ httpd:2.4
+make install
 ```
 
 #### Start
 
 ```
-docker start pokenini-icon
+make start
 ```
 
 #### Stop
 
 ```
-docker stop pokenini-icon
+make stop
 ```
 
 ### Scripts
