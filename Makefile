@@ -11,7 +11,8 @@ install: build start
 
 ## —— Docker 🐳 ————————————————————————————————————————————————————————————————
 build: ## Builds the Docker images
-	docker create -it --read-only --name pokenini-icon -p 8082:80 -v "${PWD}/images":/usr/local/apache2/htdocs/ httpd:2.4
+	docker create -it --name pokenini-icon -p 8082:80 \
+		-v "${PWD}/images":/usr/local/apache2/htdocs/ httpd:2.4
 
 start: ## Start the project
 	docker start pokenini-icon
