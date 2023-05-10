@@ -44,7 +44,8 @@ bash src/download-from-pokemon-db/cp.sh s
 ##### Requirement
 
 ```
-sudo apt-get update && sudo apt-get install imagemagick
+docker build -t cut-mbcmechachu-sprites-py ./src/cut-mbcmechachu-sprites -f ./src/cut-mbcmechachu-sprites/Dockerfile
+docker run -it --rm --name cut-mbcmechachu-sprites-py cut-mbcmechachu-sprites-py
 ```
 
 Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-824897934 and https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-Shiny-910547529
@@ -78,13 +79,29 @@ bash src/placeholders/make_them_all.sh b
 
 ### Transfert des données
 
-#### Uniquement les images nouvelles et mises à jour
+#### GitHub Pages and Pokénini-Resources
+
+```
+git clone git@github.com:douzeEnsemble/pokenini-resources.git
+cp -R images/* pokenini-resources/
+cd pokenini-resources/
+git add .
+git commit -m "Update images"
+git switch -c dev
+git push -u origin dev
+cd ..
+rm -Rf pokenini-resources
+```
+
+#### Google Cloud Storage
+
+##### Uniquement les images nouvelles et mises à jour
 
 ```
 git add -A -n images | sed -E "s/^.*images\/(.*\.png)'$/\1/" | xargs -n1 sh -c 'gcloud storage cp ./images/$0 gs://pokenini-pokemons-icons/$0'
 ```
 
-#### Toutes les données
+##### Toutes les données
 
 ```
 gcloud storage cp -n ./images/banner/* gs://pokenini-pokemons-icons/banner/
