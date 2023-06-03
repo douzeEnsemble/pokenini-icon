@@ -1,0 +1,73 @@
+import pytest
+import sh
+import os
+import sys
+from pathlib import Path
+
+from wand.image import Image
+
+current = os.path.dirname(os.path.realpath(__file__))
+parent = os.path.dirname(current)
+sys.path.append(parent)
+
+from module.Service.CharacterRecognitionService import CharacterRecognitionService
+from module.Util.FileDir import FileDir
+
+class TestCharacterRecognitionService:
+    def test_split_number_red(self):
+        self.__assertNumber__('number-0-3', '001-03')
+
+    def test_split_number_orange(self):
+        self.__assertNumber__('number-7-70', '215-00-00-F')
+
+    def test_split_number_yellow(self):
+        self.__assertNumber__('number-9-13', '283')
+
+    def test_split_number_green(self):
+        self.__assertNumber__('number-11-63', '422-01')
+
+    def test_split_number_cyan(self):
+        self.__assertNumber__('number-16-48', '646-02-01')
+
+    def test_split_number_blue(self):
+        self.__assertNumber__('number-17-33', '671-04')
+
+    def test_split_number_purple(self):
+        self.__assertNumber__('number-20-2', 'U800')
+
+    def test_split_number_pink(self):
+        self.__assertNumber__('number-20-38', 'G826')
+
+    def test_split_number_violet(self):
+        self.__assertNumber__('number-24-13', '1007-01')
+
+    def test_split_number_violet_questionmarks(self):
+        self.__assertNumber__('number-24-22', '1???')
+
+    def test_split_number_white_questionmarks_and_zeros(self):
+        self.__assertNumber__('number-24-23', '???-00-00')
+
+    def test_split_number_white_questionmarks(self):
+        self.__assertNumber__('number-24-35', '???')
+
+    def test_split_number_empty(self):
+        self.__assertNumber__('number-24-36', '')
+
+    def test_split_no_source(self):
+        characterRecognitionService = CharacterRecognitionService('config.test.ini')
+        
+        with pytest.raises(Exception) as e:
+            characterRecognitionService.read(current+'/resources/sprite-99999-999999.png')
+
+    def test_bad_config(self):
+        with pytest.raises(Exception) as e:
+            CharacterRecognitionService('nexiste.pas.ini') 
+
+    def __assertNumber__(self, numberFilename, expectedText):
+        characterRecognitionService = CharacterRecognitionService('config.test.ini')
+        
+        result = characterRecognitionService.read(
+            current+'/resources/split_sprites/bw'+numberFilename+'.png'
+        )
+
+        assert expectedText == result

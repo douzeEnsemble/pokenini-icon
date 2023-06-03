@@ -1,9 +1,10 @@
 import configparser
 
-from module.Entity.Config.SpritesConfig import SpritesConfig
+from module.Entity.Config.ImageConfig import ImageConfig
 from module.Entity.Config.SpriteFullConfig import SpriteFullConfig
 from module.Entity.Config.SpriteNumberConfig import SpriteNumberConfig
 from module.Entity.Config.SpriteIconConfig import SpriteIconConfig
+from module.Entity.Config.DirectoriesConfig import DirectoriesConfig
 
 class Config:
 
@@ -11,9 +12,9 @@ class Config:
         config = configparser.ConfigParser()
         config.read(configFilePath)
 
-        self.sprites = SpritesConfig(
-            config['Sprites'].getint('padding_top'),
-            config['Sprites'].getint('padding_left')
+        self.image = ImageConfig(
+            config['Image'].getint('padding_top'),
+            config['Image'].getint('padding_left')
         )
 
         self.spriteFull = SpriteFullConfig(
@@ -33,4 +34,8 @@ class Config:
             config['Sprite'].getint('icon_height'),
             config['Sprite'].getint('icon_top'),
             config['Sprite'].getint('icon_left')
+        )
+
+        self.directories = DirectoriesConfig(
+            config['Directories'].get('symbols')
         )

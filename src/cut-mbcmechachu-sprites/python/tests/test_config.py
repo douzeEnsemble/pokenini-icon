@@ -9,17 +9,18 @@ parent = os.path.dirname(current)
 sys.path.append(parent)
 
 from module.Entity.Config.Config import Config
-from module.Entity.Config.SpritesConfig import SpritesConfig
+from module.Entity.Config.ImageConfig import ImageConfig
 from module.Entity.Config.SpriteFullConfig import SpriteFullConfig
 from module.Entity.Config.SpriteNumberConfig import SpriteNumberConfig
 from module.Entity.Config.SpriteIconConfig import SpriteIconConfig
+from module.Entity.Config.DirectoriesConfig import DirectoriesConfig
 
 class TestConfig:
     def test_init(self):
         config = Config('config.test.ini')
 
-        assert 81 == config.sprites.paddingTop
-        assert 2 == config.sprites.paddingLeft
+        assert 81 == config.image.paddingTop
+        assert 2 == config.image.paddingLeft
 
         assert 69 == config.spriteFull.width
         assert 97 == config.spriteFull.height
@@ -34,12 +35,14 @@ class TestConfig:
         assert 28 == config.spriteIcon.top
         assert 1 == config.spriteIcon.left
 
-class TestSpritesConfig:
-    def test_init(self):
-        spritesConfig = SpritesConfig(1, 2)
+        assert '../resources/symbols/' == config.directories.symbols
 
-        assert 1 == spritesConfig.paddingTop
-        assert 2 == spritesConfig.paddingLeft
+class TestImageConfig:
+    def test_init(self):
+        imageConfig = ImageConfig(1, 2)
+
+        assert 1 == imageConfig.paddingTop
+        assert 2 == imageConfig.paddingLeft
 
 class TestSpriteFullConfig:
     def test_init(self):
@@ -65,3 +68,9 @@ class TestSpriteIconConfig:
         assert 2 == spriteIconConfig.height
         assert 3 == spriteIconConfig.top
         assert 4 == spriteIconConfig.left
+
+class TestDirectoriesConfig:
+    def test_init(self):
+        directories = DirectoriesConfig('/dans/ce/repertoire/la/')
+
+        assert '/dans/ce/repertoire/la/' == directories.symbols

@@ -44,11 +44,6 @@ bash src/download-from-pokemon-db/cp.sh s
 ##### Requirement
 
 ```
-docker build ./src/cut-mbcmechachu-sprites --rm -f ./src/cut-mbcmechachu-sprites/Dockerfile
-docker run -it --name cut-mbcmechachu-sprites -v ./src/cut-mbcmechachu-sprites/:/usr/src/app cut-mbcmechachu-sprites 
-```
-
-```
 cd src/cut-mbcmechachu-sprites
 docker build . --rm -t cut-mbcmechachu-sprites
 docker run -it --rm -v ./python/:/usr/src/app -v ./:/usr/src/resources cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py
