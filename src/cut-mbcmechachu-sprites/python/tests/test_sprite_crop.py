@@ -15,14 +15,9 @@ from module.Util.FileDir import FileDir
 
 class TestCropSpriteService:
     def test_crop_three_cols(self):
-        try:
-            FileDir.removeFiles('temp/test-sprites/')
-        except Exception:
-            pass
+        cropSpriteService = CropSpriteService('config.test.ini')       
 
-        cropSpritesService = CropSpriteService('config.test.ini')       
-
-        cropSpritesService.crop(
+        cropSpriteService.crop(
             current+'/resources/sprites-3cols.png',
             'temp/test-sprites/'
         )
@@ -35,14 +30,9 @@ class TestCropSpriteService:
         assert True == path.is_file()
 
     def test_crop_sample(self):
-        try:
-            FileDir.removeFiles('temp/test-sprites/')
-        except Exception:
-            pass
+        cropSpriteService = CropSpriteService('config.test.ini')       
 
-        cropSpritesService = CropSpriteService('config.test.ini')       
-
-        cropSpritesService.crop(
+        cropSpriteService.crop(
             current+'/resources/sprites-sample.png',
             'temp/test-sprites/'
         )
@@ -55,10 +45,10 @@ class TestCropSpriteService:
         assert True == path.is_file()
 
     def test_crop_no_source(self):
-        cropSpritesService = CropSpriteService('config.test.ini')
+        cropSpriteService = CropSpriteService('config.test.ini')
         
         with pytest.raises(Exception) as e:
-            cropSpritesService.crop(
+            cropSpriteService.crop(
                 'resources/sprites-nexiste-pas.png',
                 'temp/test-sprites/'
             )
@@ -66,3 +56,16 @@ class TestCropSpriteService:
     def test_bad_config(self):
         with pytest.raises(Exception) as e:
             CropSpriteService('nexiste.pas.ini') 
+
+    @pytest.fixture(autouse=True)
+    def beforeAndAfterTest(params):
+        tempDir = 'temp/test-sprites/'
+        try:
+            FileDir.removeFiles(tempDir)
+        except Exception:
+            pass
+        
+        yield
+        
+        FileDir.removeFiles(tempDir)
+        os.rmdir(tempDir)

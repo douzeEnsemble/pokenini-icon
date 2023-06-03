@@ -1,20 +1,20 @@
 from wand.image import Image
 from module.Entity.Config.Config import Config
 
-class CropSpritesService:
+class CropImageService:
 
     def __init__(self, configFile = 'config.ini'):
         self.config = Config(configFile)
 
-    def crop(self, spriteFile, area, outputFile = 'temp/sprites.png'):
-        with Image(filename=spriteFile) as original:
+    def crop(self, imageFile, area, outputFile = 'temp/image.png'):
+        with Image(filename=imageFile) as original:
             with original.clone() as copy:
                 cropWidth = self.config.spriteFull.width * area.columns
                 cropHeight = self.config.spriteFull.height * area.rows
 
                 copy.crop(
-                    self.config.sprites.paddingLeft,
-                    self.config.sprites.paddingTop,
+                    self.config.image.paddingLeft,
+                    self.config.image.paddingTop,
                     width=cropWidth, 
                     height=cropHeight
                 )

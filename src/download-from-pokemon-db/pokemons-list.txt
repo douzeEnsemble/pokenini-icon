@@ -1602,3 +1602,4 @@ koraidon,koraidon
 miraidon,miraidon
 walking-wake,walking-wake
 iron-leaves,iron-leaves
+

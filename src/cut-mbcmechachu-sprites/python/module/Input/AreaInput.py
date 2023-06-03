@@ -20,4 +20,4 @@ class AreaInput:
             case '3rows':
                 return ThreeRowsArea()
             case _:
-                return CompleteArea()
+                return SampleArea()
