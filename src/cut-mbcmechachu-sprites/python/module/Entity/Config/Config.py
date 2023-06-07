@@ -4,6 +4,7 @@ from module.Entity.Config.ImageConfig import ImageConfig
 from module.Entity.Config.SpriteFullConfig import SpriteFullConfig
 from module.Entity.Config.SpriteNumberConfig import SpriteNumberConfig
 from module.Entity.Config.SpriteIconConfig import SpriteIconConfig
+from module.Entity.Config.SpriteIconDotConfig import SpriteIconDotConfig
 from module.Entity.Config.DirectoriesConfig import DirectoriesConfig
 
 class Config:
@@ -34,6 +35,13 @@ class Config:
             config['Sprite'].getint('icon_height'),
             config['Sprite'].getint('icon_top'),
             config['Sprite'].getint('icon_left')
+        )
+
+        self.spriteIconDot = SpriteIconDotConfig(
+            config['Sprite'].getint('dot_width'),
+            config['Sprite'].getint('dot_height'),
+            config['Sprite'].getint('dot_top'),
+            config['Sprite'].getint('dot_left')
         )
 
         self.directories = DirectoriesConfig(

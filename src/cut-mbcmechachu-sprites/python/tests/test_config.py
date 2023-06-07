@@ -13,6 +13,7 @@ from module.Entity.Config.ImageConfig import ImageConfig
 from module.Entity.Config.SpriteFullConfig import SpriteFullConfig
 from module.Entity.Config.SpriteNumberConfig import SpriteNumberConfig
 from module.Entity.Config.SpriteIconConfig import SpriteIconConfig
+from module.Entity.Config.SpriteIconDotConfig import SpriteIconDotConfig
 from module.Entity.Config.DirectoriesConfig import DirectoriesConfig
 
 class TestConfig:
@@ -34,6 +35,11 @@ class TestConfig:
         assert 68 == config.spriteIcon.height
         assert 28 == config.spriteIcon.top
         assert 1 == config.spriteIcon.left
+
+        assert 5 == config.spriteIconDot.width
+        assert 5 == config.spriteIconDot.height
+        assert 0 == config.spriteIconDot.top
+        assert 0 == config.spriteIconDot.left
 
         assert '../resources/symbols/' == config.directories.symbols
 
@@ -68,6 +74,15 @@ class TestSpriteIconConfig:
         assert 2 == spriteIconConfig.height
         assert 3 == spriteIconConfig.top
         assert 4 == spriteIconConfig.left
+
+class TestSpriteIconDotConfig:
+    def test_init(self):
+        spriteIconDotConfig = SpriteIconDotConfig(1, 2, 3, 4)
+
+        assert 1 == spriteIconDotConfig.width
+        assert 2 == spriteIconDotConfig.height
+        assert 3 == spriteIconDotConfig.top
+        assert 4 == spriteIconDotConfig.left
 
 class TestDirectoriesConfig:
     def test_init(self):

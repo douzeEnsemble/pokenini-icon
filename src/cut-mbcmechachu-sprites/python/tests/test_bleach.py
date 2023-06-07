@@ -95,7 +95,7 @@ class TestBleachService:
                     elif col == colorWhite:
                         nbWhitePixel += 1
                     else:
-                        nbOtherColorsPixel += 0
+                        nbOtherColorsPixel += 1
 
         return nbBlackPixel, nbWhitePixel, nbOtherColorsPixel
     

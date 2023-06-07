@@ -13,4 +13,5 @@ pokenini-resources/
 __pycache__/
 *.pyc
 
+src/cut-mbcmechachu-sprites/python/temp/*
 src/cut-mbcmechachu-sprites/python/tmp/*
