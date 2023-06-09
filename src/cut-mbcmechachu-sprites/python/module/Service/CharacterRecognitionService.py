@@ -14,6 +14,8 @@ class CharacterRecognitionService:
         self.lettersPositions = {}
 
     def read(self, numberFile):
+        self.lettersPositions = {}
+        
         for rootDir, curDir, symbols in os.walk(self.config.directories.symbols):
             for symbol in symbols:
                 self.__detect(numberFile, symbol)

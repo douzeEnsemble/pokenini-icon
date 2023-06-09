@@ -10,6 +10,7 @@ from module.Service.CropSpriteService import CropSpriteService
 from module.Service.SplitSpriteService import SplitSpriteService
 from module.Service.NumberService import NumberService
 from module.Service.CleanIconService import CleanIconService
+from module.Service.RenameIconService import RenameIconService
 
 # Get args
 try:
@@ -40,6 +41,7 @@ splitSpritesService = SplitSpriteService('config.test.ini')
 
 numberService = NumberService('config.test.ini')
 cleanIconService = CleanIconService('config.test.ini')
+renameIconService = RenameIconService('config.test.ini')
 
 for rootDir, curDir, files in os.walk(croppedSpriteDir):
     for file in files:
@@ -50,5 +52,8 @@ for rootDir, curDir, files in os.walk(croppedSpriteDir):
 
         number = numberService.process(numberFile)
         cleanedIconFile = cleanIconService.clean(iconFile)
+
+        renameIconService.rename(cleanedIconFile, number)
+
 
 

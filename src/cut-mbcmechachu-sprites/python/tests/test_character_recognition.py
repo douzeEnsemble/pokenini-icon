@@ -53,6 +53,35 @@ class TestCharacterRecognitionService:
     def test_split_number_empty(self):
         self.__assertNumber__('number-24-36', '')
 
+    def test_split_number_venusaur_f(self):
+        self.__assertNumber__('number-0-10', '003-01-F')
+
+    def test_split_number_mega_charizard_y(self):
+        self.__assertNumber__('number-0-19', 'M006-Y')
+
+    def test_split_number_chain(self):
+        characterRecognitionService = CharacterRecognitionService('config.test.ini')
+        
+        result = characterRecognitionService.read(
+            current+'/resources/split_sprites/bw_number-9-13.png'
+        )
+        assert '283' == result
+        
+        result = characterRecognitionService.read(
+            current+'/resources/split_sprites/bw_number-0-10.png'
+        )
+        assert '003-01-F' == result
+        
+        result = characterRecognitionService.read(
+            current+'/resources/split_sprites/bw_number-0-19.png'
+        )
+        assert 'M006-Y' == result
+        
+        result = characterRecognitionService.read(
+            current+'/resources/split_sprites/bw_number-20-2.png'
+        )
+        assert 'U800' == result
+
     def test_split_no_source(self):
         characterRecognitionService = CharacterRecognitionService('config.test.ini')
         
@@ -67,7 +96,7 @@ class TestCharacterRecognitionService:
         characterRecognitionService = CharacterRecognitionService('config.test.ini')
         
         result = characterRecognitionService.read(
-            current+'/resources/split_sprites/bw'+numberFilename+'.png'
+            current+'/resources/split_sprites/bw_'+numberFilename+'.png'
         )
 
         assert expectedText == result
