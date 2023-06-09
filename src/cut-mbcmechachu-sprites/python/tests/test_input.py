@@ -8,7 +8,7 @@ current = os.path.dirname(os.path.realpath(__file__))
 parent = os.path.dirname(current)
 sys.path.append(parent)
 
-from module.Input.ImageFileInput import ImageFileInput
+from module.Input.FileInput import FileInput
 from module.Input.SpritesOutput import SpritesOutput
 from module.Input.AreaInput import AreaInput
 
@@ -49,13 +49,13 @@ class TestAreaInput:
         assert 10 == area.columns
         assert 1 == area.rows
 
-class IestimageFileInput:
+class TestFileInput:
     def testOk(self):
-        assert True == ImageFileInput.check('requirements-dev.txt')
+        assert True == FileInput.check('requirements-dev.txt')
 
     def testKO(self):
         with pytest.raises(Exception) as e:
-            ImageFileInput.check('requirements-douze.txt')
+            FileInput.check('requirements-douze.txt')
 
 class TestSpritesOutput:
     def testOk(self):
