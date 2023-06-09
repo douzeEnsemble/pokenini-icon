@@ -46,8 +46,13 @@ bash src/download-from-pokemon-db/cp.sh s
 ```
 cd src/cut-mbcmechachu-sprites
 docker build . --rm -t cut-mbcmechachu-sprites
+
 docker run -it --rm -v ./python/:/usr/src/app -v ./:/usr/src/resources cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py
+
+
 docker run -it --rm -v ./python/:/usr/src/app -v ./:/usr/src/resources cut-mbcmechachu-sprites pytest tests
+
+docker run -it --rm -v ./python/:/usr/src/app -v ./:/usr/src/resources cut-mbcmechachu-sprites bash
 ```
 
 Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-824897934 and https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-Shiny-910547529
