@@ -18,7 +18,7 @@ class TestCropSpriteService:
         cropSpriteService = CropSpriteService('config.test.ini')       
 
         cropSpriteService.crop(
-            current+'/resources/sprites-3cols.png',
+            current+'/resources/sprite_crop/sprites-3cols.png',
             'temp/test-sprites/'
         )
 
@@ -33,7 +33,7 @@ class TestCropSpriteService:
         cropSpriteService = CropSpriteService('config.test.ini')       
 
         cropSpriteService.crop(
-            current+'/resources/sprites-sample.png',
+            current+'/resources/sprite_crop/sprites-sample.png',
             'temp/test-sprites/'
         )
 
@@ -49,7 +49,7 @@ class TestCropSpriteService:
         
         with pytest.raises(Exception) as e:
             cropSpriteService.crop(
-                'resources/sprites-nexiste-pas.png',
+                'nexiste.pas.png',
                 'temp/test-sprites/'
             )
 

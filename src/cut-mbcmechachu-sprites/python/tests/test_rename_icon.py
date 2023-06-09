@@ -15,7 +15,7 @@ from module.Service.RenameIconService import RenameIconService
 class TestRenameIconService:
     def test_rename_icon(self):
         shutil.copyfile(
-            current+'/resources/c_icon-0-3.png', 
+            current+'/resources/rename_icon/c_icon-0-3.png', 
             'temp/c_icon-0-3.png'
         )
 

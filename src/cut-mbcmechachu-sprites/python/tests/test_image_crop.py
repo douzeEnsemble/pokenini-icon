@@ -20,19 +20,19 @@ from module.Entity.Area.ThreeRowsArea import ThreeRowsArea
 
 class TestCropImageService:
     def test_crop_complete(self):
-        self.__assertCropSprites__(CompleteArea(), 5520, 2425)
+        self.__assertCropSprite(CompleteArea(), 5520, 2425)
 
     def test_crop_line(self):
-        self.__assertCropSprites__(LineArea(), 5520, 97)
+        self.__assertCropSprite(LineArea(), 5520, 97)
 
     def test_crop_sample(self):
-        self.__assertCropSprites__(SampleArea(), 690, 97)
+        self.__assertCropSprite(SampleArea(), 690, 97)
 
     def test_crop_three_cols(self):
-        self.__assertCropSprites__(ThreeColumnsArea(), 207, 2425)
+        self.__assertCropSprite(ThreeColumnsArea(), 207, 2425)
 
     def test_crop_three_rows(self):
-        self.__assertCropSprites__(ThreeRowsArea(), 5520, 291)
+        self.__assertCropSprite(ThreeRowsArea(), 5520, 291)
 
     def test_crop_no_source(self):
         cropImageService = CropImageService('config.test.ini')
@@ -60,7 +60,7 @@ class TestCropImageService:
         FileDir.removeFiles(tempDir)
         os.rmdir(tempDir)
 
-    def __assertCropSprites__(self, area, expectedWith, expectedHeight):
+    def __assertCropSprite(self, area, expectedWith, expectedHeight):
         outputImage = 'temp/test-crop-sprites/crop-sprites.png'
 
         cropImageService = CropImageService('config.test.ini')       

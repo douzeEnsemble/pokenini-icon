@@ -23,7 +23,7 @@ class TestSplitSpriteService:
         splitSpritesService = SplitSpriteService('config.test.ini')
         
         numberFile, iconFile = splitSpritesService.split(
-            current+'/resources/sprite-0-3.png',
+            current+'/resources/sprite_split/sprite-0-3.png',
             'temp/test-sprites-split/'
         )
 
@@ -43,7 +43,7 @@ class TestSplitSpriteService:
         splitSpritesService = SplitSpriteService('config.test.ini')
         
         splitSpritesService.split(
-            current+'/resources/sprite-20-2.png',
+            current+'/resources/sprite_split/sprite-20-2.png',
             'temp/test-sprites-split/'
         )
 
@@ -59,7 +59,7 @@ class TestSplitSpriteService:
         
         with pytest.raises(Exception) as e:
             splitSpritesService.split(
-                current+'/resources/sprites-nexiste-pas.png',
+                'nexiste.pas.png',
                 'temp/test-sprites-split/'
             )
 

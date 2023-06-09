@@ -50,7 +50,7 @@ class TestBleachService:
         
         with pytest.raises(Exception) as e:
             bleachService.bleach(
-                current+'/resources/sprite-99999-999999.png',
+                'nexiste.pas.png',
                 'temp/test-bleach/bwnumber-99999-999999.png'
             )
 
@@ -67,7 +67,7 @@ class TestBleachService:
         bleachService = BleachService('config.test.ini')
         
         bleachService.bleach(
-            current+'/resources/split_sprites/'+numberFilename+'.png',
+            current+'/resources/bleach/'+numberFilename+'.png',
             'temp/test-bleach/bw'+numberFilename+'.png'
         )
 

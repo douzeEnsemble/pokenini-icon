@@ -12,9 +12,9 @@ class CleanIconService:
     def __init__(self, configFile = 'config.ini'):
         self.config = Config(configFile)
 
-    def clean(self, iconFile):
+    def clean(self, iconFile, targetDir):
         iconFilePath = Path(iconFile)
-        cleanIconFile = iconFile.replace(iconFilePath.name, 'c_'+iconFilePath.name)
+        cleanIconFile = targetDir+'/c_'+iconFilePath.name
 
         with Image(filename=iconFile) as img:
             img.alpha_channel = True

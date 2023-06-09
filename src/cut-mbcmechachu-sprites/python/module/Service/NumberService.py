@@ -16,9 +16,9 @@ class NumberService:
         self.bleachService = BleachService('config.test.ini')
         self.characterRecognitionService = CharacterRecognitionService('config.test.ini')
 
-    def process(self, numberFile):
+    def process(self, numberFile, targetDir):
         numberFilePath = Path(numberFile)
-        bleachedNumberFile = numberFile.replace(numberFilePath.name, 'bw_'+numberFilePath.name)
+        bleachedNumberFile = targetDir+'/bw_'+numberFilePath.name
 
         self.bleachService.bleach(numberFile, bleachedNumberFile)
 

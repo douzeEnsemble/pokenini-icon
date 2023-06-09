@@ -12,19 +12,32 @@ parent = os.path.dirname(current)
 sys.path.append(parent)
 
 from module.Service.NumberService import NumberService
+from module.Util.FileDir import FileDir
 
 class TestNumberService:
     def test_process_number(self):
         numberService = NumberService('config.test.ini')
         
-        result = numberService.process(current+'/resources/split_sprites/number-0-3.png')
+        result = numberService.process(
+            current+'/resources/number/number-0-3.png',
+            'temp/test-number'
+        )
+
+        oldPath = Path(current+'/resources/number/bw_number-0-3.png')
+        assert False == oldPath.is_file()
 
         assert '001-03' == result
 
     def test_process_number_bis(self):
         numberService = NumberService('config.test.ini')
         
-        result = numberService.process(current+'/resources/split_sprites/number-20-2.png')
+        result = numberService.process(
+            current+'/resources/number/number-20-2.png',
+            'temp/test-number'
+        )
+
+        oldPath = Path(current+'/resources/number/bw_number-20-2.png')
+        assert False == oldPath.is_file()
 
         assert 'U800' == result
 
@@ -37,3 +50,17 @@ class TestNumberService:
     def test_bad_config(self):
         with pytest.raises(Exception) as e:
             NumberService('nexiste.pas.ini') 
+    
+    @pytest.fixture(autouse=True)
+    def beforeAndAfterTest(params):
+        tempDir = 'temp/test-number/'
+        
+        try:
+            FileDir.removeFiles(tempDir)
+        except Exception:
+            pass
+        
+        yield
+        
+        FileDir.removeFiles(tempDir)
+        os.rmdir(tempDir)
