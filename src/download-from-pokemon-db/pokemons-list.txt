@@ -172,7 +172,7 @@ kingler-gigantamax,kingler-gmax
 voltorb,voltorb
 voltorb-hisuian,voltorb-hisui
 electrode,electrode
-electrode-hisui,electrode-hisuian
+electrode-hisuian,electrode-hisui
 exeggcute,exeggcute
 exeggutor,exeggutor
 exeggutor-alolan,exeggutor-alola
@@ -213,8 +213,8 @@ pinsir,pinsir
 pinsir-mega,pinsir-mega
 tauros,tauros
 tauros-paldean,tauros-paldea
-tauros-paldean-fire,tauros-paldea-fire
-tauros-paldean-water,tauros-paldea-water
+tauros-blaze,tauros-paldea-fire
+tauros-aqua,tauros-paldea-water
 magikarp,magikarp
 magikarp-f,magikarp-f
 gyarados,gyarados
@@ -1190,9 +1190,9 @@ turtonator,turtonator
 togedemaru,togedemaru
 togedemaru,togedemaru
 mimikyu,mimikyu
+mimikyu-busted,mimikyu
 mimikyu,mimikyu
-mimikyu,mimikyu
-mimikyu,mimikyu
+mimikyu-busted,mimikyu
 bruxish,bruxish
 drampa,drampa
 dhelmise,dhelmise
@@ -1548,9 +1548,9 @@ rellor,rellor
 rabsca,rabsca
 flittle,flittle
 espathra,espathra
-tinkatink,tinkatink
-tinkatuff,tinkatuff
-tinkaton,tinkaton
+tinkatink-f,tinkatink
+tinkatuff-f,tinkatuff
+tinkaton-f,tinkaton
 wiglett,wiglett
 wugtrio,wugtrio
 bombirdier,bombirdier
@@ -1602,4 +1602,3 @@ koraidon,koraidon
 miraidon,miraidon
 walking-wake,walking-wake
 iron-leaves,iron-leaves
-
