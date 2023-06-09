@@ -41,14 +41,18 @@ class TestRenameIconService:
     @pytest.fixture(autouse=True)
     def beforeAndAfterTest(params):
         try:
-            os.remove('douze.png')
+            os.remove('temp/douze.png')
         except Exception:
             pass
 
         yield
         
         try:
-            os.remove('c_icon-0-3.png')
-            os.remove('douze.png')
+            os.remove('temp/douze.png')
+        except Exception:
+            pass
+        
+        try:
+            os.remove('temp/c_icon-0-3.png')
         except Exception:
             pass
