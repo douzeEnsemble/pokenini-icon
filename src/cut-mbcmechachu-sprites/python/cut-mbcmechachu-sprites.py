@@ -6,12 +6,9 @@ from module.Input.SpritesOutput import SpritesOutput
 from module.Input.AreaInput import AreaInput
 from module.Service.CropImageService import CropImageService
 from module.Service.CropSpriteService import CropSpriteService
-from module.Service.SplitSpriteService import SplitSpriteService
-from module.Service.NumberService import NumberService
-from module.Service.CleanIconService import CleanIconService
-from module.Service.RenameIconService import RenameIconService
 from module.Service.NameFromNumberService import NameFromNumberService
 from module.Service.SpriteToIconService import SpriteToIconService
+from module.Service.SpritesToIconsService import SpritesToIconsService
 
 # Get args
 try:
@@ -34,10 +31,6 @@ print(f'Cut will be for an area of {area.columns}x{area.rows} sprites'
 
 croppedImage = 'temp/image.png'
 croppedSpriteDir = 'temp/sprites'
-splitSpriteDir = 'temp/sprites-split'
-numberDir = 'temp/number'
-cleanIconDir = 'temp/clean-icon'
-finalDir = 'temp/final/'+sprites.dir
 
 cropImageService = CropImageService('config.ini')
 cropImageService.crop(spriteFile, area, croppedImage)
@@ -54,12 +47,9 @@ nameFromNumberService.load(pokemonsListFile)
 
 spriteToIconService = SpriteToIconService('config.ini', nameFromNumberService)
 
-for rootDir, curDir, files in os.walk(croppedSpriteDir):
-    total = len(files)
-    i = 0
-    for file in files:
-        isDone = spriteToIconService.transform(croppedSpriteDir+'/'+file, sprites.dir)
+spritesToIconsService = SpritesToIconsService('config.ini', spriteToIconService)
 
-        if isDone:
-            print(f'{i}/{total}')
-            i += 1
+spritesToIconsService.cut(
+    croppedSpriteDir,
+    sprites.dir
+)

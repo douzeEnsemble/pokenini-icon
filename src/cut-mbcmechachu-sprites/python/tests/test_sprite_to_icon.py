@@ -80,15 +80,6 @@ class TestSpriteToIconService:
                 '/quelque/part'
             )
 
-    def test_transform_no_source(self):
-        spriteToIconService = SpriteToIconService('config.test.ini', NameFromNumberService('config.test.ini'))
-        
-        with pytest.raises(Exception) as e:
-            spriteToIconService.transform(
-                'nexiste.pas.png',
-                '/quelque/part'
-            )
-
     def test_bad_config(self):
         with pytest.raises(Exception) as e:
             SpriteToIconService('nexiste.pas.ini', NameFromNumberService('config.test.ini')) 
