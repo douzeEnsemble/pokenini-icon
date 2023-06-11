@@ -47,7 +47,7 @@ bash src/download-from-pokemon-db/cp.sh s
 cd src/cut-mbcmechachu-sprites
 docker build . --rm -t cut-mbcmechachu-sprites
 
-docker run -it --rm -v ./python/:/usr/src/app -v ./:/usr/src/resources cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py
+docker run -it --rm -v ./python/:/usr/src/app -v ./:/usr/src/resources cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py ../resources/regulars.png r sample ../resources/pokemons-regular-list.csv
 
 
 docker run -it --rm -v ./python/:/usr/src/app -v ./:/usr/src/resources cut-mbcmechachu-sprites pytest tests

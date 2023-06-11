@@ -11,6 +11,7 @@ from module.Service.NumberService import NumberService
 from module.Service.CleanIconService import CleanIconService
 from module.Service.RenameIconService import RenameIconService
 from module.Service.NameFromNumberService import NameFromNumberService
+from module.Service.SpriteToIconService import SpriteToIconService
 
 # Get args
 try:
@@ -43,37 +44,22 @@ cropImageService.crop(spriteFile, area, croppedImage)
 
 print(f'Base image has been cropped')
 
-cropImageService = CropSpriteService('config.test.ini') 
+cropImageService = CropSpriteService('config.ini') 
 cropImageService.crop(croppedImage, croppedSpriteDir)
 
 print(f'All sprites has been cropped')
 
-splitSpritesService = SplitSpriteService('config.test.ini')
-numberService = NumberService('config.test.ini')
-cleanIconService = CleanIconService('config.test.ini')
-renameIconService = RenameIconService('config.test.ini')
-nameFromNumberService = NameFromNumberService('config.test.ini')
-
+nameFromNumberService = NameFromNumberService('config.ini')
 nameFromNumberService.load(pokemonsListFile)
+
+spriteToIconService = SpriteToIconService('config.ini', nameFromNumberService)
 
 for rootDir, curDir, files in os.walk(croppedSpriteDir):
     total = len(files)
     i = 0
     for file in files:
-        numberFile, iconFile = splitSpritesService.split(
-            croppedSpriteDir+'/'+file,
-            splitSpriteDir
-        )
+        isDone = spriteToIconService.transform(croppedSpriteDir+'/'+file, sprites.dir)
 
-        number = numberService.process(numberFile, numberDir)
-        name = nameFromNumberService.get(number)
-
-        if '' == name:
-            continue
-
-        cleanedIconFile = cleanIconService.clean(iconFile, cleanIconDir)
-        renameIconService.rename(cleanedIconFile, name, finalDir)
-
-        print(f'{i}/{total}')
-
-        i += 1
+        if isDone:
+            print(f'{i}/{total}')
+            i += 1

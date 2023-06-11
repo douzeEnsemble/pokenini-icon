@@ -10,7 +10,7 @@ from module.Entity.Config.Config import Config
 from module.Util.FileDir import FileDir
 
 class CleanIconService:
-    def __init__(self, configFile = 'config.ini'):
+    def __init__(self, configFile):
         self.config = Config(configFile)
 
     def clean(self, iconFile, targetDir):

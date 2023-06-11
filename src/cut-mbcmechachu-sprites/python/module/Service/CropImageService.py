@@ -3,7 +3,7 @@ from module.Entity.Config.Config import Config
 
 class CropImageService:
 
-    def __init__(self, configFile = 'config.ini'):
+    def __init__(self, configFile):
         self.config = Config(configFile)
 
     def crop(self, imageFile, area, outputFile = 'temp/image.png'):

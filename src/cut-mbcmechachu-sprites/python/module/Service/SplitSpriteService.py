@@ -9,7 +9,7 @@ from module.Util.FileDir import FileDir
 
 class SplitSpriteService:
 
-    def __init__(self, configFile = 'config.ini'):
+    def __init__(self, configFile):
         self.config = Config(configFile)
 
     def split(self, spriteFile, outputDir = 'temp/sprite'):

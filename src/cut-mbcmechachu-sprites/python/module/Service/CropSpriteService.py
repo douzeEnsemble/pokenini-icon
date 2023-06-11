@@ -9,7 +9,7 @@ from module.Util.FileDir import FileDir
 
 class CropSpriteService:
 
-    def __init__(self, configFile = 'config.ini'):
+    def __init__(self, configFile):
         self.config = Config(configFile)
 
     def crop(self, spriteFile, outputDir = 'temp/sprite'):

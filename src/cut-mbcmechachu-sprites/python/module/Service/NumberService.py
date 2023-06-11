@@ -12,7 +12,7 @@ from module.Util.FileDir import FileDir
 
 class NumberService:
 
-    def __init__(self, configFile = 'config.ini'):
+    def __init__(self, configFile):
         self.config = Config(configFile)
         self.bleachService = BleachService('config.test.ini')
         self.characterRecognitionService = CharacterRecognitionService('config.test.ini')

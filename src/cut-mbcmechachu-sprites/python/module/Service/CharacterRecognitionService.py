@@ -9,7 +9,7 @@ from module.Entity.Config.Config import Config
 
 class CharacterRecognitionService:
 
-    def __init__(self, configFile = 'config.ini'):
+    def __init__(self, configFile):
         self.config = Config(configFile)
         self.lettersPositions = {}
 

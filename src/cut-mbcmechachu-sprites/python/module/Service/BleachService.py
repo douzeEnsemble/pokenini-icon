@@ -8,7 +8,7 @@ from module.Entity.Config.Config import Config
 
 class BleachService:
 
-    def __init__(self, configFile = 'config.ini'):
+    def __init__(self, configFile):
         self.config = Config(configFile)
 
     def bleach(self, numberFile, targetFile):

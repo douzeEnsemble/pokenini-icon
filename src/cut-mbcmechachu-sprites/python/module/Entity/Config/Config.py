@@ -15,35 +15,41 @@ class Config:
 
         self.image = ImageConfig(
             config['Image'].getint('padding_top'),
-            config['Image'].getint('padding_left')
+            config['Image'].getint('padding_left'),
         )
 
         self.spriteFull = SpriteFullConfig(
             config['Sprite'].getint('full_width'),
-            config['Sprite'].getint('full_height')
+            config['Sprite'].getint('full_height'),
         )
 
         self.spriteNumber = SpriteNumberConfig(
             config['Sprite'].getint('number_width'),
             config['Sprite'].getint('number_height'),
             config['Sprite'].getint('number_top'),
-            config['Sprite'].getint('number_left')
+            config['Sprite'].getint('number_left'),
         )
 
         self.spriteIcon = SpriteIconConfig(
             config['Sprite'].getint('icon_width'),
             config['Sprite'].getint('icon_height'),
             config['Sprite'].getint('icon_top'),
-            config['Sprite'].getint('icon_left')
+            config['Sprite'].getint('icon_left'),
         )
 
         self.spriteIconDot = SpriteIconDotConfig(
             config['Sprite'].getint('dot_width'),
             config['Sprite'].getint('dot_height'),
             config['Sprite'].getint('dot_top'),
-            config['Sprite'].getint('dot_left')
+            config['Sprite'].getint('dot_left'),
         )
 
         self.directories = DirectoriesConfig(
-            config['Directories'].get('symbols')
+            config['Directories'].get('symbols'),
+            config['Directories'].get('cropped_image'),
+            config['Directories'].get('cropped_sprite_dir'),
+            config['Directories'].get('split_sprite_dir'),
+            config['Directories'].get('number_dir'),
+            config['Directories'].get('clean_icon_dir'),
+            config['Directories'].get('final_base_dir'),
         )
