@@ -11,22 +11,38 @@ parent = os.path.dirname(current)
 sys.path.append(parent)
 
 from module.Service.RenameIconService import RenameIconService
+from module.Util.FileDir import FileDir
 
 class TestRenameIconService:
     def test_rename_icon(self):
-        shutil.copyfile(
-            current+'/resources/rename_icon/c_icon-0-3.png', 
-            'temp/c_icon-0-3.png'
-        )
-
         renameIconService = RenameIconService('config.test.ini')
-        renameIconService.rename('temp/c_icon-0-3.png', 'douze')
+        renameIconService.rename('temp/c_icon-0-3.png', 'douze', 'temp/test-rename')
+
+        pathNewFile = Path('temp/test-rename/douze.png')
+        assert True == pathNewFile.is_file()
 
         pathNewFile = Path('temp/douze.png')
-        assert True == pathNewFile.is_file()
+        assert False == pathNewFile.is_file()
 
         pathOldFile = Path('temp/c_icon-0-3.png')
         assert False == pathOldFile.is_file()
+
+    def test_rename_icon_in_new_dir(self):
+        tempDir = 'temp/test-rename-bis/sub'
+        renameIconService = RenameIconService('config.test.ini')
+        renameIconService.rename('temp/c_icon-0-3.png', 'douze', tempDir)
+
+        pathNewFile = Path(tempDir+'/douze.png')
+        assert True == pathNewFile.is_file()
+
+        pathNewFile = Path('temp/douze.png')
+        assert False == pathNewFile.is_file()
+
+        pathOldFile = Path('temp/c_icon-0-3.png')
+        assert False == pathOldFile.is_file()
+        
+        FileDir.removeFiles(tempDir)
+        os.rmdir(tempDir)
         
     def test_rename_no_source(self):
         renameIconService = RenameIconService('config.test.ini')
@@ -40,6 +56,17 @@ class TestRenameIconService:
     
     @pytest.fixture(autouse=True)
     def beforeAndAfterTest(params):
+        tempDir = 'temp/test-rename/'
+        try:
+            FileDir.removeFiles(tempDir)
+        except Exception:
+            pass
+        
+        shutil.copyfile(
+            current+'/resources/rename_icon/c_icon-0-3.png', 
+            'temp/c_icon-0-3.png',
+        )
+
         try:
             os.remove('temp/douze.png')
         except Exception:
@@ -56,3 +83,6 @@ class TestRenameIconService:
             os.remove('temp/c_icon-0-3.png')
         except Exception:
             pass
+        
+        FileDir.removeFiles(tempDir)
+        os.rmdir(tempDir)

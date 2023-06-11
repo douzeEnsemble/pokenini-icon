@@ -28,18 +28,23 @@ class TestNumberService:
 
         assert '001-03' == result
 
-    def test_process_number_bis(self):
+    def test_process_number_new_dir(self):
         numberService = NumberService('config.test.ini')
+
+        tempDir = 'temp/test-number/sub'
         
         result = numberService.process(
             current+'/resources/number/number-20-2.png',
-            'temp/test-number'
+            tempDir
         )
 
         oldPath = Path(current+'/resources/number/bw_number-20-2.png')
         assert False == oldPath.is_file()
 
         assert 'U800' == result
+        
+        FileDir.removeFiles(tempDir)
+        os.rmdir(tempDir)
 
     def test_split_no_source(self):
         numberService = NumberService('config.test.ini')

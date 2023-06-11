@@ -8,6 +8,7 @@ from wand.color import Color
 from module.Entity.Config.Config import Config
 from module.Service.BleachService import BleachService
 from module.Service.CharacterRecognitionService import CharacterRecognitionService
+from module.Util.FileDir import FileDir
 
 class NumberService:
 
@@ -17,6 +18,8 @@ class NumberService:
         self.characterRecognitionService = CharacterRecognitionService('config.test.ini')
 
     def process(self, numberFile, targetDir):
+        FileDir.createDirs(targetDir)
+
         numberFilePath = Path(numberFile)
         bleachedNumberFile = targetDir+'/bw_'+numberFilePath.name
 

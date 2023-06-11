@@ -5,17 +5,15 @@ from pathlib import Path
 from wand.image import Image
 
 from module.Entity.Config.Config import Config
+from module.Util.FileDir import FileDir
 
 class SplitSpriteService:
 
     def __init__(self, configFile = 'config.ini'):
         self.config = Config(configFile)
 
-    def split(self, spriteFile, outputDir = 'temp/sprite/'):
-        try:
-            os.mkdir(outputDir)
-        except Exception:
-            pass
+    def split(self, spriteFile, outputDir = 'temp/sprite'):
+        FileDir.createDirs(outputDir)
 
         path = Path(spriteFile)
         spriteName = path.name
@@ -41,7 +39,7 @@ class SplitSpriteService:
                 height=cropHeight
             )
 
-            outputFile = outputDir+'number-'+spriteCode
+            outputFile = outputDir+'/number-'+spriteCode
             copy.save(filename=outputFile)
 
             return outputFile
@@ -60,7 +58,7 @@ class SplitSpriteService:
                 height=cropHeight
             )
 
-            outputFile = outputDir+'icon-'+spriteCode
+            outputFile = outputDir+'/icon-'+spriteCode
             copy.save(filename=outputFile)
 
             return outputFile

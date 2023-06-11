@@ -71,6 +71,38 @@ class TestCleanIconService:
 
     def test_clean_icon_wochien(self):
         self.__assertCleanup('icon-24-6', 3531, 1093)
+
+    def test_clean_icon_new_dir(self):
+        cleanIconService = CleanIconService('config.test.ini')
+
+        tempDir = 'temp/test-clean-icon/sub'
+
+        cleanedIconFile = cleanIconService.clean(
+            current+'/resources/clean_icon/icon-24-6.png',
+            tempDir
+        )
+
+        oldPath = Path(current+'/resources/clean_icon/c_icon-24-6.png')
+        assert False == oldPath.is_file()
+
+        oldPath = Path(tempDir+'/c_icon-24-6.png')
+        assert True == oldPath.is_file()
+
+        path = Path(cleanedIconFile)
+        assert True == path.is_file()
+
+        with Image(filename=cleanedIconFile) as img:
+            assert Color('transparent') == img[0, 0]
+
+        nbTransparentPixel, nbNotTransparentPixel = self.__countTransparentAndNotTransparentsPixels__(
+            cleanedIconFile
+        )
+        
+        assert 3531 == nbTransparentPixel
+        assert 1093 == nbNotTransparentPixel
+        
+        FileDir.removeFiles(tempDir)
+        os.rmdir(tempDir)
         
     def test_clean_no_source(self):
         cleanIconService = CleanIconService('config.test.ini')

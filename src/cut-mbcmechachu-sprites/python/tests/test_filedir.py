@@ -3,6 +3,7 @@ import pytest
 import os
 import sys
 import shutil
+from pathlib import Path
 
 current = os.path.dirname(os.path.realpath(__file__))
 parent = os.path.dirname(current)
@@ -37,3 +38,35 @@ class TestFileDir:
 
         os.rmdir(current+'/resources/count_dir/two_bis')
         
+    def testCreateDirsOne(self):
+        dirOne = 'temp/one'
+        FileDir.createDirs(dirOne)
+
+        dirOnePath = Path(dirOne)
+
+        assert True == dirOnePath.is_dir()
+
+        os.rmdir(dirOne)
+        
+    def testCreateDirsMany(self):
+        dir = 'temp/one/two/three'
+        FileDir.createDirs(dir)
+
+        dirPath = Path(dir)
+
+        assert True == dirPath.is_dir()
+
+        os.rmdir(dirPath)
+        
+    def testCreateDirsMultiple(self):
+        dirs = 'temp/one/two/three'
+        FileDir.createDirs(dirs)
+        FileDir.createDirs(dirs)
+
+        dirsPath = Path(dirs)
+
+        assert True == dirsPath.is_dir()
+
+        os.rmdir('temp/one/two/three')
+        os.rmdir('temp/one/two')
+        os.rmdir('temp/one')

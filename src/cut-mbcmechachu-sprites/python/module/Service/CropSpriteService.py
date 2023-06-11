@@ -1,19 +1,19 @@
 import os
 
+from pathlib import Path
+
 from wand.image import Image
 
 from module.Entity.Config.Config import Config
+from module.Util.FileDir import FileDir
 
 class CropSpriteService:
 
     def __init__(self, configFile = 'config.ini'):
         self.config = Config(configFile)
 
-    def crop(self, spriteFile, outputDir = 'temp/sprite/'):
-        try:
-            os.mkdir(outputDir)
-        except Exception:
-            pass
+    def crop(self, spriteFile, outputDir = 'temp/sprite'):
+        FileDir.createDirs(outputDir)
 
         with Image(filename=spriteFile) as original:
             cols = round(original.width / self.config.spriteFull.width)
@@ -38,4 +38,4 @@ class CropSpriteService:
                 height=cropHeight
             )
 
-            copy.save(filename=outputDir+'sprite-'+str(row)+'-'+str(col)+'.png')
+            copy.save(filename=outputDir+'/sprite-'+str(row)+'-'+str(col)+'.png')

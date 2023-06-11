@@ -32,17 +32,23 @@ print(f'Cut will be for an area of {area.columns}x{area.rows} sprites'
       + f' from {spriteFile} into {sprites.dir}/{sprites.origin} dir/file')
 
 croppedImage = 'temp/image.png'
-croppedSpriteDir = 'temp/sprites/'
-splitSpriteDir = 'temp/sprites-split/'
+croppedSpriteDir = 'temp/sprites'
+splitSpriteDir = 'temp/sprites-split'
+numberDir = 'temp/number'
+cleanIconDir = 'temp/clean-icon'
+finalDir = 'temp/final/'+sprites.dir
 
 cropImageService = CropImageService('config.ini')
 cropImageService.crop(spriteFile, area, croppedImage)
 
+print(f'Base image has been cropped')
+
 cropImageService = CropSpriteService('config.test.ini') 
 cropImageService.crop(croppedImage, croppedSpriteDir)
 
-splitSpritesService = SplitSpriteService('config.test.ini')
+print(f'All sprites has been cropped')
 
+splitSpritesService = SplitSpriteService('config.test.ini')
 numberService = NumberService('config.test.ini')
 cleanIconService = CleanIconService('config.test.ini')
 renameIconService = RenameIconService('config.test.ini')
@@ -51,17 +57,23 @@ nameFromNumberService = NameFromNumberService('config.test.ini')
 nameFromNumberService.load(pokemonsListFile)
 
 for rootDir, curDir, files in os.walk(croppedSpriteDir):
+    total = len(files)
+    i = 0
     for file in files:
         numberFile, iconFile = splitSpritesService.split(
-            croppedSpriteDir+file,
+            croppedSpriteDir+'/'+file,
             splitSpriteDir
         )
 
-        number = numberService.process(numberFile)
+        number = numberService.process(numberFile, numberDir)
         name = nameFromNumberService.get(number)
 
         if '' == name:
             continue
 
-        cleanedIconFile = cleanIconService.clean(iconFile)
-        renameIconService.rename(cleanedIconFile, name)
+        cleanedIconFile = cleanIconService.clean(iconFile, cleanIconDir)
+        renameIconService.rename(cleanedIconFile, name, finalDir)
+
+        print(f'{i}/{total}')
+
+        i += 1

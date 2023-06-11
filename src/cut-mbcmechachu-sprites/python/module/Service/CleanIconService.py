@@ -7,12 +7,15 @@ from wand.drawing import Drawing
 from wand.color import Color
 
 from module.Entity.Config.Config import Config
+from module.Util.FileDir import FileDir
 
 class CleanIconService:
     def __init__(self, configFile = 'config.ini'):
         self.config = Config(configFile)
 
     def clean(self, iconFile, targetDir):
+        FileDir.createDirs(targetDir)
+            
         iconFilePath = Path(iconFile)
         cleanIconFile = targetDir+'/c_'+iconFilePath.name
 

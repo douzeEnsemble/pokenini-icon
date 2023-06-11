@@ -7,13 +7,17 @@ from wand.drawing import Drawing
 from wand.color import Color
 
 from module.Entity.Config.Config import Config
+from module.Util.FileDir import FileDir
 
 class RenameIconService:
     def __init__(self, configFile = 'config.ini'):
         self.config = Config(configFile)
 
-    def rename(self, iconFile, newFileName):
+    def rename(self, iconFile, newFileName, targetDir = 'temp/rename'):
+        FileDir.createDirs(targetDir)
+
         iconFilePath = Path(iconFile)
-        newIconFile = iconFile.replace(iconFilePath.name, newFileName+iconFilePath.suffix)
+
+        newIconFile = targetDir+'/'+newFileName+iconFilePath.suffix
 
         os.rename(iconFile, newIconFile)

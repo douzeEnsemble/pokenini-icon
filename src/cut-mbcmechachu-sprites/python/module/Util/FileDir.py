@@ -1,5 +1,6 @@
 import os
 import shutil
+from pathlib import Path
 
 class FileDir:
     @staticmethod
@@ -16,3 +17,7 @@ class FileDir:
             shutil.rmtree(dir)
 
         os.mkdir(dir)
+
+    @staticmethod
+    def createDirs(dirs):
+        Path.mkdir(Path(dirs), parents=True, exist_ok=True)
