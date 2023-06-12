@@ -1,8 +1,6 @@
 import pytest
-import sh
 import os
 import sys
-from pathlib import Path
 
 from wand.image import Image
 from wand.color import Color

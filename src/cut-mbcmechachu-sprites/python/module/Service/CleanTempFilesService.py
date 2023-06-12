@@ -1,7 +1,5 @@
 import os
 
-from pathlib import Path
-
 from module.Entity.Config.Config import Config
 from module.Util.FileDir import FileDir
 

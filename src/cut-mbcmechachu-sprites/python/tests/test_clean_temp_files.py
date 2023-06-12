@@ -1,8 +1,5 @@
-import pytest
-
 import os
 import sys
-import shutil
 from pathlib import Path
 
 current = os.path.dirname(os.path.realpath(__file__))

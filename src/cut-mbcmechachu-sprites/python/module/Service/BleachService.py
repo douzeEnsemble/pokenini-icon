@@ -1,7 +1,3 @@
-import os
-
-from pathlib import Path
-
 from wand.image import Image
 
 from module.Entity.Config.Config import Config

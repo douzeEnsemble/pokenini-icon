@@ -1,9 +1,4 @@
-import os
-
 from pathlib import Path
-
-from wand.image import Image
-from wand.color import Color
 
 from module.Entity.Config.Config import Config
 from module.Service.BleachService import BleachService
