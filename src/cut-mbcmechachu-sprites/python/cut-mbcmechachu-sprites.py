@@ -9,6 +9,7 @@ from module.Service.CropSpriteService import CropSpriteService
 from module.Service.NameFromNumberService import NameFromNumberService
 from module.Service.SpriteToIconService import SpriteToIconService
 from module.Service.SpritesToIconsService import SpritesToIconsService
+from module.Service.CleanTempFilesService import CleanTempFilesService
 
 # Get args
 try:
@@ -53,3 +54,5 @@ spritesToIconsService.cut(
     croppedSpriteDir,
     sprites.dir
 )
+
+CleanTempFilesService('config.ini').clean()

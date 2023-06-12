@@ -99,7 +99,6 @@ class TestSpritesToIconsService:
     
     @pytest.fixture(autouse=True)
     def beforeAndAfterTest(params):
-        cropped_image = 'temp/test-image.png'
         cropped_sprite_dir = 'temp/test-sprites'
         split_sprite_dir = 'temp/test-sprites-split'
         number_dir = 'temp/test-number'
@@ -107,7 +106,6 @@ class TestSpritesToIconsService:
         final_base_dir = 'temp/test-final'
 
         try:
-            FileDir.removeFiles(cropped_image)
             FileDir.removeFiles(cropped_sprite_dir)
             FileDir.removeFiles(split_sprite_dir)
             FileDir.removeFiles(number_dir)
@@ -118,14 +116,12 @@ class TestSpritesToIconsService:
         
         yield
         
-        FileDir.removeFiles(cropped_image)
         FileDir.removeFiles(cropped_sprite_dir)
         FileDir.removeFiles(split_sprite_dir)
         FileDir.removeFiles(number_dir)
         FileDir.removeFiles(clean_icon_dir)
         FileDir.removeFiles(final_base_dir)
         
-        os.rmdir(cropped_image)
         os.rmdir(cropped_sprite_dir)
         os.rmdir(split_sprite_dir)
         os.rmdir(number_dir)

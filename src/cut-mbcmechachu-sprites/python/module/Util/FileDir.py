@@ -13,10 +13,14 @@ class FileDir:
     
     @staticmethod
     def removeFiles(dir):
-        if os.path.isdir(dir):
-            shutil.rmtree(dir)
+        FileDir.removeDir(dir)
 
         os.mkdir(dir)
+    
+    @staticmethod
+    def removeDir(dir):
+        if os.path.isdir(dir):
+            shutil.rmtree(dir)
 
     @staticmethod
     def createDirs(dirs):

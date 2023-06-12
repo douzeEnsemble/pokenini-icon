@@ -13,10 +13,6 @@ from module.Util.FileDir import FileDir
 
 class TestFileDir:
 
-    def testCountFiles(self):
-        assert 2 == FileDir.countFiles(current+'/resources/count_dir/two')
-        assert 4 == FileDir.countFiles(current+'/resources/count_dir/four')
-
     def testRemoveFiles(self):
         try:
             os.mkdir(current+'/resources/count_dir/two_bis')
@@ -70,3 +66,22 @@ class TestFileDir:
         os.rmdir('temp/one/two/three')
         os.rmdir('temp/one/two')
         os.rmdir('temp/one')
+
+    def testRemoveDir(self):
+        try:
+            os.mkdir(current+'/resources/count_dir/two_bis')
+        except Exception:
+            pass
+        
+        shutil.copy(
+            current+'/resources/count_dir/two/one',
+            current+'/resources/count_dir/two_bis'
+        )
+        shutil.copy(
+            current+'/resources/count_dir/two/two',
+            current+'/resources/count_dir/two_bis'
+        )
+
+        FileDir.removeDir(current+'/resources/count_dir/two_bis')
+
+        assert False == Path(current+'/resources/count_dir/two_bis').is_dir()

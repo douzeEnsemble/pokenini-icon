@@ -46,7 +46,6 @@ class Config:
 
         self.directories = DirectoriesConfig(
             config['Directories'].get('symbols'),
-            config['Directories'].get('cropped_image'),
             config['Directories'].get('cropped_sprite_dir'),
             config['Directories'].get('split_sprite_dir'),
             config['Directories'].get('number_dir'),

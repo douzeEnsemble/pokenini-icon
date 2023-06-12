@@ -42,7 +42,6 @@ class TestConfig:
         assert 0 == config.spriteIconDot.left
 
         assert '../resources/symbols/' == config.directories.symbols
-        assert 'temp/test-image.png' == config.directories.cropped_image
         assert 'temp/test-sprites' == config.directories.cropped_sprite_dir
         assert 'temp/test-sprites-split' == config.directories.split_sprite_dir
         assert 'temp/test-number' == config.directories.number_dir
@@ -94,7 +93,6 @@ class TestDirectoriesConfig:
     def test_init(self):
         directories = DirectoriesConfig(
             '/dir/subdir/s/',
-            '/dir/subdir/ci/',
             '/dir/subdir/csd/',
             '/dir/subdir/ssd/',
             '/dir/subdir/nd/',
@@ -103,7 +101,6 @@ class TestDirectoriesConfig:
         )
 
         assert '/dir/subdir/s/' == directories.symbols
-        assert '/dir/subdir/ci/' == directories.cropped_image
         assert '/dir/subdir/csd/' == directories.cropped_sprite_dir
         assert '/dir/subdir/ssd/' == directories.split_sprite_dir
         assert '/dir/subdir/nd/' == directories.number_dir
