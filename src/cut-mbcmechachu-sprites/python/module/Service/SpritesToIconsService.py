@@ -15,6 +15,7 @@ class SpritesToIconsService:
 
         for rootDir, curDir, files in os.walk(spritesDir):
             total = len(files)
+            print(f'Start for {total} sprites')
             for file in files:
                 isDone = self.spriteToIconService.transform(
                     spritesDir+'/'+file, 
@@ -23,8 +24,13 @@ class SpritesToIconsService:
 
                 if isDone:
                     doneCount += 1
-                    print(f'{doneCount}/{total}')
+
+                    # Display only each 10 percent
+                    if ((doneCount % (total / 10)) == 0):
+                        print(f'{doneCount}/{total}')
 
             notDoneCount = total - doneCount
+
+            print(f'End with {doneCount} done of {total} total')
 
         return doneCount, notDoneCount
