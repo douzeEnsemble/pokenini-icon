@@ -11,6 +11,7 @@ from module.Service.NameFromNumberService import NameFromNumberService
 from module.Service.SpriteToIconService import SpriteToIconService
 from module.Service.SpritesToIconsService import SpritesToIconsService
 from module.Service.CleanTempFilesService import CleanTempFilesService
+from module.Service.CompareDirToListService import CompareDirToListService
 
 configFile = 'config.ini'
 # Get args
@@ -58,3 +59,11 @@ spritesToIconsService.cut(
 )
 
 CleanTempFilesService(configFile).clean()
+
+compareDirToListService = CompareDirToListService(configFile) 
+missingIcons = compareDirToListService.compare(
+    config.directories.final_base_dir+'/'+sprites.dir,
+    pokemonsListFile,
+)
+
+print(missingIcons)
