@@ -6,6 +6,7 @@ from module.Entity.Config.SpriteNumberConfig import SpriteNumberConfig
 from module.Entity.Config.SpriteIconConfig import SpriteIconConfig
 from module.Entity.Config.SpriteIconDotConfig import SpriteIconDotConfig
 from module.Entity.Config.DirectoriesConfig import DirectoriesConfig
+from module.Entity.Config.FilesConfig import FilesConfig
 
 class Config:
 
@@ -51,4 +52,8 @@ class Config:
             config['Directories'].get('number_dir'),
             config['Directories'].get('clean_icon_dir'),
             config['Directories'].get('final_base_dir'),
+        )
+
+        self.files = FilesConfig(
+            config['Files'].get('cropped_image'),
         )

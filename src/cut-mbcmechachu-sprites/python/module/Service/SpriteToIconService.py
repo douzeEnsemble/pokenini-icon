@@ -13,10 +13,10 @@ class SpriteToIconService:
         nameFromNumberService: NameFromNumberService,
     ):
         self.config = Config(configFile)
-        self.splitSpritesService = SplitSpriteService('config.test.ini')
-        self.numberService = NumberService('config.test.ini')
-        self.cleanIconService = CleanIconService('config.test.ini')
-        self.renameIconService = RenameIconService('config.test.ini')
+        self.splitSpritesService = SplitSpriteService(configFile)
+        self.numberService = NumberService(configFile)
+        self.cleanIconService = CleanIconService(configFile)
+        self.renameIconService = RenameIconService(configFile)
         self.nameFromNumberService = nameFromNumberService
 
     def transform(self, spriteFile, targetDir) -> bool:

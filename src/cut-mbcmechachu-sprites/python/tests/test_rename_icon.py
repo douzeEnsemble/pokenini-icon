@@ -41,8 +41,7 @@ class TestRenameIconService:
         pathOldFile = Path('temp/c_icon-0-3.png')
         assert False == pathOldFile.is_file()
         
-        FileDir.removeFiles(tempDir)
-        os.rmdir(tempDir)
+        FileDir.removeDir('temp/test-rename-bis')
         
     def test_rename_no_source(self):
         renameIconService = RenameIconService('config.test.ini')

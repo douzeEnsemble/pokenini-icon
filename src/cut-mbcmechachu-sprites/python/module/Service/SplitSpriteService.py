@@ -12,7 +12,7 @@ class SplitSpriteService:
     def __init__(self, configFile):
         self.config = Config(configFile)
 
-    def split(self, spriteFile, outputDir = 'temp/sprite'):
+    def split(self, spriteFile, outputDir):
         FileDir.createDirs(outputDir)
 
         path = Path(spriteFile)

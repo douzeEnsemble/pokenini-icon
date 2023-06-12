@@ -6,7 +6,7 @@ class CropImageService:
     def __init__(self, configFile):
         self.config = Config(configFile)
 
-    def crop(self, imageFile, area, outputFile = 'temp/image.png'):
+    def crop(self, imageFile, area, outputFile):
         with Image(filename=imageFile) as original:
             with original.clone() as copy:
                 cropWidth = self.config.spriteFull.width * area.columns

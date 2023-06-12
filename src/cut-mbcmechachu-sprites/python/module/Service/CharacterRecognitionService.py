@@ -28,7 +28,7 @@ class CharacterRecognitionService:
         symbolName = self.__getSymbolName(symbolFilename)
 
         numberImage = cv2.imread(numberFile)
-        symbolImage = cv2.imread(self.config.directories.symbols+symbol)
+        symbolImage = cv2.imread(self.config.directories.symbols+'/'+symbol)
 
         result = cv2.matchTemplate(numberImage, symbolImage, cv2.TM_CCOEFF_NORMED)
         location = np.where(result >= 0.99)

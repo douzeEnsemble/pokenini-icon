@@ -13,7 +13,7 @@ class RenameIconService:
     def __init__(self, configFile):
         self.config = Config(configFile)
 
-    def rename(self, iconFile, newFileName, targetDir = 'temp/rename'):
+    def rename(self, iconFile, newFileName, targetDir):
         FileDir.createDirs(targetDir)
 
         iconFilePath = Path(iconFile)

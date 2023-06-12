@@ -1,6 +1,7 @@
 import sys
 import os
 
+from module.Entity.Config.Config import Config
 from module.Input.FileInput import FileInput
 from module.Input.SpritesOutput import SpritesOutput
 from module.Input.AreaInput import AreaInput
@@ -11,6 +12,7 @@ from module.Service.SpriteToIconService import SpriteToIconService
 from module.Service.SpritesToIconsService import SpritesToIconsService
 from module.Service.CleanTempFilesService import CleanTempFilesService
 
+configFile = 'config.ini'
 # Get args
 try:
     spriteFile = sys.argv[1]
@@ -22,37 +24,37 @@ try:
 
     pokemonsListFile = sys.argv[4]
     FileInput.check(spriteFile)
-
 except Exception as inst:
     print(inst)
     exit()
 
+config = Config(configFile)
 print(f'Cut will be for an area of {area.columns}x{area.rows} sprites'
       + f' from {spriteFile} into {sprites.dir}/{sprites.origin} dir/file')
 
-croppedImage = 'temp/image.png'
-croppedSpriteDir = 'temp/sprites'
+croppedImage = config.files.cropped_image
+croppedSpriteDir = config.directories.cropped_sprite_dir
 
-cropImageService = CropImageService('config.ini')
+cropImageService = CropImageService(configFile)
 cropImageService.crop(spriteFile, area, croppedImage)
 
 print(f'Base image has been cropped')
 
-cropImageService = CropSpriteService('config.ini') 
+cropImageService = CropSpriteService(configFile) 
 cropImageService.crop(croppedImage, croppedSpriteDir)
 
 print(f'All sprites has been cropped')
 
-nameFromNumberService = NameFromNumberService('config.ini')
+nameFromNumberService = NameFromNumberService(configFile)
 nameFromNumberService.load(pokemonsListFile)
 
-spriteToIconService = SpriteToIconService('config.ini', nameFromNumberService)
+spriteToIconService = SpriteToIconService(configFile, nameFromNumberService)
 
-spritesToIconsService = SpritesToIconsService('config.ini', spriteToIconService)
+spritesToIconsService = SpritesToIconsService(configFile, spriteToIconService)
 
 spritesToIconsService.cut(
     croppedSpriteDir,
     sprites.dir
 )
 
-CleanTempFilesService('config.ini').clean()
+CleanTempFilesService(configFile).clean()

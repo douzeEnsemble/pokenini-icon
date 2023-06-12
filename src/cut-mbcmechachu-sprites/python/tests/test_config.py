@@ -15,6 +15,7 @@ from module.Entity.Config.SpriteNumberConfig import SpriteNumberConfig
 from module.Entity.Config.SpriteIconConfig import SpriteIconConfig
 from module.Entity.Config.SpriteIconDotConfig import SpriteIconDotConfig
 from module.Entity.Config.DirectoriesConfig import DirectoriesConfig
+from module.Entity.Config.FilesConfig import FilesConfig
 
 class TestConfig:
     def test_init(self):
@@ -47,6 +48,8 @@ class TestConfig:
         assert 'temp/test-number' == config.directories.number_dir
         assert 'temp/test-clean-icon' == config.directories.clean_icon_dir
         assert 'temp/test-final' == config.directories.final_base_dir
+
+        assert 'temp/test-image.png' == config.files.cropped_image
 
 class TestImageConfig:
     def test_init(self):
@@ -106,3 +109,11 @@ class TestDirectoriesConfig:
         assert '/dir/subdir/nd/' == directories.number_dir
         assert '/dir/subdir/cid/' == directories.clean_icon_dir
         assert '/dir/subdir/fbd/' == directories.final_base_dir
+
+class TestFilesConfig:
+    def test_init(self):
+        files = FilesConfig(
+            '/dir/subdir/ci.png',
+        )
+
+        assert '/dir/subdir/ci.png' == files.cropped_image

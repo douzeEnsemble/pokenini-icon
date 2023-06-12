@@ -14,8 +14,8 @@ class NumberService:
 
     def __init__(self, configFile):
         self.config = Config(configFile)
-        self.bleachService = BleachService('config.test.ini')
-        self.characterRecognitionService = CharacterRecognitionService('config.test.ini')
+        self.bleachService = BleachService(configFile)
+        self.characterRecognitionService = CharacterRecognitionService(configFile)
 
     def process(self, numberFile, targetDir):
         FileDir.createDirs(targetDir)
