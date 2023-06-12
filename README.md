@@ -50,7 +50,7 @@ docker build . --rm -t cut-mbcmechachu-sprites
 docker run -it --rm -v ./python/:/usr/src/app -v ./:/usr/src/resources cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py ../resources/regulars.png r sample ../resources/pokemons-regular-list.csv
 
 
-docker run -it --rm -v ./python/:/usr/src/app -v ./:/usr/src/resources cut-mbcmechachu-sprites pytest tests
+docker run -it --rm -v ./python/:/usr/src/app -v ./:/usr/src/resources cut-mbcmechachu-sprites pytest --capture=tee-sys -v tests
 
 docker run -it --rm -v ./python/:/usr/src/app -v ./:/usr/src/resources cut-mbcmechachu-sprites bash
 ```
@@ -58,8 +58,8 @@ docker run -it --rm -v ./python/:/usr/src/app -v ./:/usr/src/resources cut-mbcme
 Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-824897934 and https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-Shiny-910547529
 
 ```
-bash src/cut-mbcmechachu-sprites/cut-mbcmechachu-sprites.sh complete r 2> src/cut-mbcmechachu-sprites/errors_regulars.log
-bash src/cut-mbcmechachu-sprites/cut-mbcmechachu-sprites.sh complete s 2> src/cut-mbcmechachu-sprites/errors_shinies.log
+python cut-mbcmechachu-sprites.py ../resources/regulars.png r complete ../resources/pokemons-regular-list.csv
+python cut-mbcmechachu-sprites.py ../resources/shinies.png s complete ../resources/pokemons-shiny-list.csv
 ```
 
 And see report_*.txt and errors.log files

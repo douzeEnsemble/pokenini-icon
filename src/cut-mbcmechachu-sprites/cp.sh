@@ -28,7 +28,7 @@ printf "Start %s on %s\n" "$file" "$dimension"
 i=0
 count=0
 countNew=0
-images="$SCRIPT_DIR/images/final/small/$file/*.png"
+images="$SCRIPT_DIR/python/temp/final/small/$file/*.png"
 for image in $images
 do
     filename=${image##*/}

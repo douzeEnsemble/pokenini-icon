@@ -44,7 +44,7 @@ class TestConfig:
         assert 'temp/test-sprites-split' == config.directories.split_sprite_dir
         assert 'temp/test-number' == config.directories.number_dir
         assert 'temp/test-clean-icon' == config.directories.clean_icon_dir
-        assert 'temp/test-final' == config.directories.final_base_dir
+        assert 'temp/test-final/small' == config.directories.final_base_dir
 
         assert 'temp/test-image.png' == config.files.cropped_image
 
