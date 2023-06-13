@@ -13,14 +13,14 @@ class TestNameFromNumberService:
     def test_get(self):
         service = NameFromNumberService('config.test.ini')
         
-        service.load(current+'/resources/name_from_number/uno.csv')
+        service.load('tests/resources/name_from_number/uno.csv')
 
         assert 'bulbasaur' == service.get('001-00')
 
     def test_get_some(self):
         service = NameFromNumberService('config.test.ini')
         
-        service.load(current+'/resources/name_from_number/some.csv')
+        service.load('tests/resources/name_from_number/some.csv')
 
         assert 'bulbasaur' == service.get('001-00')
         assert 'ivysaur' == service.get('002')
@@ -31,14 +31,14 @@ class TestNameFromNumberService:
     def test_get_missing(self):
         service = NameFromNumberService('config.test.ini')
         
-        service.load(current+'/resources/name_from_number/uno.csv')
+        service.load('tests/resources/name_from_number/uno.csv')
 
         assert '' == service.get('999-12')
         
     def test_load(self):
         service = NameFromNumberService('config.test.ini')
         
-        service.load(current+'/resources/name_from_number/uno.csv')
+        service.load('tests/resources/name_from_number/uno.csv')
 
         assert True == service.is_loaded
         assert 1 == len(service.data)
@@ -46,7 +46,7 @@ class TestNameFromNumberService:
     def test_load_empty(self):
         service = NameFromNumberService('config.test.ini')
         
-        service.load(current+'/resources/name_from_number/empty.csv')
+        service.load('tests/resources/name_from_number/empty.csv')
 
         assert True == service.is_loaded
         assert 0 == len(service.data)
@@ -54,8 +54,8 @@ class TestNameFromNumberService:
     def test_successive_load(self):
         service = NameFromNumberService('config.test.ini')
 
-        service.load(current+'/resources/name_from_number/uno.csv')
-        service.load(current+'/resources/name_from_number/uno.csv')
+        service.load('tests/resources/name_from_number/uno.csv')
+        service.load('tests/resources/name_from_number/uno.csv')
 
         assert True == service.is_loaded
         assert 1 == len(service.data)

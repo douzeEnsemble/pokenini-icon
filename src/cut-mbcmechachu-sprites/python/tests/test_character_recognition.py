@@ -59,22 +59,22 @@ class TestCharacterRecognitionService:
         characterRecognitionService = CharacterRecognitionService('config.test.ini')
         
         result = characterRecognitionService.read(
-            current+'/resources/character_recognition/bw_number-9-13.png'
+            'tests/resources/character_recognition/bw_number-9-13.png'
         )
         assert '283' == result
         
         result = characterRecognitionService.read(
-            current+'/resources/character_recognition/bw_number-0-10.png'
+            'tests/resources/character_recognition/bw_number-0-10.png'
         )
         assert '003-01-F' == result
         
         result = characterRecognitionService.read(
-            current+'/resources/character_recognition/bw_number-0-19.png'
+            'tests/resources/character_recognition/bw_number-0-19.png'
         )
         assert 'M006-Y' == result
         
         result = characterRecognitionService.read(
-            current+'/resources/character_recognition/bw_number-20-2.png'
+            'tests/resources/character_recognition/bw_number-20-2.png'
         )
         assert 'U800' == result
 
@@ -92,7 +92,7 @@ class TestCharacterRecognitionService:
         characterRecognitionService = CharacterRecognitionService('config.test.ini')
         
         result = characterRecognitionService.read(
-            current+'/resources/character_recognition/'+numberFilename+'.png'
+            'tests/resources/character_recognition/'+numberFilename+'.png'
         )
 
         assert expectedText == result

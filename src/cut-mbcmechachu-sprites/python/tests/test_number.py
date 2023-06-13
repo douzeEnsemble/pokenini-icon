@@ -15,11 +15,11 @@ class TestNumberService:
         numberService = NumberService('config.test.ini')
         
         result = numberService.process(
-            current+'/resources/number/number-0-3.png',
+            'tests/resources/number/number-0-3.png',
             'temp/test-number'
         )
 
-        oldPath = Path(current+'/resources/number/bw_number-0-3.png')
+        oldPath = Path('tests/resources/number/bw_number-0-3.png')
         assert False == oldPath.is_file()
 
         assert '001-03' == result
@@ -30,11 +30,11 @@ class TestNumberService:
         tempDir = 'temp/test-number/sub'
         
         result = numberService.process(
-            current+'/resources/number/number-20-2.png',
+            'tests/resources/number/number-20-2.png',
             tempDir
         )
 
-        oldPath = Path(current+'/resources/number/bw_number-20-2.png')
+        oldPath = Path('tests/resources/number/bw_number-20-2.png')
         assert False == oldPath.is_file()
 
         assert 'U800' == result
@@ -46,7 +46,7 @@ class TestNumberService:
         numberService = NumberService('config.test.ini')
         
         with pytest.raises(Exception) as e:
-            numberService.process(current+'/resources/sprite-99999-999999.png')
+            numberService.process('tests/resources/sprite-99999-999999.png')
 
     def test_bad_config(self):
         with pytest.raises(Exception) as e:

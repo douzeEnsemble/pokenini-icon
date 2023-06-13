@@ -77,11 +77,11 @@ class TestCleanIconService:
         tempDir = 'temp/test-clean-icon/sub'
 
         cleanedIconFile = cleanIconService.clean(
-            current+'/resources/clean_icon/icon-24-6.png',
+            'tests/resources/clean_icon/icon-24-6.png',
             tempDir
         )
 
-        oldPath = Path(current+'/resources/clean_icon/c_icon-24-6.png')
+        oldPath = Path('tests/resources/clean_icon/c_icon-24-6.png')
         assert False == oldPath.is_file()
 
         oldPath = Path(tempDir+'/c_icon-24-6.png')
@@ -117,11 +117,11 @@ class TestCleanIconService:
         cleanIconService = CleanIconService('config.test.ini')
 
         cleanedIconFile = cleanIconService.clean(
-            current+'/resources/clean_icon/'+imageName+'.png',
+            'tests/resources/clean_icon/'+imageName+'.png',
             'temp/test-clean-icon'
         )
 
-        oldPath = Path(current+'/resources/clean_icon/c_'+imageName+'.png')
+        oldPath = Path('tests/resources/clean_icon/c_'+imageName+'.png')
         assert False == oldPath.is_file()
 
         path = Path(cleanedIconFile)

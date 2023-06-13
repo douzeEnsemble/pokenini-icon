@@ -65,7 +65,7 @@ class TestBleachService:
         bleachService = BleachService('config.test.ini')
         
         bleachService.bleach(
-            current+'/resources/bleach/'+numberFilename+'.png',
+            'tests/resources/bleach/'+numberFilename+'.png',
             'temp/test-bleach/bw'+numberFilename+'.png'
         )
 

@@ -17,8 +17,8 @@ class TestCompareDirToList:
         ]
 
         assert exepectedList == service.compare(
-            current+'/resources/compare_dir_to_list/icons', 
-            current+'/resources/compare_dir_to_list/some.csv'
+            'tests/resources/compare_dir_to_list/icons', 
+            'tests/resources/compare_dir_to_list/some.csv'
         )
 
     def test_compare_empty_list(self):
@@ -27,8 +27,8 @@ class TestCompareDirToList:
         exepectedList = []
 
         assert exepectedList == service.compare(
-            current+'/resources/compare_dir_to_list/icons', 
-            current+'/resources/compare_dir_to_list/empty.csv'
+            'tests/resources/compare_dir_to_list/icons', 
+            'tests/resources/compare_dir_to_list/empty.csv'
         )
 
     def test_compare_empty_dir(self):
@@ -42,8 +42,8 @@ class TestCompareDirToList:
         ]
 
         assert exepectedList == service.compare(
-            current+'/resources/compare_dir_to_list/empty', 
-            current+'/resources/compare_dir_to_list/some.csv'
+            'tests/resources/compare_dir_to_list/empty', 
+            'tests/resources/compare_dir_to_list/some.csv'
         )
 
     def test_compare_list_not_exists(self):
@@ -51,7 +51,7 @@ class TestCompareDirToList:
 
         with pytest.raises(Exception) as e:
             service.compare(
-                current+'/resources/compare_dir_to_list/icon', 
+                'tests/resources/compare_dir_to_list/icon', 
                 'nexiste.pas.csv'
             )
 
@@ -59,7 +59,7 @@ class TestCompareDirToList:
         service = CompareDirToListService('config.test.ini') 
 
         with pytest.raises(Exception) as e:
-            service.compare('/nexiste/pas', current+'/resources/compare_dir_to_list/some.csv')
+            service.compare('/nexiste/pas', 'tests/resources/compare_dir_to_list/some.csv')
 
     def test_bad_config(self):
         with pytest.raises(Exception) as e:

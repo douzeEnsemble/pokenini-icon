@@ -61,7 +61,7 @@ class TestRenameIconService:
             pass
         
         shutil.copyfile(
-            current+'/resources/rename_icon/c_icon-0-3.png', 
+            'tests/resources/rename_icon/c_icon-0-3.png', 
             'temp/c_icon-0-3.png',
         )
 

@@ -13,24 +13,24 @@ class TestFileDir:
 
     def testRemoveFiles(self):
         try:
-            os.mkdir(current+'/resources/count_dir/two_bis')
+            os.mkdir('tests/resources/count_dir/two_bis')
         except Exception:
             pass
         
         shutil.copy(
-            current+'/resources/count_dir/two/one',
-            current+'/resources/count_dir/two_bis'
+            'tests/resources/count_dir/two/one',
+            'tests/resources/count_dir/two_bis'
         )
         shutil.copy(
-            current+'/resources/count_dir/two/two',
-            current+'/resources/count_dir/two_bis'
+            'tests/resources/count_dir/two/two',
+            'tests/resources/count_dir/two_bis'
         )
 
-        FileDir.removeFiles(current+'/resources/count_dir/two_bis')
+        FileDir.removeFiles('tests/resources/count_dir/two_bis')
 
-        assert 0 == FileDir.countFiles(current+'/resources/count_dir/two_bis')
+        assert 0 == FileDir.countFiles('tests/resources/count_dir/two_bis')
 
-        os.rmdir(current+'/resources/count_dir/two_bis')
+        os.rmdir('tests/resources/count_dir/two_bis')
         
     def testCreateDirsOne(self):
         dirOne = 'temp/one'
@@ -67,19 +67,19 @@ class TestFileDir:
 
     def testRemoveDir(self):
         try:
-            os.mkdir(current+'/resources/count_dir/two_bis')
+            os.mkdir('tests/resources/count_dir/two_bis')
         except Exception:
             pass
         
         shutil.copy(
-            current+'/resources/count_dir/two/one',
-            current+'/resources/count_dir/two_bis'
+            'tests/resources/count_dir/two/one',
+            'tests/resources/count_dir/two_bis'
         )
         shutil.copy(
-            current+'/resources/count_dir/two/two',
-            current+'/resources/count_dir/two_bis'
+            'tests/resources/count_dir/two/two',
+            'tests/resources/count_dir/two_bis'
         )
 
-        FileDir.removeDir(current+'/resources/count_dir/two_bis')
+        FileDir.removeDir('tests/resources/count_dir/two_bis')
 
-        assert False == Path(current+'/resources/count_dir/two_bis').is_dir()
+        assert False == Path('tests/resources/count_dir/two_bis').is_dir()

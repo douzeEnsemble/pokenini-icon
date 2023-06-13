@@ -20,7 +20,7 @@ class TestSplitSpriteService:
         splitSpritesService = SplitSpriteService('config.test.ini')
         
         numberFile, iconFile = splitSpritesService.split(
-            current+'/resources/sprite_split/sprite-0-3.png',
+            'tests/resources/sprite_split/sprite-0-3.png',
             'temp/test-sprites-split/'
         )
 
@@ -40,7 +40,7 @@ class TestSplitSpriteService:
         splitSpritesService = SplitSpriteService('config.test.ini')
         
         splitSpritesService.split(
-            current+'/resources/sprite_split/sprite-20-2.png',
+            'tests/resources/sprite_split/sprite-20-2.png',
             'temp/test-sprites-split/'
         )
 

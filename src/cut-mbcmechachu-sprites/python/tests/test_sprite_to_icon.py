@@ -14,12 +14,12 @@ from module.Util.FileDir import FileDir
 class TestSpriteToIconService:
     def test_transform_name_not_found(self):
         nameFromNumberService = NameFromNumberService('config.test.ini')
-        nameFromNumberService.load(current+'/resources/sprite_to_icon/some.csv')
+        nameFromNumberService.load('tests/resources/sprite_to_icon/some.csv')
 
         spriteToIconService = SpriteToIconService('config.test.ini', nameFromNumberService)
         
         assert True == spriteToIconService.transform(
-            current+'/resources/sprite_to_icon/sprite-0-6.png',
+            'tests/resources/sprite_to_icon/sprite-0-6.png',
             'regular'
         )
 
@@ -29,23 +29,23 @@ class TestSpriteToIconService:
 
     def test_transform_name_not_found(self):
         nameFromNumberService = NameFromNumberService('config.test.ini')
-        nameFromNumberService.load(current+'/resources/sprite_to_icon/some.csv')
+        nameFromNumberService.load('tests/resources/sprite_to_icon/some.csv')
 
         spriteToIconService = SpriteToIconService('config.test.ini', nameFromNumberService)
         
         assert False == spriteToIconService.transform(
-            current+'/resources/sprite_to_icon/sprite-0-3.png',
+            'tests/resources/sprite_to_icon/sprite-0-3.png',
             'regular'
         )
 
     def test_transform_no_names(self):
         nameFromNumberService = NameFromNumberService('config.test.ini')
-        nameFromNumberService.load(current+'/resources/sprite_to_icon/empty.csv')
+        nameFromNumberService.load('tests/resources/sprite_to_icon/empty.csv')
 
         spriteToIconService = SpriteToIconService('config.test.ini', nameFromNumberService)
         
         assert False == spriteToIconService.transform(
-            current+'/resources/sprite_to_icon/sprite-0-3.png',
+            'tests/resources/sprite_to_icon/sprite-0-3.png',
             'regular'
         )
 
@@ -54,7 +54,7 @@ class TestSpriteToIconService:
         
         with pytest.raises(Exception) as e:
             spriteToIconService.transform(
-                current+'/resources/sprite_to_icon/sprite-0-3.png',
+                'tests/resources/sprite_to_icon/sprite-0-3.png',
                 'regular'
             )
 

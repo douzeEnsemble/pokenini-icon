@@ -15,7 +15,7 @@ class TestCropSpriteService:
         cropSpriteService = CropSpriteService('config.test.ini')       
 
         cropSpriteService.crop(
-            current+'/resources/sprite_crop/sprites-3cols.png',
+            'tests/resources/sprite_crop/sprites-3cols.png',
             'temp/test-sprites/'
         )
 
@@ -30,7 +30,7 @@ class TestCropSpriteService:
         cropSpriteService = CropSpriteService('config.test.ini')       
 
         cropSpriteService.crop(
-            current+'/resources/sprite_crop/sprites-sample.png',
+            'tests/resources/sprite_crop/sprites-sample.png',
             'temp/test-sprites/'
         )
 

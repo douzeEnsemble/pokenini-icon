@@ -14,12 +14,12 @@ from module.Util.FileDir import FileDir
 class TestSpritesToIconsService:
     def test_cut_many(self, capsys):
         nameFromNumberService = NameFromNumberService('config.test.ini')
-        nameFromNumberService.load(current+'/resources/sprites_to_icons/some.csv')
+        nameFromNumberService.load('tests/resources/sprites_to_icons/some.csv')
         spriteToIconService = SpriteToIconService('config.test.ini', nameFromNumberService)
         spritesToIconsService = SpritesToIconsService('config.test.ini', spriteToIconService)
         
         assert (6, 76) == spritesToIconsService.cut(
-            current+'/resources/sprites_to_icons/3cols',
+            'tests/resources/sprites_to_icons/3cols',
             'regular'
         )
 
@@ -29,12 +29,12 @@ class TestSpritesToIconsService:
 
     def test_cut_some(self, capsys):
         nameFromNumberService = NameFromNumberService('config.test.ini')
-        nameFromNumberService.load(current+'/resources/sprites_to_icons/some.csv')
+        nameFromNumberService.load('tests/resources/sprites_to_icons/some.csv')
         spriteToIconService = SpriteToIconService('config.test.ini', nameFromNumberService)
         spritesToIconsService = SpritesToIconsService('config.test.ini', spriteToIconService)
         
         assert (6, 4) == spritesToIconsService.cut(
-            current+'/resources/sprites_to_icons/sample',
+            'tests/resources/sprites_to_icons/sample',
             'regular'
         )
 
@@ -44,12 +44,12 @@ class TestSpritesToIconsService:
 
     def test_cut_full(self, capsys):
         nameFromNumberService = NameFromNumberService('config.test.ini')
-        nameFromNumberService.load(current+'/resources/sprites_to_icons/full.csv')
+        nameFromNumberService.load('tests/resources/sprites_to_icons/full.csv')
         spriteToIconService = SpriteToIconService('config.test.ini', nameFromNumberService)
         spritesToIconsService = SpritesToIconsService('config.test.ini', spriteToIconService)
         
         assert (91, 149) == spritesToIconsService.cut(
-            current+'/resources/sprites_to_icons/3rows',
+            'tests/resources/sprites_to_icons/3rows',
             'regular'
         )
 
@@ -59,12 +59,12 @@ class TestSpritesToIconsService:
 
     def test_cut_no_names(self):
         nameFromNumberService = NameFromNumberService('config.test.ini')
-        nameFromNumberService.load(current+'/resources/sprites_to_icons/empty.csv')
+        nameFromNumberService.load('tests/resources/sprites_to_icons/empty.csv')
         spriteToIconService = SpriteToIconService('config.test.ini', nameFromNumberService)
         spritesToIconsService = SpritesToIconsService('config.test.ini', spriteToIconService)
         
         assert (0, 10) == spritesToIconsService.cut(
-            current+'/resources/sprites_to_icons/sample',
+            'tests/resources/sprites_to_icons/sample',
             'regular'
         )
 
@@ -76,7 +76,7 @@ class TestSpritesToIconsService:
         
         with pytest.raises(Exception) as e:
             spritesToIconsService.cut(
-                current+'/resources/sprites_to_icons/sample',
+                'tests/resources/sprites_to_icons/sample',
                 'regular'
             )
 
@@ -113,6 +113,8 @@ class TestSpritesToIconsService:
             pass
         
         yield
+
+        return
         
         FileDir.removeFiles(cropped_sprite_dir)
         FileDir.removeFiles(split_sprite_dir)
