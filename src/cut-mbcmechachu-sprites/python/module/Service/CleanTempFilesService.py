@@ -14,7 +14,10 @@ class CleanTempFilesService:
         FileDir.removeDir(self.__dir().number_dir)
         FileDir.removeDir(self.__dir().split_sprite_dir)
 
-        os.remove('temp/image.png')
+        try:
+            os.remove('temp/image.png')
+        except Exception:
+            pass
 
     def __dir(self):
         return self.config.directories

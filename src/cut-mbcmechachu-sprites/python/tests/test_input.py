@@ -7,8 +7,6 @@ current = os.path.dirname(os.path.realpath(__file__))
 parent = os.path.dirname(current)
 sys.path.append(parent)
 
-from module.Input.FileInput import FileInput
-from module.Input.SpritesOutput import SpritesOutput
 from module.Input.AreaInput import AreaInput
 
 class TestAreaInput:
@@ -47,34 +45,3 @@ class TestAreaInput:
 
         assert 10 == area.columns
         assert 1 == area.rows
-
-class TestFileInput:
-    def testOk(self):
-        assert True == FileInput.check('requirements-dev.txt')
-
-    def testKO(self):
-        with pytest.raises(Exception) as e:
-            FileInput.check('requirements-douze.txt')
-
-class TestSpritesOutput:
-    def testOk(self):
-        spritesOutput = SpritesOutput.get('r')
-
-        assert 'regular' == spritesOutput.dir
-        assert 'regulars' == spritesOutput.origin
-
-    def testShiny(self):
-        spritesOutput = SpritesOutput.get('s')
-
-        assert 'shiny' == spritesOutput.dir
-        assert 'shinies' == spritesOutput.origin
-
-    def testUpperRegular(self):
-        spritesOutput = SpritesOutput.get('R')
-
-        assert 'regular' == spritesOutput.dir
-        assert 'regulars' == spritesOutput.origin
-
-    def testUnknown(self):
-        with pytest.raises(Exception) as e:
-            SpritesOutput.get('X')

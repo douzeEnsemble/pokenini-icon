@@ -39,7 +39,7 @@ class TestConfig:
         assert 0 == config.spriteIconDot.top
         assert 0 == config.spriteIconDot.left
 
-        assert '../resources/symbols/' == config.directories.symbols
+        assert 'tests/resources/symbols/' == config.directories.symbols
         assert 'temp/test-sprites' == config.directories.cropped_sprite_dir
         assert 'temp/test-sprites-split' == config.directories.split_sprite_dir
         assert 'temp/test-number' == config.directories.number_dir
