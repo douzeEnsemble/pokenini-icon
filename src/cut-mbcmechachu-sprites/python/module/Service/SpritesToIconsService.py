@@ -12,6 +12,7 @@ class SpritesToIconsService:
     def cut(self, spritesDir, targetDir) -> tuple[int, int]:
         doneCount = 0
         notDoneCount = 0
+        count = 0
 
         for rootDir, curDir, files in os.walk(spritesDir):
             total = len(files)
@@ -25,9 +26,10 @@ class SpritesToIconsService:
                 if isDone:
                     doneCount += 1
 
-                    # Display only each 10 percent
-                    if ((doneCount % (total / 10)) == 0):
-                            print(f'{doneCount}/{total}')
+                count += 1
+                # Display only each 10 percent
+                if ((count % round(total / 10)) == 0):
+                    print(f'{count}/{total}')
 
             notDoneCount = total - doneCount
 

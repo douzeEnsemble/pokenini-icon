@@ -23,8 +23,22 @@ class TestSpritesToIconsService:
             'regular'
         )
 
+        expectedOut = """Start for 82 sprites
+8/82
+16/82
+24/82
+32/82
+40/82
+48/82
+56/82
+64/82
+72/82
+80/82
+End with 2 done of 82 total
+"""
+
         out, err = capsys.readouterr()
-        assert 'Start for 82 sprites\nEnd with 2 done of 82 total\n' == out
+        assert expectedOut == out
         assert '' == err
 
     def test_cut_some(self, capsys):
@@ -38,8 +52,22 @@ class TestSpritesToIconsService:
             'regular'
         )
 
+        expectedOut = """Start for 10 sprites
+1/10
+2/10
+3/10
+4/10
+5/10
+6/10
+7/10
+8/10
+9/10
+10/10
+End with 2 done of 10 total
+"""
+
         out, err = capsys.readouterr()
-        assert 'Start for 10 sprites\n1/10\n2/10\nEnd with 2 done of 10 total\n' == out
+        assert expectedOut == out
         assert '' == err
 
     def test_cut_full(self, capsys):
@@ -52,12 +80,25 @@ class TestSpritesToIconsService:
             'tests/resources/sprites_to_icons/full',
             'regular'
         )
+        expectedOut = """Start for 240 sprites
+24/240
+48/240
+72/240
+96/240
+120/240
+144/240
+168/240
+192/240
+216/240
+240/240
+End with 90 done of 240 total
+"""
 
         out, err = capsys.readouterr()
-        assert 'Start for 240 sprites\n24/240\n48/240\n72/240\nEnd with 90 done of 240 total\n' == out
+        assert expectedOut == out
         assert '' == err
 
-    def test_cut_no_names(self):
+    def test_cut_no_names(self, capsys):
         nameFromNumberService = NameFromNumberService('config.test.ini')
         nameFromNumberService.load('tests/resources/sprites_to_icons/empty.csv')
         spriteToIconService = SpriteToIconService('config.test.ini', nameFromNumberService)
@@ -68,7 +109,9 @@ class TestSpritesToIconsService:
             'regular'
         )
 
-    def test_cut_names_not_loaded(self):
+        capsys.readouterr()
+
+    def test_cut_names_not_loaded(self, capsys):
         spritesToIconsService = SpritesToIconsService(
             'config.test.ini', 
             SpriteToIconService('config.test.ini', NameFromNumberService('config.test.ini'))
@@ -79,6 +122,8 @@ class TestSpritesToIconsService:
                 'tests/resources/sprites_to_icons/some',
                 'regular'
             )
+
+        capsys.readouterr()
 
     def test_cut_non_existing_dir(self):
         spritesToIconsService = SpritesToIconsService(
