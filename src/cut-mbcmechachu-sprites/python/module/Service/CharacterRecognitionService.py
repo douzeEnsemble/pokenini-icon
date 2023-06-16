@@ -15,6 +15,10 @@ class CharacterRecognitionService:
 
     def read(self, numberFile):
         self.lettersPositions = {}
+
+        numberFilePath = Path(numberFile)
+        if not numberFilePath.is_file():
+            raise Exception
         
         for rootDir, curDir, symbols in os.walk(self.config.directories.symbols):
             for symbol in symbols:

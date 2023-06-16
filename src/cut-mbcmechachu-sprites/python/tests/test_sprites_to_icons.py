@@ -159,8 +159,6 @@ End with 90 done of 240 total
         
         yield
 
-        return
-        
         FileDir.removeFiles(cropped_sprite_dir)
         FileDir.removeFiles(split_sprite_dir)
         FileDir.removeFiles(number_dir)
