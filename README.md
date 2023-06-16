@@ -47,9 +47,11 @@ bash src/download-from-pokemon-db/cp.sh s
 cd src/cut-mbcmechachu-sprites
 docker build . --rm -t cut-mbcmechachu-sprites
 
-docker run -it --rm -v ./python/:/usr/src/app -v ./:/usr/src/resources cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py regular sample
+docker run -it --rm -v ./python/:/usr/src/app -v ./:/usr/src/resources cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py regular complete
+docker run -it --rm -v ./python/:/usr/src/app -v ./:/usr/src/resources cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py shiny complete
+```
 
-
+```
 docker run -it --rm -v ./python/:/usr/src/app -v ./:/usr/src/resources cut-mbcmechachu-sprites pytest --capture=tee-sys tests
 
 docker run -it --rm -v ./python/:/usr/src/app -v ./:/usr/src/resources cut-mbcmechachu-sprites bash
