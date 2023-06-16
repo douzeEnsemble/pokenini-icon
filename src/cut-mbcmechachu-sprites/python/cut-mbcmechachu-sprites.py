@@ -61,7 +61,7 @@ spritesToIconsService.cut(
     outputDir
 )
 
-# CleanTempFilesService(configFile).clean()
+CleanTempFilesService(configFile).clean()
 
 compareDirToListService = CompareDirToListService(configFile) 
 try:
