@@ -1,4 +1,4 @@
 class ThreeRowsArea:
 
-    columns = 80
+    columns = 100
     rows = 3

@@ -32,6 +32,7 @@ class SpriteToIconService:
             return False
 
         cleanedIconFile = self.cleanIconService.clean(iconFile, self.__dir().clean_icon_dir)
+        self.renameIconService.rename(cleanedIconFile, number, self.__dir().final_base_dir+'/n_'+targetDir)
         self.renameIconService.rename(cleanedIconFile, name, self.__dir().final_base_dir+'/'+targetDir)
 
         return True

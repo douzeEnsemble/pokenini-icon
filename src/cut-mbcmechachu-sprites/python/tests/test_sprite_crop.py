@@ -19,11 +19,11 @@ class TestCropSpriteService:
             'temp/test-sprites/'
         )
 
-        assert 75 == FileDir.countFiles('temp/test-sprites/')
+        assert 63 == FileDir.countFiles('temp/test-sprites/')
 
         path = Path('temp/test-sprites/sprite-0-0.png')
         assert True == path.is_file()
-        path = Path('temp/test-sprites/sprite-24-2.png')
+        path = Path('temp/test-sprites/sprite-20-2.png')
         assert True == path.is_file()
 
     def test_crop_sample(self):
@@ -34,7 +34,7 @@ class TestCropSpriteService:
             'temp/test-sprites/'
         )
 
-        assert 10 == FileDir.countFiles('temp/test-sprites/')
+        assert 11 == FileDir.countFiles('temp/test-sprites/')
 
         path = Path('temp/test-sprites/sprite-0-0.png')
         assert True == path.is_file()

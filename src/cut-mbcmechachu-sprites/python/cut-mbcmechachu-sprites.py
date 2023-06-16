@@ -17,7 +17,7 @@ configFile = 'config.ini'
 try:
     type = sys.argv[1]
 
-    typedConfig = TypedConfig('config.test.ini', 'regular')
+    typedConfig = TypedConfig(configFile, 'regular')
 
     spriteFile = typedConfig.resource_file
     outputDir = typedConfig.output_dir

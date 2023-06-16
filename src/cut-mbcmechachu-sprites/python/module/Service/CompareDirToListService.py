@@ -27,7 +27,8 @@ class CompareDirToListService:
         with open(listFile, newline = '') as csvFile:
             spamreader = csv.reader(csvFile, delimiter=',', quotechar='"')
             for row in spamreader:
-                self.pokemonList.append(row[1])
+                if row[1] not in self.pokemonList:
+                    self.pokemonList.append(row[1])
 
     def __loadIconList(self, iconsDir):
         self.iconList = os.listdir(iconsDir)

@@ -18,20 +18,20 @@ class TestConfig:
     def test_init(self):
         config = Config('config.test.ini')
 
-        assert 81 == config.image.paddingTop
-        assert 2 == config.image.paddingLeft
+        assert 281 == config.image.paddingTop
+        assert 0 == config.image.paddingLeft
 
         assert 69 == config.spriteFull.width
-        assert 97 == config.spriteFull.height
+        assert 96 == config.spriteFull.height
 
         assert 61 == config.spriteNumber.width
-        assert 10 == config.spriteNumber.height
+        assert 9 == config.spriteNumber.height
         assert 16 == config.spriteNumber.top
-        assert 8 == config.spriteNumber.left
+        assert 7 == config.spriteNumber.left
 
         assert 68 == config.spriteIcon.width
         assert 68 == config.spriteIcon.height
-        assert 28 == config.spriteIcon.top
+        assert 27 == config.spriteIcon.top
         assert 1 == config.spriteIcon.left
 
         assert 5 == config.spriteIconDot.width

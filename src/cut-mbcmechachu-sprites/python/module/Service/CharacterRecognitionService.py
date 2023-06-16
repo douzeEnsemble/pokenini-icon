@@ -52,12 +52,21 @@ class CharacterRecognitionService:
 
     def __getSymbolName(self, symbolFileName):
         match symbolFileName:
+            case 'M_':
+                return 'M'
+            case 'F_':
+                return 'F'
+            case '3_':
+                return '3'
+            case '9_':
+                return '9'
+            case 'qm':
+                return '?'
+            
             case '7dm':
                 return '7-'
             case 'dm_':
                 return '-'
-            case 'M_':
-                return 'M'
             case 'dm':
                 return '-'
             case 'qmqmqm':

@@ -14,34 +14,34 @@ from module.Util.FileDir import FileDir
 
 class TestBleachService:
     def test_split_number_red(self):
-        self.__assertPixelsCount('number-0-3', 83, 527)
+        self.__assertPixelsCount('number-0-3', 75, 474)
 
     def test_split_number_orange(self):
-        self.__assertPixelsCount('number-7-70', 139, 471)
+        self.__assertPixelsCount('number-5-79', 75, 474)
 
     def test_split_number_yellow(self):
-        self.__assertPixelsCount('number-9-13', 49, 561)
+        self.__assertPixelsCount('number-9-13', 47, 502)
 
     def test_split_number_green(self):
-        self.__assertPixelsCount('number-11-63', 78, 532)
+        self.__assertPixelsCount('number-11-63', 107, 442)
 
     def test_split_number_cyan(self):
-        self.__assertPixelsCount('number-16-48', 120, 490)
+        self.__assertPixelsCount('number-14-65', 81, 468)
 
     def test_split_number_blue(self):
-        self.__assertPixelsCount('number-17-33', 78, 532)
+        self.__assertPixelsCount('number-16-48', 69, 480)
 
     def test_split_number_purple(self):
-        self.__assertPixelsCount('number-20-2', 72, 538)
+        self.__assertPixelsCount('number-17-33', 47, 502)
 
     def test_split_number_pink(self):
-        self.__assertPixelsCount('number-20-38', 70, 540)
+        self.__assertPixelsCount('number-20-2', 48, 501)
 
     def test_split_number_white(self):
-        self.__assertPixelsCount('number-24-23', 114, 496)
+        self.__assertPixelsCount('number-20-38', 93, 456)
 
     def test_split_number_empty(self):
-        self.__assertPixelsCount('number-24-36', 0, 610)
+        self.__assertPixelsCount('number-24-23', 0, 549)
         
     def test_split_no_source(self):
         bleachService = BleachService('config.test.ini')

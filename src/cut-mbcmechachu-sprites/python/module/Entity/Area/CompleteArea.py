@@ -1,4 +1,4 @@
 class CompleteArea:
 
-    columns = 80
-    rows = 25
+    columns = 100
+    rows = 30

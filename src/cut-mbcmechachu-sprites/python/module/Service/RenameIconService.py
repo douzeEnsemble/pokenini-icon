@@ -1,4 +1,5 @@
 import os
+import shutil
 
 from pathlib import Path
 
@@ -16,4 +17,4 @@ class RenameIconService:
 
         newIconFile = targetDir+'/'+newFileName+iconFilePath.suffix
 
-        os.rename(iconFile, newIconFile)
+        shutil.copyfile(iconFile, newIconFile)

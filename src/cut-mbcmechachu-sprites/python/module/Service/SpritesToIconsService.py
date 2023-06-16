@@ -27,10 +27,14 @@ class SpritesToIconsService:
 
                     # Display only each 10 percent
                     if ((doneCount % (total / 10)) == 0):
-                        print(f'{doneCount}/{total}')
+                            print(f'{doneCount}/{total}')
 
             notDoneCount = total - doneCount
 
             print(f'End with {doneCount} done of {total} total')
 
-        return doneCount, notDoneCount
+            return doneCount, notDoneCount
+        
+        return 0, 0
+
+        

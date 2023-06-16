@@ -37,7 +37,7 @@ class TestNumberService:
         oldPath = Path('tests/resources/number/bw_number-20-2.png')
         assert False == oldPath.is_file()
 
-        assert 'U800' == result
+        assert '990' == result
         
         FileDir.removeFiles(tempDir)
         os.rmdir(tempDir)

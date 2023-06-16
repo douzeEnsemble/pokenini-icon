@@ -18,13 +18,13 @@ class TestSpritesToIconsService:
         spriteToIconService = SpriteToIconService('config.test.ini', nameFromNumberService)
         spritesToIconsService = SpritesToIconsService('config.test.ini', spriteToIconService)
         
-        assert (6, 76) == spritesToIconsService.cut(
-            'tests/resources/sprites_to_icons/3cols',
+        assert (2, 80) == spritesToIconsService.cut(
+            'tests/resources/sprites_to_icons/many',
             'regular'
         )
 
         out, err = capsys.readouterr()
-        assert 'Start for 82 sprites\nEnd with 6 done of 82 total\n' == out
+        assert 'Start for 82 sprites\nEnd with 2 done of 82 total\n' == out
         assert '' == err
 
     def test_cut_some(self, capsys):
@@ -33,13 +33,13 @@ class TestSpritesToIconsService:
         spriteToIconService = SpriteToIconService('config.test.ini', nameFromNumberService)
         spritesToIconsService = SpritesToIconsService('config.test.ini', spriteToIconService)
         
-        assert (6, 4) == spritesToIconsService.cut(
-            'tests/resources/sprites_to_icons/sample',
+        assert (2, 8) == spritesToIconsService.cut(
+            'tests/resources/sprites_to_icons/some',
             'regular'
         )
 
         out, err = capsys.readouterr()
-        assert 'Start for 10 sprites\n1/10\n2/10\n3/10\n4/10\n5/10\n6/10\nEnd with 6 done of 10 total\n' == out
+        assert 'Start for 10 sprites\n1/10\n2/10\nEnd with 2 done of 10 total\n' == out
         assert '' == err
 
     def test_cut_full(self, capsys):
@@ -48,13 +48,13 @@ class TestSpritesToIconsService:
         spriteToIconService = SpriteToIconService('config.test.ini', nameFromNumberService)
         spritesToIconsService = SpritesToIconsService('config.test.ini', spriteToIconService)
         
-        assert (91, 149) == spritesToIconsService.cut(
-            'tests/resources/sprites_to_icons/3rows',
+        assert (90, 150) == spritesToIconsService.cut(
+            'tests/resources/sprites_to_icons/full',
             'regular'
         )
 
         out, err = capsys.readouterr()
-        assert 'Start for 240 sprites\n24/240\n48/240\n72/240\nEnd with 91 done of 240 total\n' == out
+        assert 'Start for 240 sprites\n24/240\n48/240\n72/240\nEnd with 90 done of 240 total\n' == out
         assert '' == err
 
     def test_cut_no_names(self):
@@ -64,7 +64,7 @@ class TestSpritesToIconsService:
         spritesToIconsService = SpritesToIconsService('config.test.ini', spriteToIconService)
         
         assert (0, 10) == spritesToIconsService.cut(
-            'tests/resources/sprites_to_icons/sample',
+            'tests/resources/sprites_to_icons/some',
             'regular'
         )
 
@@ -76,7 +76,7 @@ class TestSpritesToIconsService:
         
         with pytest.raises(Exception) as e:
             spritesToIconsService.cut(
-                'tests/resources/sprites_to_icons/sample',
+                'tests/resources/sprites_to_icons/some',
                 'regular'
             )
 
@@ -86,7 +86,7 @@ class TestSpritesToIconsService:
                 SpriteToIconService('config.test.ini', NameFromNumberService('config.test.ini'))
             )
         
-        assert (0, 0) == spritesToIconsService.cut('/nexiste/pas','regular')
+        assert (0, 0) == spritesToIconsService.cut('/nexiste/pas', 'regular')
 
     def test_bad_config(self):
         with pytest.raises(Exception) as e:

@@ -1,4 +1,4 @@
 class ThreeColumnsArea:
 
     columns = 3
-    rows = 25
+    rows = 30

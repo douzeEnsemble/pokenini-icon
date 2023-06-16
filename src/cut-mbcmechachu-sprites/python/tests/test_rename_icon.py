@@ -20,11 +20,8 @@ class TestRenameIconService:
         pathNewFile = Path('temp/test-rename/douze.png')
         assert True == pathNewFile.is_file()
 
-        pathNewFile = Path('temp/douze.png')
-        assert False == pathNewFile.is_file()
-
         pathOldFile = Path('temp/c_icon-0-3.png')
-        assert False == pathOldFile.is_file()
+        assert True == pathOldFile.is_file()
 
     def test_rename_icon_in_new_dir(self):
         tempDir = 'temp/test-rename-bis/sub'
@@ -34,11 +31,8 @@ class TestRenameIconService:
         pathNewFile = Path(tempDir+'/douze.png')
         assert True == pathNewFile.is_file()
 
-        pathNewFile = Path('temp/douze.png')
-        assert False == pathNewFile.is_file()
-
         pathOldFile = Path('temp/c_icon-0-3.png')
-        assert False == pathOldFile.is_file()
+        assert True == pathOldFile.is_file()
         
         FileDir.removeDir('temp/test-rename-bis')
         

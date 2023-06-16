@@ -19,19 +19,19 @@ from module.Entity.Area.ThreeRowsArea import ThreeRowsArea
 
 class TestCropImageService:
     def test_crop_complete(self):
-        self.__assertCropSprite(CompleteArea(), 5520, 2425)
+        self.__assertCropSprite(CompleteArea(), 6900, 2880)
 
     def test_crop_line(self):
-        self.__assertCropSprite(LineArea(), 5520, 97)
+        self.__assertCropSprite(LineArea(), 6900, 96)
 
     def test_crop_sample(self):
-        self.__assertCropSprite(SampleArea(), 690, 97)
+        self.__assertCropSprite(SampleArea(), 690, 96)
 
     def test_crop_three_cols(self):
-        self.__assertCropSprite(ThreeColumnsArea(), 207, 2425)
+        self.__assertCropSprite(ThreeColumnsArea(), 207, 2880)
 
     def test_crop_three_rows(self):
-        self.__assertCropSprite(ThreeRowsArea(), 5520, 291)
+        self.__assertCropSprite(ThreeRowsArea(), 6900, 288)
 
     def test_crop_no_source(self):
         cropImageService = CropImageService('config.test.ini')

@@ -13,13 +13,13 @@ class TestAreaInput:
     def testComplete(self):
         area = AreaInput.get('complete')
 
-        assert 80 == area.columns
-        assert 25 == area.rows
+        assert 100 == area.columns
+        assert 30 == area.rows
 
     def testLine(self):
         area = AreaInput.get('line')
 
-        assert 80 == area.columns
+        assert 100 == area.columns
         assert 1 == area.rows
 
     def testSample(self):
@@ -32,12 +32,12 @@ class TestAreaInput:
         area = AreaInput.get('3cols')
 
         assert 3 == area.columns
-        assert 25 == area.rows
+        assert 30 == area.rows
 
     def testThreeRows(self):
         area = AreaInput.get('3rows')
 
-        assert 80 == area.columns
+        assert 100 == area.columns
         assert 3 == area.rows
 
     def testDefault(self):
