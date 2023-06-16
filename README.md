@@ -82,13 +82,6 @@ Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-82
 * Lokix number: **920** instead of 909
 * Pawmi number: **921** instead of 910
 
-```
-python cut-mbcmechachu-sprites.py ../resources/regulars.png r complete ../resources/pokemons-regular-list.csv
-python cut-mbcmechachu-sprites.py ../resources/shinies.png s complete ../resources/pokemons-shiny-list.csv
-```
-
-And see report_*.txt and errors.log files
-
 To copy cut images to the final dir
 
 ```
