@@ -7,3 +7,11 @@ src/cut-mbcmechachu-sprites/report_*.txt
 src/cut-mbcmechachu-sprites/errors.log
 
 src/placeholders/tmp/*
+
+pokenini-resources/
+
+__pycache__/
+*.pyc
+
+src/cut-mbcmechachu-sprites/python/temp/*
+src/cut-mbcmechachu-sprites/python/tmp/*
