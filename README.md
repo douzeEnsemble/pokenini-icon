@@ -44,17 +44,18 @@ bash src/download-from-pokemon-db/cp.sh s
 ##### Requirement
 
 ```
-cd src/cut-mbcmechachu-sprites
-docker build . --rm -t cut-mbcmechachu-sprites
+cd src/cut-mbcmechachu-sprites && docker build . --rm -t cut-mbcmechachu-sprites && cd ../..
 
-docker run -it --rm -v ./python/:/usr/src/app -v ./:/usr/src/resources cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py regular complete
-docker run -it --rm -v ./python/:/usr/src/app -v ./:/usr/src/resources cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py shiny complete
+docker run -it --rm cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py regular complete
+docker run -it --rm cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py shiny complete
 ```
 
-```
-docker run -it --rm -v ./python/:/usr/src/app -v ./:/usr/src/resources cut-mbcmechachu-sprites pytest --capture=tee-sys tests
+To avoid rebuilding to have update files, use `-v ./src/cut-mbcmechachu-sprites:/usr/src/app`
 
-docker run -it --rm -v ./python/:/usr/src/app -v ./:/usr/src/resources cut-mbcmechachu-sprites bash
+```
+docker run -it --rm -v ./:/usr/src/app cut-mbcmechachu-sprites pytest --capture=tee-sys tests
+
+docker run -it --rm -v ./:/usr/src/app cut-mbcmechachu-sprites bash
 ```
 
 Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-824897934 and https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-Shiny-910547529
@@ -85,8 +86,8 @@ Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-82
 To copy cut images to the final dir
 
 ```
-bash src/cut-mbcmechachu-sprites/cp.sh r
-bash src/cut-mbcmechachu-sprites/cp.sh s
+bash src/cut-mbcmechachu-sprites/cp.sh regular
+bash src/cut-mbcmechachu-sprites/cp.sh shiny
 ```
 
 #### Placeholders sprites

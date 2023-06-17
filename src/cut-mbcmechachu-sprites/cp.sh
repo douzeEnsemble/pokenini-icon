@@ -2,24 +2,7 @@
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-cat=$1
-case $cat in
-
-    "r")
-        file='regular'
-        sprites='regulars'
-        ;;
-
-    "s")
-        file='shiny'
-        sprites='shinies'
-        ;;
-
-    *)
-        echo "R or S you must choose"
-        exit
-        ;;
-esac
+file=$1
 
 startAll=`date +%s`
 
@@ -28,7 +11,7 @@ printf "Start %s on %s\n" "$file" "$dimension"
 i=0
 count=0
 countNew=0
-images="$SCRIPT_DIR/python/temp/final/small/$file/*.png"
+images="$SCRIPT_DIR/temp/final/small/$file/*.png"
 for image in $images
 do
     filename=${image##*/}

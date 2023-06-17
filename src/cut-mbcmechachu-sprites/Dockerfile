@@ -4,7 +4,7 @@ FROM python:3 AS app
 
 WORKDIR /usr/src/app
 
-COPY python/requirements.txt ./
+COPY requirements.txt ./
 
 RUN apt-get update \
     && apt-get install libmagickwand-dev
@@ -17,7 +17,7 @@ CMD ["bash"]
 
 FROM app AS app_dev
 
-COPY python/requirements-dev.txt ./
+COPY requirements-dev.txt ./
 
 RUN pip install --no-cache-dir -r requirements.txt -r requirements-dev.txt
 
