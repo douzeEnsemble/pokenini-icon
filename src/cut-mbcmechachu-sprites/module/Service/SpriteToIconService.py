@@ -4,6 +4,7 @@ from module.Service.NumberService import NumberService
 from module.Service.CleanIconService import CleanIconService
 from module.Service.RenameIconService import RenameIconService
 from module.Service.NameFromNumberService import NameFromNumberService
+from module.Service.ToWebpService import ToWebpService
 
 class SpriteToIconService:
 
@@ -17,6 +18,8 @@ class SpriteToIconService:
         self.numberService = NumberService(configFile)
         self.cleanIconService = CleanIconService(configFile)
         self.renameIconService = RenameIconService(configFile)
+        self.toWebpService = ToWebpService(configFile)
+
         self.nameFromNumberService = nameFromNumberService
 
     def transform(self, spriteFile, targetDir) -> bool:
@@ -32,8 +35,14 @@ class SpriteToIconService:
             return False
 
         cleanedIconFile = self.cleanIconService.clean(iconFile, self.__dir().clean_icon_dir)
-        self.renameIconService.rename(cleanedIconFile, number, self.__dir().final_base_dir+'/n_'+targetDir)
-        self.renameIconService.rename(cleanedIconFile, name, self.__dir().final_base_dir+'/'+targetDir)
+
+        numberedDir = self.__dir().final_base_dir+'/'+self.config.files.output_numbered_dir_prefix+targetDir
+        spritesDir = self.__dir().final_base_dir+'/'+targetDir
+
+        self.renameIconService.rename(cleanedIconFile, number, numberedDir)
+        result = self.renameIconService.rename(cleanedIconFile, name, spritesDir)
+        
+        self.toWebpService.convert(result)
 
         return True
 

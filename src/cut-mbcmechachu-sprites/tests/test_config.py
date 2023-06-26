@@ -47,6 +47,7 @@ class TestConfig:
         assert 'temp/test-final/small' == config.directories.final_base_dir
 
         assert 'temp/test-image.png' == config.files.cropped_image
+        assert 'numbered_' == config.files.output_numbered_dir_prefix
 
 class TestImageConfig:
     def test_init(self):
@@ -97,7 +98,7 @@ class TestDirectoriesConfig:
             '/dir/subdir/ssd/',
             '/dir/subdir/nd/',
             '/dir/subdir/cid/',
-            '/dir/subdir/fbd/'
+            '/dir/subdir/fbd/',
         )
 
         assert '/dir/subdir/s/' == directories.symbols
@@ -111,6 +112,8 @@ class TestFilesConfig:
     def test_init(self):
         files = FilesConfig(
             '/dir/subdir/ci.png',
+            'numbered_',
         )
 
         assert '/dir/subdir/ci.png' == files.cropped_image
+        assert 'numbered_' == files.output_numbered_dir_prefix

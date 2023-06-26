@@ -9,7 +9,7 @@ class SpritesToIconsService:
         self.config = Config(configFile)
         self.spriteToIconService = spriteToIconService
 
-    def cut(self, spritesDir, targetDir) -> tuple[int, int]:
+    def cut(self, spritesDir, type) -> tuple[int, int]:
         doneCount = 0
         notDoneCount = 0
         count = 0
@@ -20,7 +20,7 @@ class SpritesToIconsService:
             for file in files:
                 isDone = self.spriteToIconService.transform(
                     spritesDir+'/'+file, 
-                    targetDir
+                    type
                 )
 
                 if isDone:

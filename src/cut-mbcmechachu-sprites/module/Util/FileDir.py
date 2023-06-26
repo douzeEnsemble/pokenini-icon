@@ -4,10 +4,22 @@ from pathlib import Path
 
 class FileDir:
     @staticmethod
-    def countFiles(dir):
+    def countFiles(dir: str) -> int:
         count = 0
         for rootDir, curDir, files in os.walk(dir):
             count += len(files)
+
+        return count
+    
+    @staticmethod
+    def countFilesWithExtension(dir: str, ext: str) -> int:
+        count = 0
+        for rootDir, curDir, files in os.walk(dir):
+            for file in files:
+                path = Path(file)
+
+                if (path.suffix == ext):
+                    count += 1
 
         return count
     

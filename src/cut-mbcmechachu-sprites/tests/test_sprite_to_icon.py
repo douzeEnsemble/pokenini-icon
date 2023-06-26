@@ -23,9 +23,11 @@ class TestSpriteToIconService:
             'regular'
         )
 
-        iconPath = Path('temp/test-final/regular/venusaur-f.png')
-        
-        assert True == iconPath.is_file()
+        pngIconPath = Path('temp/test-final/regular/venusaur-f.png')
+        assert True == pngIconPath.is_file()
+
+        webpIconPath = Path('temp/test-final/regular/venusaur-f.webp')
+        assert True == webpIconPath.is_file()
 
     def test_transform_name_not_found(self):
         nameFromNumberService = NameFromNumberService('config.test.ini')

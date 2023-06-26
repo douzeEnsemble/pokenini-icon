@@ -58,7 +58,7 @@ spritesToIconsService = SpritesToIconsService(configFile, spriteToIconService)
 
 spritesToIconsService.cut(
     croppedSpriteDir,
-    outputDir
+    type
 )
 
 CleanTempFilesService(configFile).clean()

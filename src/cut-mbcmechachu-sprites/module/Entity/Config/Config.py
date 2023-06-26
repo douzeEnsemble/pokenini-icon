@@ -56,4 +56,5 @@ class Config:
 
         self.files = FilesConfig(
             config['Files'].get('cropped_image'),
+            config['Files'].get('output_numbered_dir_prefix'),
         )
