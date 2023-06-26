@@ -53,9 +53,9 @@ docker run -it --rm cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py sh
 To avoid rebuilding to have update files, use `-v ./src/cut-mbcmechachu-sprites:/usr/src/app`
 
 ```
-docker run -it --rm -v ./:/usr/src/app cut-mbcmechachu-sprites pytest --capture=tee-sys tests
+docker run -it --rm -v ./src/cut-mbcmechachu-sprites/:/usr/./src/app cut-mbcmechachu-sprites pytest --capture=tee-sys tests
 
-docker run -it --rm -v ./:/usr/src/app cut-mbcmechachu-sprites bash
+docker run -it --rm -v ./src/cut-mbcmechachu-sprites/:/usr/src/app cut-mbcmechachu-sprites bash
 ```
 
 Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-824897934 and https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-Shiny-910547529
