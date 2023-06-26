@@ -1,3 +1,4 @@
 Wand
+Pillow
 opencv-python-headless
 numpy

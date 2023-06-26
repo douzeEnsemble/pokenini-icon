@@ -46,11 +46,9 @@ bash src/download-from-pokemon-db/cp.sh s
 ```
 cd src/cut-mbcmechachu-sprites && docker build . --rm -t cut-mbcmechachu-sprites && cd ../..
 
-docker run -it --rm cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py regular complete
-docker run -it --rm cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py shiny complete
+docker run -it --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py regular complete
+docker run -it --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py shiny complete
 ```
-
-To avoid rebuilding to have update files, use `-v ./src/cut-mbcmechachu-sprites:/usr/src/app`
 
 ```
 docker run -it --rm -v ./src/cut-mbcmechachu-sprites/:/usr/./src/app cut-mbcmechachu-sprites pytest --capture=tee-sys tests
