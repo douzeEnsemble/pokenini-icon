@@ -32,11 +32,18 @@ bash src/download-from-pokemon-db/download-from-pokemondb.sh src/download-from-p
 
 And see report_*.txt and errors.log files
 
+To convert png inot webp
+
+```
+bash src/download-from-pokemon-db/convert.sh regular
+bash src/download-from-pokemon-db/convert.sh shiny
+```
+
 To copy downloaded images to the final dir
 
 ```
-bash src/download-from-pokemon-db/cp.sh r
-bash src/download-from-pokemon-db/cp.sh s
+bash src/download-from-pokemon-db/cp.sh big regular
+bash src/download-from-pokemon-db/cp.sh big shiny
 ```
 
 #### Cut MBCMechachu sprites
@@ -84,8 +91,8 @@ Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-82
 To copy cut images to the final dir
 
 ```
-bash src/cut-mbcmechachu-sprites/cp.sh regular
-bash src/cut-mbcmechachu-sprites/cp.sh shiny
+bash src/cut-mbcmechachu-sprites/cp.sh small regular
+bash src/cut-mbcmechachu-sprites/cp.sh small shiny
 ```
 
 #### Placeholders sprites

@@ -2,24 +2,8 @@
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-cat=$1
-case $cat in
-
-    "r")
-        file='regular'
-        sprites='regulars'
-        ;;
-
-    "s")
-        file='shiny'
-        sprites='shinies'
-        ;;
-
-    *)
-        echo "R or S you must choose"
-        exit
-        ;;
-esac
+size=$1
+file=$2
 
 startAll=`date +%s`
 
@@ -28,12 +12,11 @@ printf "Start %s on %s\n" "$file" "$dimension"
 i=0
 count=0
 countNew=0
-images="$SCRIPT_DIR/images/final/big/$file/*.png"
-for image in $images
+for image in "$SCRIPT_DIR/images/final/$size/$file"/*.{png,webp}
 do
     filename=${image##*/}
 
-    destinationFile="images/big/$file/$filename"
+    destinationFile="images/$size/$file/$filename"
 
     countDifference=99999999999
     if test -f "$destinationFile"
