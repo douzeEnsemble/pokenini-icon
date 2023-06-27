@@ -95,6 +95,14 @@ bash src/cut-mbcmechachu-sprites/cp.sh small regular
 bash src/cut-mbcmechachu-sprites/cp.sh small shiny
 ```
 
+#### Banners
+
+Convert .png to .webp
+
+```
+bash src/banner/convert.sh
+```
+
 #### Placeholders sprites
 
 ##### Requirement
