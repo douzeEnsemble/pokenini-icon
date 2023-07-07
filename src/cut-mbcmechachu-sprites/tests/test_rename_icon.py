@@ -15,7 +15,9 @@ from module.Util.FileDir import FileDir
 class TestRenameIconService:
     def test_rename_icon(self):
         renameIconService = RenameIconService('config.test.ini')
-        renameIconService.rename('temp/c_icon-0-3.png', 'douze', 'temp/test-rename')
+        result = renameIconService.rename('temp/c_icon-0-3.png', 'douze', 'temp/test-rename')
+
+        assert 'temp/test-rename/douze.png' == result
 
         pathNewFile = Path('temp/test-rename/douze.png')
         assert True == pathNewFile.is_file()
@@ -26,7 +28,9 @@ class TestRenameIconService:
     def test_rename_icon_in_new_dir(self):
         tempDir = 'temp/test-rename-bis/sub'
         renameIconService = RenameIconService('config.test.ini')
-        renameIconService.rename('temp/c_icon-0-3.png', 'douze', tempDir)
+        result = renameIconService.rename('temp/c_icon-0-3.png', 'douze', tempDir)
+
+        assert tempDir+'/douze.png' == result
 
         pathNewFile = Path(tempDir+'/douze.png')
         assert True == pathNewFile.is_file()

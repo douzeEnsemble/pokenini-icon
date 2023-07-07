@@ -13,7 +13,7 @@ class TestTypedConfig:
         typedConfig = TypedConfig('config.test.ini', 'regular')
 
         assert 'tests/resources/images/regulars.png' == typedConfig.resource_file
-        assert 'tests/resources/list/pokemons-regular-list.csv' == typedConfig.list_file
+        assert 'tests/resources/list/pokemons-list.csv' == typedConfig.list_file
         assert 'regular' == typedConfig.output_dir
 
     def test_type_not_defined(self):

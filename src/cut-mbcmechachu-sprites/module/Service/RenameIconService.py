@@ -18,3 +18,5 @@ class RenameIconService:
         newIconFile = targetDir+'/'+newFileName+iconFilePath.suffix
 
         shutil.copyfile(iconFile, newIconFile)
+
+        return newIconFile

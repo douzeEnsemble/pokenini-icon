@@ -32,11 +32,18 @@ bash src/download-from-pokemon-db/download-from-pokemondb.sh src/download-from-p
 
 And see report_*.txt and errors.log files
 
+To convert png inot webp
+
+```
+bash src/download-from-pokemon-db/convert.sh regular
+bash src/download-from-pokemon-db/convert.sh shiny
+```
+
 To copy downloaded images to the final dir
 
 ```
-bash src/download-from-pokemon-db/cp.sh r
-bash src/download-from-pokemon-db/cp.sh s
+bash src/download-from-pokemon-db/cp.sh big regular
+bash src/download-from-pokemon-db/cp.sh big shiny
 ```
 
 #### Cut MBCMechachu sprites
@@ -46,16 +53,14 @@ bash src/download-from-pokemon-db/cp.sh s
 ```
 cd src/cut-mbcmechachu-sprites && docker build . --rm -t cut-mbcmechachu-sprites && cd ../..
 
-docker run -it --rm cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py regular complete
-docker run -it --rm cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py shiny complete
+docker run -it --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py regular complete
+docker run -it --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py shiny complete
 ```
 
-To avoid rebuilding to have update files, use `-v ./src/cut-mbcmechachu-sprites:/usr/src/app`
-
 ```
-docker run -it --rm -v ./:/usr/src/app cut-mbcmechachu-sprites pytest --capture=tee-sys tests
+docker run -it --rm -v ./src/cut-mbcmechachu-sprites/:/usr/./src/app cut-mbcmechachu-sprites pytest --capture=tee-sys tests
 
-docker run -it --rm -v ./:/usr/src/app cut-mbcmechachu-sprites bash
+docker run -it --rm -v ./src/cut-mbcmechachu-sprites/:/usr/src/app cut-mbcmechachu-sprites bash
 ```
 
 Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-824897934 and https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-Shiny-910547529
@@ -86,8 +91,16 @@ Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-82
 To copy cut images to the final dir
 
 ```
-bash src/cut-mbcmechachu-sprites/cp.sh regular
-bash src/cut-mbcmechachu-sprites/cp.sh shiny
+bash src/cut-mbcmechachu-sprites/cp.sh small regular
+bash src/cut-mbcmechachu-sprites/cp.sh small shiny
+```
+
+#### Banners
+
+Convert .png to .webp
+
+```
+bash src/banner/convert.sh
 ```
 
 #### Placeholders sprites

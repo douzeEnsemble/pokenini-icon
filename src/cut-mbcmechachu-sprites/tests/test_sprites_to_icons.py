@@ -41,6 +41,12 @@ End with 2 done of 82 total
         assert expectedOut == out
         assert '' == err
 
+        assert 2 == FileDir.countFiles('temp/test-final/small/numbered_regular')
+        
+        assert 4 == FileDir.countFiles('temp/test-final/small/regular')
+        assert 2 == FileDir.countFilesWithExtension('temp/test-final/small/regular', '.png')
+        assert 2 == FileDir.countFilesWithExtension('temp/test-final/small/regular', '.webp')
+
     def test_cut_some(self, capsys):
         nameFromNumberService = NameFromNumberService('config.test.ini')
         nameFromNumberService.load('tests/resources/sprites_to_icons/some.csv')
@@ -70,6 +76,12 @@ End with 2 done of 10 total
         assert expectedOut == out
         assert '' == err
 
+        assert 2 == FileDir.countFiles('temp/test-final/small/numbered_regular')
+
+        assert 4 == FileDir.countFiles('temp/test-final/small/regular')
+        assert 2 == FileDir.countFilesWithExtension('temp/test-final/small/regular', '.png')
+        assert 2 == FileDir.countFilesWithExtension('temp/test-final/small/regular', '.webp')
+
     def test_cut_full(self, capsys):
         nameFromNumberService = NameFromNumberService('config.test.ini')
         nameFromNumberService.load('tests/resources/sprites_to_icons/full.csv')
@@ -97,6 +109,12 @@ End with 90 done of 240 total
         out, err = capsys.readouterr()
         assert expectedOut == out
         assert '' == err
+
+        assert 90 == FileDir.countFiles('temp/test-final/small/numbered_regular')
+        
+        assert 180 == FileDir.countFiles('temp/test-final/small/regular')
+        assert 90 == FileDir.countFilesWithExtension('temp/test-final/small/regular', '.png')
+        assert 90 == FileDir.countFilesWithExtension('temp/test-final/small/regular', '.webp')
 
     def test_cut_no_names(self, capsys):
         nameFromNumberService = NameFromNumberService('config.test.ini')

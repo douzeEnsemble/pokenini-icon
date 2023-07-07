@@ -2,7 +2,8 @@
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-file=$1
+size=$1
+file=$2
 
 startAll=`date +%s`
 
@@ -11,12 +12,11 @@ printf "Start %s on %s\n" "$file" "$dimension"
 i=0
 count=0
 countNew=0
-images="$SCRIPT_DIR/temp/final/small/$file/*.png"
-for image in $images
+for image in "$SCRIPT_DIR/temp/final/$size/$file"/*.{png,webp}
 do
     filename=${image##*/}
 
-    destinationFile="images/small/$file/$filename"
+    destinationFile="images/$size/$file/$filename"
 
     countDifference=99999999999
     if test -f "$destinationFile"

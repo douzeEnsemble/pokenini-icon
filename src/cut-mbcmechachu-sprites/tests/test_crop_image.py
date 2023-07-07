@@ -65,7 +65,7 @@ class TestCropImageService:
         cropImageService = CropImageService('config.test.ini')       
 
         cropImageService.crop(
-            '../resources/regulars.png',
+            'tests/resources/images/regulars.png',
             area,
             outputImage
         ) 

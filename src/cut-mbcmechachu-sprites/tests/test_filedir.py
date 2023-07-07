@@ -10,6 +10,17 @@ sys.path.append(parent)
 from module.Util.FileDir import FileDir
 
 class TestFileDir:
+    def testCountFiles(self):
+        assert 2 == FileDir.countFiles('tests/resources/count_dir/two')
+        assert 4 == FileDir.countFiles('tests/resources/count_dir/four')
+
+    def testCountFilesWithExtension(self):
+        assert 3 == FileDir.countFiles('tests/resources/count_dir/extensions')
+
+        assert 0 == FileDir.countFilesWithExtension('tests/resources/count_dir/extensions', 'txt')
+
+        assert 2 == FileDir.countFilesWithExtension('tests/resources/count_dir/extensions', '.txt')
+        assert 1 == FileDir.countFilesWithExtension('tests/resources/count_dir/extensions', '.md')
 
     def testRemoveFiles(self):
         try:
