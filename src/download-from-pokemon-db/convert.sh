@@ -19,6 +19,8 @@ do
     cwebp -quiet -q 100 -z 9 -m 6 "$image" -o "$destinationFile" 
     
     ((i+=1))
+
+    printf "%d\n" "$i"
 done
 
 runtime=$(((`date +%s`)-startAll))
