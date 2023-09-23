@@ -70,21 +70,20 @@ Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-82
 * Houndoom.F number: **229.00-F** instead of 299.00-F
 * Houndoom Mega number: **229.01** instead of 299.01
 * Kyogre number: **382.00** instead of 380.00
+* Kyogre Spin-Off number: **382.00-S** instead of 380.00-S
 * Kyogre Primal number: **382.01** instead of 380.01
 * Rayquaza number: **384.00** instead of 380.00
 * Rayquaza number: **384.01** instead of 380.01
-* Lucario number: **448.00** instead of 448.00-F
-* Arceurs (Fly) number: **493.02** instead of 479.02
 * Axew number: **610** instead of 600
 * Cryogonal number: **615** instead of 515
 * Shelmet number: **616** instead of 516
 * Accelgor number: **617** instead of 517
 * Stunfisk number: **618.00** instead of 518.00
-* Stunfisk (Galarian) number: **619.01** instead of 519.01
+* Stunfisk (Galarian) number: **618.01** instead of 518.01
 * Mienfoo number: **619** instead of 519
-* Pumpkaboo (Small) number: **710.01.00** small dash
-* Xerneas number: **716.00** instead of 516.00
+* Gourgeist number: **711.03.01** instead of 711.03.011
 * Magearna number: **801.00.00** instead of 800.00.00
+* Magearna number: **801.00.01** instead of 800.00.01
 * Lokix number: **920** instead of 909
 * Pawmi number: **921** instead of 910
 
