@@ -1481,6 +1481,7 @@ calyrex-shadow-rider,calyrex-shadow-rider
 wyrdeer,wyrdeer
 kleavor,kleavor
 ursaluna,ursaluna
+ursaluna-bloodmoon,ursaluna-bloodmoon
 basculegion,basculegion
 basculegion-female,basculegion-f
 sneasler,sneasler
@@ -1602,3 +1603,15 @@ koraidon,koraidon
 miraidon,miraidon
 walking-wake,walking-wake
 iron-leaves,iron-leaves
+dipplin,dipplin
+poltchageist-artisan,poltchageist-artisan
+poltchageist-counterfeit,poltchageist-counterfeit
+sinistcha--artisan,sinistcha--artisan
+sinistcha-counterfeit,sinistcha-counterfeit
+okidogi,okidogi
+munkidori,munkidori
+fezandipiti,fezandipiti
+ogerpon-teal-mask,ogerpon-teal-mask
+ogerpon-wellspring-mask,ogerpon-wellspring-mask
+ogerpon-hearthflame-mask,ogerpon-hearthflame-mask
+ogerpon-cornerstone-mask,ogerpon-cornerstone-mask
