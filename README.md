@@ -32,7 +32,7 @@ bash src/download-from-pokemon-db/download-from-pokemondb.sh src/download-from-p
 
 And see report_*.txt and errors.log files
 
-To convert png inot webp
+To convert png to webp
 
 ```
 bash src/download-from-pokemon-db/convert.sh regular
