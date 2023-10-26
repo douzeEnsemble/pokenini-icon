@@ -1604,9 +1604,9 @@ miraidon,miraidon
 walking-wake,walking-wake
 iron-leaves,iron-leaves
 dipplin,dipplin
-poltchageist-artisan,poltchageist-artisan
+poltchageist-counterfeit,poltchageist-artisan
 poltchageist-counterfeit,poltchageist-counterfeit
-sinistcha--artisan,sinistcha--artisan
+sinistcha-counterfeit,sinistcha-artisan
 sinistcha-counterfeit,sinistcha-counterfeit
 okidogi,okidogi
 munkidori,munkidori
