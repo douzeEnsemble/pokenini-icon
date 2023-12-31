@@ -50,6 +50,7 @@ bash src/download-from-pokemon-db/cp.sh big shiny
 
 ##### Requirement
 
+En direct
 ```
 cd src/cut-mbcmechachu-sprites && docker build . --rm -t cut-mbcmechachu-sprites && cd ../..
 
@@ -57,9 +58,13 @@ docker run -it --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechach
 docker run -it --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py shiny complete
 ```
 
+Pour les tests
 ```
 docker run -it --rm -v ./src/cut-mbcmechachu-sprites/:/usr/./src/app cut-mbcmechachu-sprites pytest --capture=tee-sys tests
+```
 
+Pour le mode cli
+```
 docker run -it --rm -v ./src/cut-mbcmechachu-sprites/:/usr/src/app cut-mbcmechachu-sprites bash
 ```
 

@@ -63,7 +63,7 @@ while read line; do
     if [ "$downloadRegulars" = true ]
     then
         if [ ! -f "$SCRIPT_DIR/images/temp/home/regular/$targetFileName.png" ]; then
-            wget --no-cache -q "https://img.pokemondb.net/sprites/home/normal/$sourceFileName.png" -P "$SCRIPT_DIR/images/temp/home/regular/"
+            wget --no-cache -q "https://img.pokemondb.net/sprites/home/normal/1x/$sourceFileName.png" -P "$SCRIPT_DIR/images/temp/home/regular/"
 
             if [ -f "$SCRIPT_DIR/images/temp/home/regular/$sourceFileName.png" ] && [ "$sourceFileName" != "$targetFileName" ]; then
                 mv "$SCRIPT_DIR/images/temp/home/regular/$sourceFileName.png" "$SCRIPT_DIR/images/temp/home/regular/$targetFileName.png"
@@ -78,7 +78,7 @@ while read line; do
     if [ "$downloadShinies" = true ]
     then
         if [ ! -f "$SCRIPT_DIR/images/temp/home/shiny/$targetFileName.png" ]; then
-            wget --no-cache -q "https://img.pokemondb.net/sprites/home/shiny/$sourceFileName.png" -P "$SCRIPT_DIR/images/temp/home/shiny/"
+            wget --no-cache -q "https://img.pokemondb.net/sprites/home/shiny/1x/$sourceFileName.png" -P "$SCRIPT_DIR/images/temp/home/shiny/"
 
             if [ -f "$SCRIPT_DIR/images/temp/home/shiny/$sourceFileName.png" ] && [ "$sourceFileName" != "$targetFileName" ]; then
                 mv "$SCRIPT_DIR/images/temp/home/shiny/$sourceFileName.png" "$SCRIPT_DIR/images/temp/home/shiny/$targetFileName.png"
