@@ -14,8 +14,14 @@ class BleachService:
                 fill='white', 
                 fuzz=0.10
             )
+
             img.opaque_paint(
-                target='#112037', 
+                target='#373737', 
+                fill='black', 
+                fuzz=0.10
+            )
+            img.opaque_paint(
+                target='#3A3737', 
                 fill='black', 
                 fuzz=0.10
             )

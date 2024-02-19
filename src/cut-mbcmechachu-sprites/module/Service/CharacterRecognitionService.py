@@ -60,8 +60,22 @@ class CharacterRecognitionService:
                 return 'M'
             case 'F_':
                 return 'F'
+            case '1_':
+                return '1'
+            case '2_':
+                return '2'
             case '3_':
                 return '3'
+            case '4_':
+                return '4'
+            case '5_':
+                return '5'
+            case '6_':
+                return '6'
+            case '7_':
+                return '7'
+            case '8_':
+                return '8'
             case '9_':
                 return '9'
             case 'qm':

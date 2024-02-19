@@ -57,41 +57,27 @@ docker run -it --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechach
 docker run -it --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py shiny complete
 ```
 
-```
-docker run -it --rm -v ./src/cut-mbcmechachu-sprites/:/usr/./src/app cut-mbcmechachu-sprites pytest --capture=tee-sys tests
-
-docker run -it --rm -v ./src/cut-mbcmechachu-sprites/:/usr/src/app cut-mbcmechachu-sprites bash
-```
-
 Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-824897934 and https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-Shiny-910547529
 
 /!\ You must fix
-* Houndoom-M number: **229.00-M** instead of 299.00-M
-* Houndoom.F number: **229.00-F** instead of 299.00-F
-* Houndoom Mega number: **229.01** instead of 299.01
-* Kyogre number: **382.00** instead of 380.00
-* Kyogre Spin-Off number: **382.00-S** instead of 380.00-S
-* Kyogre Primal number: **382.01** instead of 380.01
-* Rayquaza number: **384.00** instead of 380.00
-* Rayquaza number: **384.01** instead of 380.01
-* Axew number: **610** instead of 600
-* Cryogonal number: **615** instead of 515
-* Shelmet number: **616** instead of 516
-* Accelgor number: **617** instead of 517
-* Stunfisk number: **618.00** instead of 518.00
-* Stunfisk (Galarian) number: **618.01** instead of 518.01
-* Mienfoo number: **619** instead of 519
-* Gourgeist number: **711.03.01** instead of 711.03.011
-* Magearna number: **801.00.00** instead of 800.00.00
-* Magearna number: **801.00.01** instead of 800.00.01
-* Lokix number: **920** instead of 909
-* Pawmi number: **921** instead of 910
+* Abomasnow-F number: **0460.00-F** instead of 0450.00-F
+
+**Missing**
+* Gardevoir-Mega
 
 To copy cut images to the final dir
 
 ```
 bash src/cut-mbcmechachu-sprites/cp.sh small regular
 bash src/cut-mbcmechachu-sprites/cp.sh small shiny
+```
+
+**Testing**
+
+```
+docker run -it --rm -v ./src/cut-mbcmechachu-sprites/:/usr/./src/app cut-mbcmechachu-sprites pytest --capture=tee-sys tests
+
+docker run -it --rm -v ./src/cut-mbcmechachu-sprites/:/usr/src/app cut-mbcmechachu-sprites bash
 ```
 
 #### Banners
