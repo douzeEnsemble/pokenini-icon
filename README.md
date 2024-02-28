@@ -60,6 +60,8 @@ docker run -it --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechach
 Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-824897934 and https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-Shiny-910547529
 
 /!\ You must fix
+* Drifblin (Go Halloween Mischief) number: **0426.00** instead of 0426.01
+* Buneary (Go Flower Crown) number: **0427.00** instead of 0427.01
 * Abomasnow-F number: **0460.00-F** instead of 0450.00-F
 
 **Missing**

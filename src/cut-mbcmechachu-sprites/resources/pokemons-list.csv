@@ -311,7 +311,7 @@
 0198.00-M,murkrow
 0198.00-F,murkrow-f
 0199.00.00,slowking
-0199.00.01,slowking-galar
+0199.01,slowking-galar
 0200.00,misdreavus
 0201.00,unown-a
 0201.01,unown-b
@@ -740,7 +740,7 @@
 0481.00,mesprit
 0482.00,azelf
 0483.00.00,dialga
-0483.00.01,dialga-origin
+0483.01.00,dialga-origin
 0484.00,palkia
 0484.01,palkia-origin
 0485.00,heatran
@@ -1096,7 +1096,7 @@
 0722.00,rowlet
 0723.00,dartrix
 0724.00.00,decidueye
-0724.00.01,decidueye-hisui
+0724.01,decidueye-hisui
 0725.00,litten
 0726.00,torracat
 0727.00,incineroar
