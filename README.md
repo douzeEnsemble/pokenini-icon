@@ -65,7 +65,7 @@ Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-82
 * Abomasnow-F number: **0460.00-F** instead of 0450.00-F
 
 **Missing**
-* Gardevoir-Mega
+* Gardevoir-Mega (0282.00.01)
 
 To copy cut images to the final dir
 
