@@ -53,19 +53,19 @@ bash src/download-from-pokemon-db/cp.sh big shiny
 ```
 cd src/cut-mbcmechachu-sprites && docker build . --rm -t cut-mbcmechachu-sprites && cd ../..
 
+rm -Rf src/cut-mbcmechachu-sprites/temp/*
+
 docker run -it --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py regular complete
 docker run -it --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py shiny complete
 ```
 
 Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-824897934 and https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-Shiny-910547529
 
-/!\ You must fix
-* Drifblin (Go Halloween Mischief) number: **0426.00** instead of 0426.01
-* Buneary (Go Flower Crown) number: **0427.00** instead of 0427.01
+**Need fixing**
 * Abomasnow-F number: **0460.00-F** instead of 0450.00-F
 
 **Missing**
-* Gardevoir-Mega (0282.00.01)
+* None
 
 To copy cut images to the final dir
 
