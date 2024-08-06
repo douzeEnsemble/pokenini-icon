@@ -8,7 +8,8 @@ startAll=`date +%s`
 
 printf "Start %s on %s\n" "$file" "$dimension"
 
-i=0
+iTotal=0
+iDone=0
 images="$SCRIPT_DIR/images/final/big/$file/*.png"
 for image in $images
 do
@@ -16,15 +17,18 @@ do
 
     destinationFile="$filename.webp"
 
-    cwebp -quiet -q 100 -z 9 -m 6 "$image" -o "$destinationFile" 
-    
-    ((i+=1))
+    if [ ! -f "$destinationFile" ]; then
+        cwebp -quiet -q 100 -z 9 -m 6 "$image" -o "$destinationFile" 
+        ((iDone+=1))
 
-    printf "%d\n" "$i"
+        printf "%d\n" "$iDone"
+    fi
+    
+    ((iTotal+=1))
 done
 
 runtime=$(((`date +%s`)-startAll))
 
-printf "Done %d %s, in %ds\n" "$i" "$file" $runtime
+printf "Done %d of %d %s, in %ds\n" "$iDone" "$iTotal" "$file" $runtime
 
 exit
