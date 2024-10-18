@@ -14,3 +14,5 @@ __pycache__/
 *.pyc
 
 src/cut-mbcmechachu-sprites/temp/*
+png_files.txt
+webp_files.txt
