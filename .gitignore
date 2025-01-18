@@ -16,3 +16,4 @@ __pycache__/
 src/cut-mbcmechachu-sprites/temp/*
 png_files.txt
 webp_files.txt
+wget-log
