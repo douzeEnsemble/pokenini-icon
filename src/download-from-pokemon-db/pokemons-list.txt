@@ -1073,11 +1073,11 @@ klefki,klefki
 phantump,phantump
 trevenant,trevenant
 pumpkaboo-small,pumpkaboo-small
-pumpkaboo,pumpkaboo
+pumpkaboo-average,pumpkaboo-average
 pumpkaboo-large,pumpkaboo-large
 pumpkaboo-super,pumpkaboo-super
 gourgeist-small,gourgeist-small
-gourgeist,gourgeist
+gourgeist-average,gourgeist-average
 gourgeist-large,gourgeist-large
 gourgeist-super,gourgeist-super
 bergmite,bergmite
@@ -1124,6 +1124,7 @@ oricorio-sensu,oricorio-sensu
 cutiefly,cutiefly
 ribombee,ribombee
 ribombee,ribombee
+rockruff,rockruff
 rockruff,rockruff
 lycanroc-midday,lycanroc-midday
 lycanroc-midnight,lycanroc-midnight
@@ -1290,10 +1291,10 @@ centiskorch,centiskorch
 centiskorch-gigantamax,centiskorch-gmax
 clobbopus,clobbopus
 grapploct,grapploct
-sinistea,sinistea
-sinistea,sinistea
-polteageist,polteageist
-polteageist,polteageist
+sinistea,sinistea-phony
+sinistea,sinistea-antique
+polteageist,polteageist-phony
+polteageist,polteageist-antique
 hatenna,hatenna
 hattrem,hattrem
 hatterene,hatterene
@@ -1604,10 +1605,10 @@ miraidon,miraidon
 walking-wake,walking-wake
 iron-leaves,iron-leaves
 dipplin,dipplin
-poltchageist,poltchageist-artisan
 poltchageist,poltchageist-counterfeit
-sinistcha,sinistcha-artisan
-sinistcha,sinistcha-counterfeit
+poltchageist,poltchageist-artisan
+sinistcha,sinistcha-unremarkable
+sinistcha,sinistcha-masterpiece
 okidogi,okidogi
 munkidori,munkidori
 fezandipiti,fezandipiti
@@ -1625,3 +1626,5 @@ terapagos-normal,terapagos-normal
 terapagos-terastal,terapagos-terastal
 terapagos-stellar,terapagos-stellar
 pecharunt,pecharunt
+
+
