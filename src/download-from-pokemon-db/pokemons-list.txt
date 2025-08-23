@@ -55,6 +55,7 @@ pikachu-unova-cap,pikachu-unova-cap
 pikachu-kalos-cap,pikachu-kalos-cap
 pikachu-alola-cap,pikachu-alola-cap
 pikachu-partner-cap,pikachu-partner-cap
+pikachu-world-cap,pikachu-world-cap
 pikachu-gigantamax,pikachu-gmax
 raichu,raichu
 raichu-f,raichu-f
@@ -124,6 +125,7 @@ machamp-gigantamax,machamp-gmax
 bellsprout,bellsprout
 weepinbell,weepinbell
 victreebel,victreebel
+victreebel-mega,victreebel-mega
 tentacool,tentacool
 tentacruel,tentacruel
 geodude,geodude
@@ -247,6 +249,7 @@ moltres-galarian,moltres-galar
 dratini,dratini
 dragonair,dragonair
 dragonite,dragonite
+dragonite-mega,dragonite-mega
 mewtwo,mewtwo
 mewtwo-mega-x,mewtwo-mega-x
 mewtwo-mega-y,mewtwo-mega-y
@@ -961,10 +964,10 @@ keldeo-resolute,keldeo-resolute
 meloetta,meloetta
 meloetta-pirouette,meloetta-pirouette
 genesect,genesect
-genesect-shock,genesect-electric
-genesect-burn,genesect-fire
-genesect-chill,genesect-ice
-genesect-douse,genesect-water
+genesect-shock,genesect-shock-drive
+genesect-burn,genesect-burn-drive
+genesect-chill,genesect-chill-drive
+genesect-douse,genesect-douse-drive
 chespin,chespin
 quilladin,quilladin
 chesnaught,chesnaught
@@ -1131,6 +1134,7 @@ lycanroc-midnight,lycanroc-midnight
 lycanroc-dusk,lycanroc-dusk
 wishiwashi,wishiwashi
 wishiwashi-school,wishiwashi-school
+wishiwashi-school,wishiwashi-school
 mareanie,mareanie
 toxapex,toxapex
 mudbray,mudbray
@@ -1198,6 +1202,7 @@ bruxish,bruxish
 drampa,drampa
 dhelmise,dhelmise
 jangmo-o,jangmo-o
+hakamo-o,hakamo-o
 hakamo-o,hakamo-o
 kommo-o,kommo-o
 kommo-o,kommo-o
@@ -1550,9 +1555,9 @@ rellor,rellor
 rabsca,rabsca
 flittle,flittle
 espathra,espathra
-tinkatink-f,tinkatink
-tinkatuff-f,tinkatuff
-tinkaton-f,tinkaton
+tinkatink,tinkatink
+tinkatuff,tinkatuff
+tinkaton,tinkaton
 wiglett,wiglett
 wugtrio,wugtrio
 bombirdier,bombirdier
@@ -1626,5 +1631,3 @@ terapagos-normal,terapagos-normal
 terapagos-terastal,terapagos-terastal
 terapagos-stellar,terapagos-stellar
 pecharunt,pecharunt
-
-

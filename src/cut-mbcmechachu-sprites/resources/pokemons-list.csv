@@ -54,6 +54,7 @@
 0025.02.04-♂,pikachu-kalos-cap
 0025.02.05-♂,pikachu-alola-cap
 0025.02.06-♂,pikachu-partner-cap
+0025.02.07-♂,pikachu-world-cap
 0025.00.01,pikachu-gmax
 0026.00.00-♂,raichu
 0026.00.00-♀,raichu-f
@@ -123,6 +124,7 @@
 0069.00,bellsprout
 0070.00,weepinbell
 0071.00,victreebel
+0071.01,victreebel-mega
 0072.00,tentacool
 0073.00,tentacruel
 0074.00,geodude
@@ -245,6 +247,7 @@
 0147.00,dratini
 0148.00,dragonair
 0149.00,dragonite
+0149.01,dragonite-mega
 0150.00.00,mewtwo
 0150.00.01,mewtwo-mega-x
 0150.00.02,mewtwo-mega-y
@@ -959,10 +962,10 @@
 0648.00,meloetta
 0648.01,meloetta-pirouette
 0649.00,genesect
-0649.02,genesect-electric
-0649.03,genesect-fire
-0649.04,genesect-ice
-0649.01,genesect-water
+0649.02,genesect-shock-drive
+0649.03,genesect-burn-drive
+0649.04,genesect-chill-drive
+0649.01,genesect-douse-drive
 0650.00,chespin
 0651.00,quilladin
 0652.00,chesnaught
