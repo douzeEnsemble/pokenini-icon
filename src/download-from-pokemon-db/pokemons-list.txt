@@ -43,9 +43,9 @@ arbok,arbok
 pikachu,pikachu
 pikachu-f,pikachu-f
 pikachu-cosplay,pikachu-cosplay
-pikachu-rock-star,pikachu-rock-star
+pikachu-rockstar,pikachu-rock-star
 pikachu-belle,pikachu-belle
-pikachu-pop-star,pikachu-pop-star
+pikachu-popstar,pikachu-pop-star
 pikachu-phd,pikachu-phd
 pikachu-libre,pikachu-libre
 pikachu-original-cap,pikachu-original-cap
@@ -1065,6 +1065,7 @@ amaura,amaura
 aurorus,aurorus
 sylveon,sylveon
 hawlucha,hawlucha
+hawlucha-mega,hawlucha-mega
 dedenne,dedenne
 carbink,carbink
 goomy,goomy
@@ -1288,8 +1289,8 @@ arrokuda,arrokuda
 barraskewda,barraskewda
 toxel,toxel
 toxtricity-amped,toxtricity-amped
-toxtricity-low-key,toxtricity-low-key
 toxtricity-gigantamax,toxtricity-gmax
+toxtricity-low-key,toxtricity-low-key
 toxtricity-gigantamax,toxtricity-gmax
 sizzlipede,sizzlipede
 centiskorch,centiskorch
@@ -1631,3 +1632,8 @@ terapagos-normal,terapagos-normal
 terapagos-terastal,terapagos-terastal
 terapagos-stellar,terapagos-stellar
 pecharunt,pecharunt
+
+
+
+
+
