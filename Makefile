@@ -21,27 +21,30 @@ stop: ## Stop the project
 	docker stop pokenini-icon
 
 ## —— Pokemon DB ————————————————————————————————————————————————————————————————
-pdb_dl:
+.PHONY        : pdb_dl pdb_convert pdb_copy
+pdb_dl: ## Download from pokemondb.net
 	rm -f src/download-from-pokemon-db/errors.log
 	rm -f src/download-from-pokemon-db/reports*
 	bash src/download-from-pokemon-db/download-from-pokemondb.sh src/download-from-pokemon-db/pokemons-list.txt rs 2> src/download-from-pokemon-db/errors.log
-pdb_convert:
+pdb_convert: ## Convert images into .webp
 	bash src/download-from-pokemon-db/convert.sh regular
 	bash src/download-from-pokemon-db/convert.sh shiny
-pdb_copy:
+pdb_copy: ## Copy images to the images/ folder
 	bash src/download-from-pokemon-db/cp.sh big regular
 	bash src/download-from-pokemon-db/cp.sh big shiny
 
 ## —— MBCMechachu ————————————————————————————————————————————————————————————————
-mbc_prepare:
+.PHONY        : mbc_prepare mbc_cut mbc_copy
+mbc_prepare: ## Prepare the Docker image
 	docker build -f src/cut-mbcmechachu-sprites/Dockerfile src/cut-mbcmechachu-sprites --rm -t cut-mbcmechachu-sprites
-mbc_cut:
+mbc_cut: ## Cut the sprites into individual images
 	docker run -it --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py regular complete
 	docker run -it --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py shiny complete
-mbc_copy:
+mbc_copy: ## Copy images to the images/ folder
 	bash src/cut-mbcmechachu-sprites/cp.sh small regular
 	bash src/cut-mbcmechachu-sprites/cp.sh small shiny
 
 ## —— Images ————————————————————————————————————————————————————————————————
-img_convert:
+.PHONY        : img_convert
+img_convert: ## Convert all .png images in images/ to .webp
 	bash src/convert_png_webp.sh
