@@ -47,4 +47,8 @@ mbc_copy: ## Copy images to the images/ folder
 ## —— Images ————————————————————————————————————————————————————————————————
 .PHONY        : img_convert
 img_convert: ## Convert all .png images in images/ to .webp
-	bash src/convert_png_webp.sh
+	bash src/convert_png_webp/convert_png_webp.sh
+
+.PHONY        : placeholders
+placeholders: ## Make places holders for missing images
+	bash src/placeholders/make_them_all.sh
