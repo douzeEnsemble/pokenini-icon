@@ -54,11 +54,11 @@ special_download_pokemon() {
 
 special_pokemons=(
     "pikachu-cosplay|pikachu-cosplay|omega-ruby-alpha-sapphire/dex"
-    "pikachu-rockstar|pikachu-rock-star|go"
+    # "pikachu-rockstar|pikachu-rock-star|go"
     "pikachu-popstar|pikachu-pop-star|go"
     "pikachu-phd|pikachu-phd|go"
     "pikachu-libre|pikachu-libre|go"
-    "pichu-spiky-eared|pichu-spiky-eared|heartgold-soulsilver"
+    # "pichu-spiky-eared|pichu-spiky-eared|heartgold-soulsilver"
     "floette-eternal|floette-eternal|ultra-sun-ultra-moon"
 )
 
@@ -103,6 +103,13 @@ while read line; do
 
     if [ "$downloadShinies" = true ]
     then
+        case "$sourceFileName" in
+            minior-*)
+                echo "Arrêt car sourceFileName commence par 'minior-' ($sourceFileName)"
+                break
+                ;;
+        esac
+
         if [ ! -f "$SCRIPT_DIR/images/temp/home/shiny/$targetFileName.png" ]; then
             wget --no-cache -q "https://img.pokemondb.net/sprites/home/shiny/$sourceFileName.png" -P "$SCRIPT_DIR/images/temp/home/shiny/"
 

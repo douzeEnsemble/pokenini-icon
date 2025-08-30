@@ -247,7 +247,7 @@
 0147.00,dratini
 0148.00,dragonair
 0149.00,dragonite
-0149.01,dragonite-mega
+0149.00.01,dragonite-mega
 0150.00.00,mewtwo
 0150.00.01,mewtwo-mega-x
 0150.00.02,mewtwo-mega-y
@@ -1063,6 +1063,7 @@
 0699.00,aurorus
 0700.00,sylveon
 0701.00,hawlucha
+0701.01,hawlucha-mega
 0702.00,dedenne
 0703.00,carbink
 0704.00,goomy
@@ -1273,8 +1274,8 @@
 0847.00,barraskewda
 0848.00,toxel
 0849.00.00,toxtricity-amped
-0849.01.00,toxtricity-low-key
 0849.00.01,toxtricity-gmax
+0849.01.00,toxtricity-low-key
 0849.01.01,toxtricity-gmax
 0850.00,sizzlipede
 0851.00,centiskorch
