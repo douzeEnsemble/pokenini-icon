@@ -10,7 +10,7 @@ printf "Start %s on %s\n" "$file" "$dimension"
 
 iTotal=0
 iDone=0
-images="$SCRIPT_DIR/images/final/big/$file/*.png"
+images="$SCRIPT_DIR/images/temp/$file/*.png"
 for image in $images
 do
     filename=${image%.*}

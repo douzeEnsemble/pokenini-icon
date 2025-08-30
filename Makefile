@@ -30,8 +30,8 @@ pdb_convert: ## Convert images into .webp
 	bash src/download-from-pokemon-db/convert.sh regular
 	bash src/download-from-pokemon-db/convert.sh shiny
 pdb_copy: ## Copy images to the images/ folder
-	bash src/download-from-pokemon-db/cp.sh big regular
-	bash src/download-from-pokemon-db/cp.sh big shiny
+	bash src/download-from-pokemon-db/cp.sh regular
+	bash src/download-from-pokemon-db/cp.sh shiny
 
 ## —— MBCMechachu ————————————————————————————————————————————————————————————————
 .PHONY        : mbc_prepare mbc_cut mbc_copy

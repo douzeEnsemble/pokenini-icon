@@ -34,40 +34,10 @@ case $cat in
         ;;
 esac
 
-special_download_pokemon() {
-    local remote_name="$1"
-    local local_name="$2"
-    local base_url="https://img.pokemondb.net/sprites/$3"
-
-    echo $base_url/normal/$remote_name.png;
-
-    if [ "$downloadRegulars" = true ] && [ ! -f "$SCRIPT_DIR/images/temp/others/regular/$local_name.png" ]; then
-        wget --no-cache "$base_url/normal/$remote_name.png" -O "$SCRIPT_DIR/images/temp/others/regular/$local_name.png"
-        sed -i "/^$remote_name,/d" "$SCRIPT_DIR/report_failed_regular.txt"
-    fi
-
-    if [ "$downloadShinies" = true ] && [ ! -f "$SCRIPT_DIR/images/temp/others/shiny/$local_name.png" ]; then
-        wget --no-cache "$base_url/shiny/$remote_name.png" -O "$SCRIPT_DIR/images/temp/others/shiny/$local_name.png"
-        sed -i "/^$remote_name,/d" "$SCRIPT_DIR/report_failed_shiny.txt"
-    fi
-}
-
-special_pokemons=(
-    "pikachu-cosplay|pikachu-cosplay|omega-ruby-alpha-sapphire/dex"
-    # "pikachu-rockstar|pikachu-rock-star|go"
-    "pikachu-popstar|pikachu-pop-star|go"
-    "pikachu-phd|pikachu-phd|go"
-    "pikachu-libre|pikachu-libre|go"
-    # "pichu-spiky-eared|pichu-spiky-eared|heartgold-soulsilver"
-    "floette-eternal|floette-eternal|ultra-sun-ultra-moon"
-)
-
 # Downloads
 ## Create needed directories
-mkdir -p "$SCRIPT_DIR/images/temp/home/regular"
-mkdir -p "$SCRIPT_DIR/images/temp/home/shiny"
-mkdir -p "$SCRIPT_DIR/images/temp/others/regular"
-mkdir -p "$SCRIPT_DIR/images/temp/others/shiny"
+mkdir -p "$SCRIPT_DIR/images/temp/regular"
+mkdir -p "$SCRIPT_DIR/images/temp/shiny"
 
 echo '' > "$SCRIPT_DIR/report_done.txt"
 echo '' > "$SCRIPT_DIR/report_failed_regular.txt"
@@ -84,41 +54,36 @@ while read line; do
     IFS=',' read -a data <<< "$line"
 
     sourceFileName=${data[0]}
-    targetFileName=${data[1]}
+    sourceDirName=${data[1]}
+    targetFileName=${data[2]}
+
+    if [ -z "$sourceFileName" ] || [ -z "$sourceDirName" ] || [ -z "$targetFileName" ]
+    then
+        continue
+    fi
 
     if [ "$downloadRegulars" = true ]
     then
-        if [ ! -f "$SCRIPT_DIR/images/temp/home/regular/$targetFileName.png" ]; then
-            wget --no-cache -q "https://img.pokemondb.net/sprites/home/normal/$sourceFileName.png" -P "$SCRIPT_DIR/images/temp/home/regular/"
-
-            if [ -f "$SCRIPT_DIR/images/temp/home/regular/$sourceFileName.png" ] && [ "$sourceFileName" != "$targetFileName" ]; then
-                mv "$SCRIPT_DIR/images/temp/home/regular/$sourceFileName.png" "$SCRIPT_DIR/images/temp/home/regular/$targetFileName.png"
-            fi
+        if [ ! -f "$SCRIPT_DIR/images/temp/regular/$targetFileName.png" ]; then
+            wget --no-cache -q "https://img.pokemondb.net/sprites/$sourceDirName/normal/$sourceFileName.png" \
+                -O "$SCRIPT_DIR/images/temp/regular/$targetFileName.png"
         fi
 
-        if [ ! -f "$SCRIPT_DIR/images/temp/home/regular/$targetFileName.png" ]; then
+        if [ ! -s "$SCRIPT_DIR/images/temp/regular/$targetFileName.png" ]; then
+            rm  "$SCRIPT_DIR/images/temp/regular/$targetFileName.png"
             echo $line >> "$SCRIPT_DIR/report_failed_regular.txt"
         fi
     fi
 
     if [ "$downloadShinies" = true ]
     then
-        case "$sourceFileName" in
-            minior-*)
-                echo "Arrêt car sourceFileName commence par 'minior-' ($sourceFileName)"
-                break
-                ;;
-        esac
-
-        if [ ! -f "$SCRIPT_DIR/images/temp/home/shiny/$targetFileName.png" ]; then
-            wget --no-cache -q "https://img.pokemondb.net/sprites/home/shiny/$sourceFileName.png" -P "$SCRIPT_DIR/images/temp/home/shiny/"
-
-            if [ -f "$SCRIPT_DIR/images/temp/home/shiny/$sourceFileName.png" ] && [ "$sourceFileName" != "$targetFileName" ]; then
-                mv "$SCRIPT_DIR/images/temp/home/shiny/$sourceFileName.png" "$SCRIPT_DIR/images/temp/home/shiny/$targetFileName.png"
-            fi
+        if [ ! -f "$SCRIPT_DIR/images/temp/shiny/$targetFileName.png" ]; then
+            wget --no-cache -q "https://img.pokemondb.net/sprites/$sourceDirName/shiny/$sourceFileName.png" \
+                -O "$SCRIPT_DIR/images/temp/shiny/$targetFileName.png"
         fi
 
-        if [ ! -f "$SCRIPT_DIR/images/temp/home/shiny/$targetFileName.png" ]; then
+        if [ ! -s "$SCRIPT_DIR/images/temp/shiny/$targetFileName.png" ]; then
+            rm  "$SCRIPT_DIR/images/temp/shiny/$targetFileName.png"
             echo $line >> "$SCRIPT_DIR/report_failed_shiny.txt"
         fi
     fi
@@ -136,29 +101,6 @@ while read line; do
 
     ((i+=1))
 done < $list
-
-# Specials
-for entry in "${special_pokemons[@]}"; do
-    remote_name="${entry%%|*}"
-    rest="${entry#*|}"
-    local_name="${rest%%|*}"
-    url="${rest#*|}"
-    special_download_pokemon "$remote_name" "$local_name" "$url"
-done
-
-# Copy
-if [ "$downloadRegulars" = true ]
-then
-    mkdir -p "$SCRIPT_DIR/images/final/big/regular"
-    cp -R --update=none "$SCRIPT_DIR/images/temp/home/regular"/* "$SCRIPT_DIR/images/final/big/regular/"
-    cp -R --update=none "$SCRIPT_DIR/images/temp/others/regular"/* "$SCRIPT_DIR/images/final/big/regular/"
-fi
-if [ "$downloadShinies" = true ]
-then
-    mkdir -p "$SCRIPT_DIR/images/final/big/shiny"
-    cp -R --update=none "$SCRIPT_DIR/images/temp/home/shiny"/* "$SCRIPT_DIR/images/final/big/shiny"
-    cp -R --update=none "$SCRIPT_DIR/images/temp/others/shiny"/* "$SCRIPT_DIR/images/final/big/shiny"
-fi
 
 runtime=$(((`date +%s`)-startAll))
 
