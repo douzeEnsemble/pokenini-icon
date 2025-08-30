@@ -51,4 +51,5 @@ img_convert: ## Convert all .png images in images/ to .webp
 
 .PHONY        : placeholders
 placeholders: ## Make places holders for missing images
-	bash src/placeholders/make_them_all.sh
+	bash src/placeholders/make_them_all.sh b
+	bash src/placeholders/make_them_all.sh s
