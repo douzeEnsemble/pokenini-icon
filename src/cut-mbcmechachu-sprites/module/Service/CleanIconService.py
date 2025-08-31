@@ -22,6 +22,7 @@ class CleanIconService:
 
             actualBackgroundColor = self.__getFirstNonDotPixelColor(iconFile)
 
+            # Remove the dot by drawing a rectangle with the background color
             with Drawing() as draw:
                 draw.fill_color = actualBackgroundColor
                 draw.rectangle(
@@ -32,6 +33,7 @@ class CleanIconService:
                 )
                 draw(img)
             
+            # Make the background color fully transparent
             img.transparent_color(actualBackgroundColor, alpha=0.0, fuzz=0.10)
 
             img.save(filename=cleanIconFile)
