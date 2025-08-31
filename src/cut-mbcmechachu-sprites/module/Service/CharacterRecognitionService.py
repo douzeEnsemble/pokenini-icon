@@ -30,12 +30,13 @@ class CharacterRecognitionService:
         symbolPath = Path(symbol)
         symbolFilename = symbolPath.name.replace(symbolPath.suffix, '')
         symbolName = self.__getSymbolName(symbolFilename)
-
+                
         numberImage = cv2.imread(numberFile)
         symbolImage = cv2.imread(self.config.directories.symbols+'/'+symbol)
 
         result = cv2.matchTemplate(numberImage, symbolImage, cv2.TM_CCOEFF_NORMED)
         location = np.where(result >= 0.99)
+
         for point in location[1]:
             self.lettersPositions[point] = symbolName
 
@@ -56,38 +57,7 @@ class CharacterRecognitionService:
 
     def __getSymbolName(self, symbolFileName):
         match symbolFileName:
-            case 'M_':
-                return 'M'
-            case 'F_':
-                return 'F'
-            case '1_':
-                return '1'
-            case '2_':
-                return '2'
-            case '3_':
-                return '3'
-            case '4_':
-                return '4'
-            case '5_':
-                return '5'
-            case '6_':
-                return '6'
-            case '7_':
-                return '7'
-            case '8_':
-                return '8'
-            case '9_':
-                return '9'
             case 'qm':
                 return '?'
-            
-            case '7dm':
-                return '7-'
-            case 'dm_':
-                return '-'
-            case 'dm':
-                return '-'
-            case 'qmqmqm':
-                return '???'
             case _:
                 return symbolFileName
