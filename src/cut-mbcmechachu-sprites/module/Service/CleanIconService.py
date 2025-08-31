@@ -22,7 +22,7 @@ class CleanIconService:
             img.background_color = Color('transparent')
 
             with Drawing() as draw:
-                draw.fill_color = self.__getFirstNonDotPixelColor(iconFile)
+                draw.fill_color = actualBackgroundColor
                 draw.rectangle(
                     self.config.spriteIconDot.left,
                     self.config.spriteIconDot.top,
@@ -31,7 +31,7 @@ class CleanIconService:
                 )
                 draw(img)
             
-            img.transparent_color(self.__getFirstNonDotPixelColor(iconFile), alpha=0.0, fuzz=0.10)
+            img.transparent_color(actualBackgroundColor, alpha=0.0, fuzz=0.10)
 
             img.save(filename=cleanIconFile)
 
