@@ -18,8 +18,9 @@ class CleanIconService:
         cleanIconFile = targetDir+'/c_'+iconFilePath.name
 
         with Image(filename=iconFile) as img:
-            img.alpha_channel = True
             img.background_color = Color('transparent')
+
+            actualBackgroundColor = self.__getFirstNonDotPixelColor(iconFile)
 
             with Drawing() as draw:
                 draw.fill_color = actualBackgroundColor
