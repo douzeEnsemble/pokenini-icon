@@ -58,6 +58,8 @@
 0025.00.01,pikachu-gmax
 0026.00.00-♂,raichu
 0026.00.00-♀,raichu-f
+0026.00.00.01,raichu-mega-x
+0026.00.00.02,raichu-mega-y
 0026.01,raichu-alola
 0027.00,sandshrew
 0027.01,sandshrew-alola
@@ -71,6 +73,7 @@
 0034.00,nidoking
 0035.00,clefairy
 0036.00,clefable
+0036.00,clefable-mega
 0037.00.00,vulpix
 0037.01,vulpix-alola
 0038.00.00,ninetales
@@ -202,6 +205,7 @@
 0119.00-♀,seaking-f
 0120.00,staryu
 0121.00,starmie
+0121.00,starmie-mega
 0122.00,mr-mime
 0122.01,mr-mime-galar
 0123.00-♂,scyther
@@ -256,6 +260,7 @@
 0153.00,bayleef
 0154.00-♂,meganium
 0154.00-♀,meganium-f
+0154.00-♀,meganium-mega
 0155.00,cyndaquil
 0156.00,quilava
 0157.00,typhlosion
@@ -263,6 +268,7 @@
 0158.00,totodile
 0159.00,croconaw
 0160.00,feraligatr
+0160.00,feraligatr-mega
 0161.00,sentret
 0162.00,furret
 0163.00,hoothoot
@@ -387,6 +393,7 @@
 0225.00,delibird
 0226.00,mantine
 0227.00,skarmory
+0227.00,skarmory-mega
 0228.00,houndour
 0229.00-♂,houndoom
 0229.00-♀,houndoom-f
@@ -733,6 +740,7 @@
 0476.00,probopass
 0477.00,dusknoir
 0478.00,froslass
+0478.00,froslass-mega
 0479.00,rotom
 0479.01,rotom-heat
 0479.02,rotom-wash
@@ -782,6 +790,7 @@
 0498.00,tepig
 0499.00,pignite
 0500.00,emboar
+0500.00,emboar-mega
 0501.00,oshawott
 0502.00,dewott
 0503.00,samurott
@@ -814,6 +823,7 @@
 0528.00,swoobat
 0529.00,drilbur
 0530.00,excadrill
+0530.00,excadrill-mega
 0531.00,audino
 0531.01,audino-mega
 0532.00,timburr
@@ -830,6 +840,7 @@
 0543.00,venipede
 0544.00,whirlipede
 0545.00,scolipede
+0545.00,scolipede-mega
 0546.00,cottonee
 0547.00,whimsicott
 0548.00,petilil
@@ -852,6 +863,7 @@
 0558.00,crustle
 0559.00,scraggy
 0560.00,scrafty
+0560.00,scrafty-mega
 0561.00,sigilyph
 0562.00,yamask
 0562.01,yamask-galar
@@ -908,11 +920,13 @@
 0602.00,tynamo
 0603.00,eelektrik
 0604.00,eelektross
+0604.00,eelektross-mega
 0605.00,elgyem
 0606.00,beheeyem
 0607.00,litwick
 0608.00,lampent
 0609.00,chandelure
+0609.00,chandelure-mega
 0610.00,axew
 0611.00,fraxure
 0612.00,haxorus
@@ -969,13 +983,16 @@
 0650.00,chespin
 0651.00,quilladin
 0652.00,chesnaught
+0652.01,chesnaught-mega
 0653.00,fennekin
 0654.00,braixen
 0655.00,delphox
+0655.01,delphox-mega
 0656.00,froakie
 0657.00,frogadier
 0658.00,greninja
 0658.01,greninja-ash
+0658.02,greninja-mega
 0659.00,bunnelby
 0660.00,diggersby
 0661.00,fletchling
@@ -1006,6 +1023,7 @@
 0667.00,litleo
 0668.00-♂,pyroar
 0668.00-♀,pyroar-f
+0668.00-♂,pyroar-mega
 0669.00,flabebe-red
 0669.03,flabebe-orange
 0669.01,flabebe-yellow
@@ -1017,6 +1035,7 @@
 0670.04,floette-white
 0670.02,floette-blue
 0670.05,floette-eternal
+0670.05,floette-eternal-mega
 0671.00,florges-red
 0671.03,florges-orange
 0671.01,florges-yellow
@@ -1049,10 +1068,13 @@
 0685.00,slurpuff
 0686.00,inkay
 0687.00,malamar
+0687.01,malamar-mega
 0688.00,binacle
 0689.00,barbaracle
+0689.00,barbaracle-mega
 0690.00,skrelp
 0691.00,dragalge
+0691.00,dragalge-mega
 0692.00,clauncher
 0693.00,clawitzer
 0694.00,helioptile
@@ -1092,6 +1114,7 @@
 0718.00,zygarde
 0718.01,zygarde-10
 0718.02,zygarde-complete
+0718.00,zygarde-mega
 0719.00,diancie
 0719.01,diancie-mega
 0720.00,hoopa
@@ -1188,6 +1211,7 @@
 0778.01,mimikyu
 0779.00,bruxish
 0780.00,drampa
+0780.00,drampa-mega
 0781.00,dhelmise
 0782.00,jangmo-o
 0783.00,hakamo-o
@@ -1366,6 +1390,7 @@
 0869.00.08.06,alcremie-rainbow-swirl-flower
 0869.00.08.07,alcremie-rainbow-swirl-ribbon
 0870.00,falinks
+0870.00,falinks-mega
 0871.00,pincurchin
 0872.00,snom
 0873.00,frosmoth

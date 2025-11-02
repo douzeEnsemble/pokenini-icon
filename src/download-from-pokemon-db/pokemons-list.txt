@@ -57,6 +57,8 @@ pikachu-world-cap,home,pikachu-world-cap
 pikachu-gigantamax,home,pikachu-gmax
 raichu,home,raichu
 raichu-f,home,raichu-f
+raichu-mega-x,home,raichu-mega-x
+raichu-mega-y,home,raichu-mega-y
 raichu-alolan,home,raichu-alola
 sandshrew,home,sandshrew
 sandshrew-alolan,home,sandshrew-alola
@@ -70,6 +72,7 @@ nidorino,home,nidorino
 nidoking,home,nidoking
 clefairy,home,clefairy
 clefable,home,clefable
+clefable-mega,home,clefable-mega
 vulpix,home,vulpix
 vulpix-alolan,home,vulpix-alola
 ninetales,home,ninetales
@@ -202,6 +205,7 @@ seaking,home,seaking
 seaking-f,home,seaking-f
 staryu,home,staryu
 starmie,home,starmie
+starmie-mega,home,starmie-mega
 mr-mime,home,mr-mime
 mr-mime-galarian,home,mr-mime-galar
 scyther,home,scyther
@@ -256,6 +260,7 @@ chikorita,home,chikorita
 bayleef,home,bayleef
 meganium,home,meganium
 meganium-f,home,meganium-f
+meganium-mega,home,meganium-mega
 cyndaquil,home,cyndaquil
 quilava,home,quilava
 typhlosion,home,typhlosion
@@ -263,6 +268,7 @@ typhlosion-hisuian,home,typhlosion-hisui
 totodile,home,totodile
 croconaw,home,croconaw
 feraligatr,home,feraligatr
+feraligatr-mega,home,feraligatr-mega
 sentret,home,sentret
 furret,home,furret
 hoothoot,home,hoothoot
@@ -386,6 +392,7 @@ octillery-f,home,octillery-f
 delibird,home,delibird
 mantine,home,mantine
 skarmory,home,skarmory
+skarmory-mega,home,skarmory-mega
 houndour,home,houndour
 houndoom,home,houndoom
 houndoom-f,home,houndoom-f
@@ -732,6 +739,7 @@ gallade-mega,home,gallade-mega
 probopass,home,probopass
 dusknoir,home,dusknoir
 froslass,home,froslass
+froslass-mega,home,froslass-mega
 rotom,home,rotom
 rotom-heat,home,rotom-heat
 rotom-wash,home,rotom-wash
@@ -780,6 +788,7 @@ serperior,home,serperior
 tepig,home,tepig
 pignite,home,pignite
 emboar,home,emboar
+emboar-mega,home,emboar-mega
 oshawott,home,oshawott
 dewott,home,dewott
 samurott,home,samurott
@@ -812,6 +821,7 @@ woobat,home,woobat
 swoobat,home,swoobat
 drilbur,home,drilbur
 excadrill,home,excadrill
+excadrill-mega,home,excadrill-mega
 audino,home,audino
 audino-mega,home,audino-mega
 timburr,home,timburr
@@ -828,6 +838,7 @@ leavanny,home,leavanny
 venipede,home,venipede
 whirlipede,home,whirlipede
 scolipede,home,scolipede
+scolipede-mega,home,scolipede-mega
 cottonee,home,cottonee
 whimsicott,home,whimsicott
 petilil,home,petilil
@@ -850,6 +861,7 @@ dwebble,home,dwebble
 crustle,home,crustle
 scraggy,home,scraggy
 scrafty,home,scrafty
+scrafty-mega,home,scrafty-mega
 sigilyph,home,sigilyph
 yamask,home,yamask
 yamask-galarian,home,yamask-galar
@@ -906,11 +918,13 @@ klinklang,home,klinklang
 tynamo,home,tynamo
 eelektrik,home,eelektrik
 eelektross,home,eelektross
+eelektross-mega,home,eelektross-mega
 elgyem,home,elgyem
 beheeyem,home,beheeyem
 litwick,home,litwick
 lampent,home,lampent
 chandelure,home,chandelure
+chandelure-mega,home,chandelure-mega
 axew,home,axew
 fraxure,home,fraxure
 haxorus,home,haxorus
@@ -967,13 +981,16 @@ genesect-douse,home,genesect-douse-drive
 chespin,home,chespin
 quilladin,home,quilladin
 chesnaught,home,chesnaught
+chesnaught-mega,home,chesnaught-mega
 fennekin,home,fennekin
 braixen,home,braixen
 delphox,home,delphox
+delphox-mega,home,delphox-mega
 froakie,home,froakie
 frogadier,home,frogadier
 greninja,home,greninja
 greninja-ash,home,greninja-ash
+greninja-mega,home,greninja-mega
 bunnelby,home,bunnelby
 diggersby,home,diggersby
 fletchling,home,fletchling
@@ -1004,6 +1021,7 @@ vivillon-poke-ball,home,vivillon-poke-ball
 litleo,home,litleo
 pyroar,home,pyroar
 pyroar-f,home,pyroar-f
+pyroar-mega,home,pyroar-mega
 flabebe-red,home,flabebe-red
 flabebe-orange,home,flabebe-orange
 flabebe-yellow,home,flabebe-yellow
@@ -1015,6 +1033,7 @@ floette-yellow,home,floette-yellow
 floette-white,home,floette-white
 floette-blue,home,floette-blue
 floette-eternal,x-y,floette-eternal
+floette-eternal-mega,home,floette-eternal-mega
 florges-red,home,florges-red
 florges-orange,home,florges-orange
 florges-yellow,home,florges-yellow
@@ -1047,10 +1066,13 @@ swirlix,home,swirlix
 slurpuff,home,slurpuff
 inkay,home,inkay
 malamar,home,malamar
+malamar-mega,home,malamar-mega
 binacle,home,binacle
 barbaracle,home,barbaracle
+barbaracle-mega,home,barbaracle-mega
 skrelp,home,skrelp
 dragalge,home,dragalge
+dragalge-mega,home,dragalge-mega
 clauncher,home,clauncher
 clawitzer,home,clawitzer
 helioptile,home,helioptile
@@ -1090,6 +1112,7 @@ yveltal,home,yveltal
 zygarde,home,zygarde
 zygarde-10,home,zygarde-10
 zygarde-complete,home,zygarde-complete
+zygarde-mega,home,zygarde-mega
 diancie,home,diancie
 diancie-mega,home,diancie-mega
 hoopa,home,hoopa
@@ -1197,6 +1220,7 @@ mimikyu,home,mimikyu
 mimikyu-busted,home,mimikyu
 bruxish,home,bruxish
 drampa,home,drampa
+drampa-mega,home,drampa-mega
 dhelmise,home,dhelmise
 jangmo-o,home,jangmo-o
 hakamo-o,home,hakamo-o
@@ -1439,6 +1463,7 @@ alcremie-gigantamax,home,alcremie-gmax
 alcremie-rainbow-swirl-ribbon,home,alcremie-rainbow-swirl-ribbon
 alcremie-gigantamax,home,alcremie-gmax
 falinks,home,falinks
+falinks-mega,home,falinks-mega
 pincurchin,home,pincurchin
 snom,home,snom
 frosmoth,home,frosmoth
