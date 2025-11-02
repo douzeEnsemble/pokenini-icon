@@ -95,7 +95,7 @@ bash src/convert_png_webp.sh
 ##### Requirement
 
 ```
-sudo apt-get update && sudo apt-get install imagemagick
+sudo apt-get update && sudo apt-get install webp imagemagick
 ```
 
 ```
