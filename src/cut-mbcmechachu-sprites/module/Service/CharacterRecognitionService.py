@@ -57,6 +57,8 @@ class CharacterRecognitionService:
 
     def __getSymbolName(self, symbolFileName):
         match symbolFileName:
+            case 'dot':
+                return '.'
             case 'qm':
                 return '?'
             case _:
