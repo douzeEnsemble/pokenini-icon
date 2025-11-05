@@ -42,9 +42,9 @@ do
         continue
     fi
 
-    convert $iconPath matte:- | convert - "$destinationDirPath/$filename"
+    convert $iconPath +profile '*' matte:- | convert - "$destinationDirPath/$filename"
 
-    convert "$destinationDirPath/$filename" -alpha off -transparent white -alpha on "$destinationDirPath/$filename"
+    convert "$destinationDirPath/$filename" -colorspace RGB -alpha off -transparent white -alpha on "$destinationDirPath/$filename"
 
     ((i+=1))
     ((count+=1))
