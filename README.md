@@ -63,6 +63,8 @@ Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-82
 
 **Need fixing**
 * Abomasnow-F number: **0460.00-F** instead of 0450.00-F
+* Greninja-Mega number: **0658.00.02** instead of 0658.00.01
+* Urshifu-Single-Strike number: **0892.00.00** instead of 0892.00.00.01
 
 **Missing**
 * None
