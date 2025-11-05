@@ -25,6 +25,7 @@ class SplitSpriteService:
 
     def __cutNumber(self, original, outputDir, spriteCode):
         with original.clone() as copy:
+            copy.strip()
             cropWidth = self.config.spriteNumber.width
             cropHeight = self.config.spriteNumber.height
             cropLeft = self.config.spriteNumber.left
