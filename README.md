@@ -59,7 +59,7 @@ docker run -it --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechach
 docker run -it --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py shiny complete
 ```
 
-Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-824897934 and https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-Shiny-910547529
+Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-824897934#image-1 and https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-824897934#image-2
 
 **Need fixing**
 * Abomasnow-F number: **0460.00-F** instead of 0450.00-F
