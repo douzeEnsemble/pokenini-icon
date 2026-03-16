@@ -563,8 +563,10 @@ duskull,home,duskull
 dusclops,home,dusclops
 tropius,home,tropius
 chimecho,home,chimecho
+chimecho-mega,home,chimecho-mega
 absol,home,absol
 absol-mega,home,absol-mega
+absol-mega-z,home,absol-mega-z
 wynaut,home,wynaut
 snorunt,home,snorunt
 glalie,home,glalie
@@ -619,6 +621,7 @@ staravia,home,staravia
 staravia-f,home,staravia-f
 staraptor,home,staraptor
 staraptor-f,home,staraptor-f
+staraptor-mega,home,staraptor-mega
 bidoof,home,bidoof
 bidoof-f,home,bidoof-f
 bibarel,home,bibarel
@@ -695,6 +698,7 @@ munchlax,home,munchlax
 riolu,home,riolu
 lucario,home,lucario
 lucario-mega,home,lucario-mega
+lucario-mega-z,home,lucario-mega-z
 hippopotas,home,hippopotas
 hippopotas-f,home,hippopotas-f
 hippowdon,home,hippowdon
@@ -754,6 +758,7 @@ dialga-origin,home,dialga-origin
 palkia,home,palkia
 palkia-origin,home,palkia-origin
 heatran,home,heatran
+heatran-mega,home,heatran-mega
 regigigas,home,regigigas
 giratina,home,giratina
 giratina-origin,home,giratina-origin
@@ -761,6 +766,7 @@ cresselia,home,cresselia
 phione,home,phione
 manaphy,home,manaphy
 darkrai,home,darkrai
+darkrai-mega,home,darkrai-mega
 shaymin,home,shaymin
 shaymin-sky,home,shaymin-sky
 arceus,home,arceus
@@ -940,6 +946,7 @@ mienshao,home,mienshao
 druddigon,home,druddigon
 golett,home,golett
 golurk,home,golurk
+golurk-mega,home,golurk-mega
 pawniard,home,pawniard
 bisharp,home,bisharp
 bouffalant,home,bouffalant
@@ -1056,6 +1063,7 @@ furfrou-pharaoh,home,furfrou-pharaoh
 espurr,home,espurr
 meowstic,home,meowstic
 meowstic-female,home,meowstic-f
+meowstic-mega,home,meowstic-mega
 honedge,home,honedge
 doublade,home,doublade
 aegislash,home,aegislash
@@ -1140,6 +1148,7 @@ vikavolt,home,vikavolt
 vikavolt,home,vikavolt
 crabrawler,home,crabrawler
 crabominable,home,crabominable
+crabominable-mega,home,crabominable-mega
 oricorio-baile,home,oricorio-baile
 oricorio-pom-pom,home,oricorio-pom-pom
 oricorio-pau,home,oricorio-pau
@@ -1180,6 +1189,7 @@ oranguru,home,oranguru
 passimian,home,passimian
 wimpod,home,wimpod
 golisopod,home,golisopod
+golisopod-mega,home,golisopod-mega
 sandygast,home,sandygast
 palossand,home,palossand
 pyukumuku,home,pyukumuku
@@ -1248,6 +1258,7 @@ necrozma-dawn-wings,home,necrozma-dawn
 necrozma-ultra,home,necrozma-ultra
 magearna,home,magearna
 magearna-original,home,magearna-original
+magearna-mega,home,magearna-mega
 marshadow,home,marshadow
 poipole,home,poipole
 naganadel,home,naganadel
@@ -1573,6 +1584,7 @@ toedscruel,home,toedscruel
 klawf,home,klawf
 capsakid,home,capsakid
 scovillain,home,scovillain
+scovillain-mega,home,scovillain-mega
 rellor,home,rellor
 rabsca,home,rabsca
 flittle,home,flittle
@@ -1592,6 +1604,7 @@ cyclizar,home,cyclizar
 orthworm,home,orthworm
 glimmet,home,glimmet
 glimmora,home,glimmora
+glimmora-mega,home,glimmora-mega
 greavard,home,greavard
 houndstone,home,houndstone
 flamigo,home,flamigo
@@ -1601,8 +1614,11 @@ kingambit,home,kingambit
 veluza,home,veluza
 dondozo,home,dondozo
 tatsugiri-curly,home,tatsugiri-curly
+tatsugiri-curly-mega,home,tatsugiri-curly-mega
 tatsugiri-droopy,home,tatsugiri-droopy
+tatsugiri-droopy-mega,home,tatsugiri-droopy-mega
 tatsugiri-stretchy,home,tatsugiri-stretchy
+tatsugiri-stretchy-mega,home,tatsugiri-stretchy-mega
 great-tusk,home,great-tusk
 scream-tail,home,scream-tail
 brute-bonnet,home,brute-bonnet
@@ -1653,4 +1669,3 @@ terapagos-normal,home,terapagos-normal
 terapagos-terastal,home,terapagos-terastal
 terapagos-stellar,home,terapagos-stellar
 pecharunt,home,pecharunt
-

@@ -564,8 +564,10 @@
 0356.00,dusclops
 0357.00,tropius
 0358.00,chimecho
+0358.01,chimecho-mega
 0359.00.00,absol
 0359.00.01,absol-mega
+0359.00.02,absol-mega-z
 0360.00,wynaut
 0361.00,snorunt
 0362.00,glalie
@@ -620,6 +622,7 @@
 0397.00-♀,staravia-f
 0398.00-♂,staraptor
 0398.00-♀,staraptor-f
+0398.01,staraptor-mega
 0399.00-♂,bidoof
 0399.00-♀,bidoof-f
 0400.00-♂,bibarel
@@ -696,6 +699,7 @@
 0447.00,riolu
 0448.00,lucario
 0448.01,lucario-mega
+0448.02,lucario-mega-z
 0449.00-♂,hippopotas
 0449.00-♀,hippopotas-f
 0450.00-♂,hippowdon
@@ -755,6 +759,7 @@
 0484.00,palkia
 0484.01,palkia-origin
 0485.00,heatran
+0485.01,heatran-mega
 0486.00,regigigas
 0487.00.00,giratina
 0487.01.00,giratina-origin
@@ -763,6 +768,7 @@
 ????.01.00,egg-manaphy
 0490.00,manaphy
 0491.00,darkrai
+0491.01,darkrai-mega
 0492.00,shaymin
 0492.01,shaymin-sky
 0493.00,arceus
@@ -942,6 +948,7 @@
 0621.00,druddigon
 0622.00,golett
 0623.00,golurk
+0623.01,golurk-mega
 0624.00,pawniard
 0625.00,bisharp
 0626.00,bouffalant
@@ -1058,6 +1065,7 @@
 0677.00,espurr
 0678.00-♂,meowstic
 0678.00-♀,meowstic-f
+0678.01,meowstic-mega
 0679.00,honedge
 0680.00,doublade
 0681.00,aegislash
@@ -1140,6 +1148,7 @@
 0738.00,vikavolt
 0739.00,crabrawler
 0740.00,crabominable
+0740.01,crabominable-mega
 0741.00,oricorio-baile
 0741.01,oricorio-pom-pom
 0741.02,oricorio-pau
@@ -1174,6 +1183,7 @@
 0766.00,passimian
 0767.00,wimpod
 0768.00,golisopod
+0768.01,golisopod-mega
 0769.00,sandygast
 0770.00,palossand
 0771.00,pyukumuku
@@ -1237,6 +1247,7 @@
 0800.03,necrozma-ultra
 0800.00.00,magearna
 0800.01.00,magearna-original
+0800.01.00.01,magearna-mega
 0802.00,marshadow
 0803.00,poipole
 0804.00,naganadel
@@ -1500,6 +1511,7 @@
 0950.00,klawf
 0951.00,capsakid
 0952.00,scovillain
+0952.01,scovillain-mega
 0953.00,rellor
 0954.00,rabsca
 0955.00,flittle
@@ -1519,6 +1531,7 @@
 0968.00,orthworm
 0969.00,glimmet
 0970.00,glimmora
+0970.01,glimmora-mega
 0971.00,greavard
 0972.00,houndstone
 0973.00,flamigo
@@ -1527,9 +1540,12 @@
 0983.00,kingambit
 0976.00,veluza
 0977.00,dondozo
-0978.00,tatsugiri-curly
-0978.01,tatsugiri-droopy
-0978.02,tatsugiri-stretchy
+0978.00.00,tatsugiri-curly
+0978.00.01,tatsugiri-curly-mega
+0978.01.00,tatsugiri-droopy
+0978.01.01,tatsugiri-droopy-mega
+0978.02.00,tatsugiri-stretchy
+0978.02.01,tatsugiri-stretchy-mega
 0984.00,great-tusk
 0985.00,scream-tail
 0986.00,brute-bonnet
