@@ -695,6 +695,7 @@
 0445.00-♂,garchomp
 0445.00-♀,garchomp-f
 0445.01,garchomp-mega
+0445.02,garchomp-mega-z
 0446.00,munchlax
 0447.00,riolu
 0448.00,lucario
@@ -1156,6 +1157,7 @@
 0742.00,cutiefly
 0743.00,ribombee
 0744.00,rockruff
+0744.00,rockruff-owntempo
 0745.00,lycanroc-midday
 0745.01,lycanroc-midnight
 0745.02,lycanroc-dusk
@@ -1245,15 +1247,17 @@
 0800.01,necrozma-dusk
 0800.02,necrozma-dawn
 0800.03,necrozma-ultra
-0800.00.00,magearna
-0800.01.00,magearna-original
+0800.00.00.00,magearna
+0800.01.01.00,magearna-original
 0800.01.00.01,magearna-mega
+0800.01.01.01,magearna-original-mega
 0802.00,marshadow
 0803.00,poipole
 0804.00,naganadel
 0805.00,stakataka
 0806.00,blacephalon
 0807.00,zeraora
+0807.01,zeraora-mega
 0808.00,meltan
 0809.00,melmetal
 0809.01,melmetal-gmax
@@ -1561,6 +1565,7 @@
 0996.00,frigibax
 0997.00,arctibax
 0998.00,baxcalibur
+0998.01,baxcalibur-mega
 0999.01.00,gimmighoul-roaming
 0999.00,gimmighoul-chest
 1000.00,gholdengo

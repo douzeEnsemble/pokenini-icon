@@ -694,6 +694,7 @@ gabite-f,home,gabite-f
 garchomp,home,garchomp
 garchomp-f,home,garchomp-f
 garchomp-mega,home,garchomp-mega
+garchomp-mega-z,home,garchomp-mega-z
 munchlax,home,munchlax
 riolu,home,riolu
 lucario,home,lucario
@@ -1157,7 +1158,7 @@ cutiefly,home,cutiefly
 ribombee,home,ribombee
 ribombee,home,ribombee
 rockruff,home,rockruff
-rockruff,home,rockruff
+rockruff,home,rockruff-owntempo
 lycanroc-midday,home,lycanroc-midday
 lycanroc-midnight,home,lycanroc-midnight
 lycanroc-dusk,home,lycanroc-dusk
@@ -1259,12 +1260,14 @@ necrozma-ultra,home,necrozma-ultra
 magearna,home,magearna
 magearna-original,home,magearna-original
 magearna-mega,home,magearna-mega
+magearna-original-mega,home,magearna-original-mega
 marshadow,home,marshadow
 poipole,home,poipole
 naganadel,home,naganadel
 stakataka,home,stakataka
 blacephalon,home,blacephalon
 zeraora,home,zeraora
+zeraora-mega,home,zeraora-mega
 meltan,home,meltan
 melmetal,home,melmetal
 melmetal-gigantamax,home,melmetal-gmax
@@ -1634,6 +1637,7 @@ iron-thorns,home,iron-thorns
 frigibax,home,frigibax
 arctibax,home,arctibax
 baxcalibur,home,baxcalibur
+baxcalibur-mega,home,baxcalibur-mega
 gimmighoul-roaming,home,gimmighoul-roaming
 gimmighoul-chest,home,gimmighoul-chest
 gholdengo,home,gholdengo
