@@ -1,0 +1,45 @@
+name: Update Pokémon images
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  update-images:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout pokenini-icon
+        uses: actions/checkout@v5
+
+      - name: Install image tooling
+        run: sudo apt-get update && sudo apt-get install -y imagemagick webp
+
+      - name: Download, convert and copy "big" sprites from pokemondb.net
+        run: |
+          make pdb_dl
+          make pdb_convert
+          make pdb_copy
+
+      - name: Cut and copy "small" sprites from the static spritesheet
+        run: |
+          make mbc_prepare
+          make mbc_cut
+          make mbc_copy
+
+      - name: Fill in missing shiny placeholders
+        run: make placeholders
+
+      - name: Check image dimensions
+        run: make check_size | tee check_size_report.txt
+
+      - name: Open a PR with any changed images
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "Update Pokémon images"
+          branch: update-images-${{ github.run_id }}
+          title: "Update Pokémon images"
+          body-path: check_size_report.txt
+          add-paths: images
+          delete-branch: true

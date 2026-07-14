@@ -1,0 +1,37 @@
+name: Publish images to pokenini-resources
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'images/**'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout pokenini-icon
+        uses: actions/checkout@v5
+        with:
+          path: pokenini-icon
+
+      - name: Checkout pokenini-resources
+        uses: actions/checkout@v5
+        with:
+          repository: douzeensemble/pokenini-resources
+          token: ${{ secrets.RESOURCES_PUSH_TOKEN }}
+          path: pokenini-resources
+
+      - name: Sync images into pokenini-resources
+        working-directory: pokenini-resources
+        run: make copy
+
+      - name: Open a PR on pokenini-resources with the synced images
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.RESOURCES_PUSH_TOKEN }}
+          path: pokenini-resources
+          commit-message: "Sync images from pokenini-icon@${{ github.sha }}"
+          branch: sync-images-${{ github.sha }}
+          title: "Sync images from pokenini-icon@${{ github.sha }}"
+          delete-branch: true

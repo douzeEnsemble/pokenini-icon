@@ -38,8 +38,8 @@ pdb_copy: ## Copy images to the images/ folder
 mbc_prepare: ## Prepare the Docker image
 	docker build -f src/cut-mbcmechachu-sprites/Dockerfile src/cut-mbcmechachu-sprites --rm -t cut-mbcmechachu-sprites
 mbc_cut: ## Cut the sprites into individual images
-	docker run -it --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py regular complete
-	docker run -it --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py shiny complete
+	docker run -i --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py regular complete
+	docker run -i --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py shiny complete
 mbc_copy: ## Copy images to the images/ folder
 	bash src/cut-mbcmechachu-sprites/cp.sh small regular
 	bash src/cut-mbcmechachu-sprites/cp.sh small shiny
