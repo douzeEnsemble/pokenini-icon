@@ -97,6 +97,20 @@ add-paths: |
 
 so changes under `review/` are included in the PR the workflow opens.
 
+## Known limitation: no cross-root pruning
+
+`images/` and `review/` are populated independently on each run; nothing
+removes a stale entry from one root when the same image later lands
+validly in the other. If a previously rejected image is fixed upstream,
+the new run copies the corrected version into `images/`, but the old
+rejected copy is left behind in `review/` — it isn't automatically
+deleted. Conversely, if an image that was previously published later
+starts failing validation, its last-good copy stays in `images/`
+(intentional — publishing never gets silently rolled back) while the new
+bad version also lands in `review/`. Cleaning up stale `review/` entries
+is a manual step for whoever handles the review, not something the
+pipeline does for you.
+
 ## Testing
 
 No existing automated tests cover these bash scripts. Verification is
