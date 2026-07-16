@@ -47,5 +47,7 @@ jobs:
           branch: update-images-${{ github.run_id }}
           title: "Update Pokémon images"
           body-path: check_size_report.txt
-          add-paths: images
+          add-paths: |
+            images
+            review
           delete-branch: true
