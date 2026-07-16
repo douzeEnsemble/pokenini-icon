@@ -15,19 +15,25 @@ for image in "$SCRIPT_DIR/images/temp/$file"/*.{png,webp}
 do
     filename=${image##*/}
 
-    destinationFile="images/big/$file/$filename"
+    if reason=$("$SCRIPT_DIR/../validate_image/validate_image.sh" "$image" 256 256); then
+        targetFile="images/big/$file/$filename"
+    else
+        targetFile="review/big/$file/$filename"
+        mkdir -p "$(dirname "$targetFile")"
+        printf "Reject %s: %s\n" "$filename" "$reason"
+    fi
 
     countDifference=99999999999
-    if test -f "$destinationFile"
+    if test -f "$targetFile"
     then
-        countDifference=$(compare -metric AE "$image" "$destinationFile" null: 2>&1)
+        countDifference=$(compare -metric AE "$image" "$targetFile" null: 2>&1)
     else
         ((countNew+=1))
     fi
 
     if [[ $countDifference -ne 0 ]]
     then
-        cp "$image" "$destinationFile"
+        cp "$image" "$targetFile"
         printf "Copy %s\n" "$filename"
 
         ((count+=1))
