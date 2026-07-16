@@ -1,7 +1,13 @@
 name: Update Pokémon images
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      correlation_id:
+        required: true
+        type: string
+
+run-name: "Update images (${{ inputs.correlation_id }})"
 
 jobs:
   update-images:
