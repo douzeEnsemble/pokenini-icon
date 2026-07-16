@@ -5,6 +5,21 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 size=$1
 file=$2
 
+case "$size" in
+    small)
+        expectedWidth=68
+        expectedHeight=68
+        ;;
+    big)
+        expectedWidth=256
+        expectedHeight=256
+        ;;
+    *)
+        echo "Unknown size '$size' (expected 'small' or 'big')" >&2
+        exit 1
+        ;;
+esac
+
 startAll=`date +%s`
 
 printf "Start %s on %s\n" "$file" "$dimension"
@@ -18,17 +33,25 @@ do
 
     destinationFile="images/$size/$file/$filename"
 
+    if reason=$("$SCRIPT_DIR/../validate_image/validate_image.sh" "$image" "$expectedWidth" "$expectedHeight"); then
+        targetFile="$destinationFile"
+    else
+        targetFile="review/$size/$file/$filename"
+        mkdir -p "$(dirname "$targetFile")"
+        printf "Reject %s: %s\n" "$filename" "$reason"
+    fi
+
     countDifference=99999999999
-    if test -f "$destinationFile"
+    if test -f "$targetFile"
     then
-        countDifference=$(compare -metric AE "$image" "$destinationFile" null: 2>&1)
+        countDifference=$(compare -metric AE "$image" "$targetFile" null: 2>&1)
     else
         ((countNew+=1))
     fi
 
     if [[ $countDifference -ne 0 ]]
     then
-        cp "$image" "$destinationFile"
+        cp "$image" "$targetFile"
         printf "Copy %s\n" "$filename"
 
         ((count+=1))
