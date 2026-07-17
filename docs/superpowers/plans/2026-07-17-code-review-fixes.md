@@ -45,3 +45,12 @@ Liste des points à traiter un par un. Cocher au fur et à mesure.
 - [x] **7. Fichier de log committé par erreur**
   `src/cut-mbcmechachu-sprites/output.txt` (1100 lignes) — sortie `pytest` figée dans le repo depuis `3f0870a9`.
   → Supprimer le fichier et l'ajouter à `.gitignore`.
+
+- [x] **8. `mkdir -p` manquant côté acceptation dans `copy_images.sh`**
+  `src/copy_images/copy_images.sh` — la branche de rejet fait `mkdir -p "$(dirname "$targetFile")"` avant de
+  router vers `review/...`, mais la branche d'acceptation (`targetFile="$destinationFile"`, vers `images/...`)
+  ne crée jamais son dossier de destination. Ne pose pas de souci aujourd'hui car `images/<size>/<file>/` est
+  toujours déjà trackée en git, mais silencieusement fragile : un nouveau `<file>` (nouvelle catégorie/dossier
+  jamais vu) ferait échouer le `cp` sans que le script s'arrête ni signale d'erreur claire.
+  Découvert en écrivant `test_copy_images.sh` pour le point 6 (fixtures sandboxées sans dossier pré-existant).
+  → Ajouter `mkdir -p "$(dirname "$destinationFile")"` (ou factoriser avec la branche de rejet).

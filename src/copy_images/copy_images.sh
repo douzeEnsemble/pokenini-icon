@@ -26,9 +26,10 @@ do
         targetFile="$destinationFile"
     else
         targetFile="review/$category/$file/$filename"
-        mkdir -p "$(dirname "$targetFile")"
         printf "Reject %s: %s\n" "$filename" "$reason"
     fi
+
+    mkdir -p "$(dirname "$targetFile")"
 
     countDifference=99999999999
     if test -f "$targetFile"

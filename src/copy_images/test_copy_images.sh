@@ -70,6 +70,18 @@ assert_file_exists "png still copied when both extensions are present" \
 assert_file_exists "webp still copied when both extensions are present" \
     "$workdir/both/images/small/bar/bar.webp"
 
+# Accept-path destination dir not pre-created: unlike the real repo (where
+# images/<size>/<file>/ always already exists), a brand-new category/file
+# combination must still get its destination directory created on the fly.
+newDirTest="$workdir/new-dir/source"
+mkdir -p "$newDirTest"
+convert -size 4x4 xc:red PNG32:"$newDirTest/baz.png"
+
+output=$(cd "$workdir/new-dir" && bash "$SCRIPT" small "$newDirTest" baz 4 4 2>&1)
+
+assert_file_exists "accept-path destination dir is created even if it didn't pre-exist" \
+    "$workdir/new-dir/images/small/baz/baz.png"
+
 if [ "$failures" -ne 0 ]; then
     printf "\n%d assertion(s) failed\n" "$failures"
     exit 1
