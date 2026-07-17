@@ -17,7 +17,7 @@ Liste des points à traiter un par un. Cocher au fur et à mesure.
   Ne « marche » que parce que `dot_left=0` et `dot_top=0` dans `config.ini` et `config.test.ini`.
   → Passer `width=` et `height=` explicitement en keyword args.
 
-- [ ] **3. `make placeholders` ne produit aucun changement visible**
+- [x] **3. `make placeholders` ne produit aucun changement visible**
   `src/placeholders/make_them_all.sh:28` écrit dans `src/placeholders/tmp/...` (gitignored), jamais dans `images/...`.
   Le step `Fill in missing shiny placeholders` de `.github/workflows/update-images.yml:37-38` est donc un no-op silencieux.
   Déjà noté comme limitation connue dans `docs/superpowers/specs/2026-07-16-image-validation-review-design.md`.

@@ -28,6 +28,7 @@ shinyDirPath="$SCRIPT_DIR/../../images/$dir/shiny"
 destinationDirPath="$SCRIPT_DIR/tmp/$dir/shiny"
 
 mkdir -p "$destinationDirPath"
+mkdir -p "$shinyDirPath"
 
 i=0
 count=0
@@ -45,6 +46,11 @@ do
     convert $iconPath +profile '*' matte:- | convert - "$destinationDirPath/$filename"
 
     convert "$destinationDirPath/$filename" -colorspace RGB -alpha off -transparent white -alpha on "$destinationDirPath/$filename"
+
+    cp "$destinationDirPath/$filename" "$shinyDirPath/$filename"
+
+    webpFilename="${filename%.*}.webp"
+    cwebp -quiet -q 100 -z 9 -m 6 "$shinyDirPath/$filename" -o "$shinyDirPath/$webpFilename"
 
     ((i+=1))
     ((count+=1))
