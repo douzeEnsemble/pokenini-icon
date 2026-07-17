@@ -32,7 +32,7 @@ Liste des points à traiter un par un. Cocher au fur et à mesure.
   `printf "Start %s on %s\n" "$file" "$dimension"` référence une variable jamais définie.
   → Retirer `$dimension` ou le remplacer par une info pertinente (dimensions attendues).
 
-- [ ] **5. Mauvais texte d'aide pour la cible `check_size` du Makefile**
+- [x] **5. Mauvais texte d'aide pour la cible `check_size` du Makefile**
   `Makefile:57-58` — `## Make places holders for missing images` est copié-collé de la cible `placeholders`.
   → Remplacer par une description correcte (vérification des dimensions des images).
 
