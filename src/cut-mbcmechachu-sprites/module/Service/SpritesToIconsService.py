@@ -28,7 +28,7 @@ class SpritesToIconsService:
 
                 count += 1
                 # Display only each 10 percent
-                if ((count % round(total / 10)) == 0):
+                if ((count % max(1, round(total / 10))) == 0):
                     print(f'{count}/{total}')
 
             notDoneCount = total - doneCount
