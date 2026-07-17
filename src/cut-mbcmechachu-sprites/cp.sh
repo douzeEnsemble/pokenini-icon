@@ -2,8 +2,7 @@
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-size=$1
-file=$2
+file=$1
 
 expectedWidth=$(awk -F ' *= *' '/^icon_width/{print $2; exit}' "$SCRIPT_DIR/config.ini")
 expectedHeight=$(awk -F ' *= *' '/^icon_height/{print $2; exit}' "$SCRIPT_DIR/config.ini")
@@ -15,16 +14,16 @@ printf "Start %s on %s\n" "$file" "$dimension"
 i=0
 count=0
 countNew=0
-for image in "$SCRIPT_DIR/temp/final/$size/$file"/*.{png,webp}
+for image in "$SCRIPT_DIR/temp/final/small/$file"/*.{png,webp}
 do
     filename=${image##*/}
 
-    destinationFile="images/$size/$file/$filename"
+    destinationFile="images/small/$file/$filename"
 
     if reason=$("$SCRIPT_DIR/../validate_image/validate_image.sh" "$image" "$expectedWidth" "$expectedHeight"); then
         targetFile="$destinationFile"
     else
-        targetFile="review/$size/$file/$filename"
+        targetFile="review/small/$file/$filename"
         mkdir -p "$(dirname "$targetFile")"
         printf "Reject %s: %s\n" "$filename" "$reason"
     fi

@@ -41,8 +41,8 @@ mbc_cut: ## Cut the sprites into individual images
 	docker run -i --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py regular complete
 	docker run -i --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py shiny complete
 mbc_copy: ## Copy images to the images/ folder
-	bash src/cut-mbcmechachu-sprites/cp.sh small regular
-	bash src/cut-mbcmechachu-sprites/cp.sh small shiny
+	bash src/cut-mbcmechachu-sprites/cp.sh regular
+	bash src/cut-mbcmechachu-sprites/cp.sh shiny
 
 ## —— Images ————————————————————————————————————————————————————————————————
 .PHONY        : img_convert

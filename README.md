@@ -72,8 +72,8 @@ Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-82
 To copy cut images to the final dir
 
 ```
-bash src/cut-mbcmechachu-sprites/cp.sh small regular
-bash src/cut-mbcmechachu-sprites/cp.sh small shiny
+bash src/cut-mbcmechachu-sprites/cp.sh regular
+bash src/cut-mbcmechachu-sprites/cp.sh shiny
 ```
 
 **Testing**
