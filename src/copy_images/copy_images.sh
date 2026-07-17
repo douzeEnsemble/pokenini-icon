@@ -1,4 +1,5 @@
 #!/bin/bash
+shopt -s nullglob
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
@@ -10,7 +11,7 @@ expectedHeight=$5
 
 startAll=`date +%s`
 
-printf "Start %s on %s\n" "$file" "$dimension"
+printf "Start %s (%sx%s)\n" "$file" "$expectedWidth" "$expectedHeight"
 
 i=0
 count=0
@@ -25,9 +26,10 @@ do
         targetFile="$destinationFile"
     else
         targetFile="review/$category/$file/$filename"
-        mkdir -p "$(dirname "$targetFile")"
         printf "Reject %s: %s\n" "$filename" "$reason"
     fi
+
+    mkdir -p "$(dirname "$targetFile")"
 
     countDifference=99999999999
     if test -f "$targetFile"

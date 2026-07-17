@@ -103,6 +103,19 @@ class TestCleanIconService:
         FileDir.removeFiles(tempDir)
         os.rmdir(tempDir)
         
+    def test_clean_icon_dot_not_at_origin(self):
+        cleanIconService = CleanIconService('config.dot-offset.test.ini')
+
+        cleanedIconFile = cleanIconService.clean(
+            'tests/resources/clean_icon_dot_offset/icon.png',
+            'temp/test-clean-icon/dot-offset'
+        )
+
+        with Image(filename=cleanedIconFile) as img:
+            for x in range(8, 12):
+                for y in range(5, 9):
+                    assert Color('transparent') == img[x, y], f'pixel ({x},{y}) still shows the dot'
+
     def test_clean_no_source(self):
         cleanIconService = CleanIconService('config.test.ini')
         

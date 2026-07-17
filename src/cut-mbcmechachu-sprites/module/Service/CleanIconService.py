@@ -26,10 +26,10 @@ class CleanIconService:
             with Drawing() as draw:
                 draw.fill_color = actualBackgroundColor
                 draw.rectangle(
-                    self.config.spriteIconDot.left,
-                    self.config.spriteIconDot.top,
-                    self.config.spriteIconDot.width,
-                    self.config.spriteIconDot.height,
+                    left=self.config.spriteIconDot.left,
+                    top=self.config.spriteIconDot.top,
+                    width=self.config.spriteIconDot.width,
+                    height=self.config.spriteIconDot.height,
                 )
                 draw(img)
             
