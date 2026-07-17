@@ -36,7 +36,7 @@ Liste des points à traiter un par un. Cocher au fur et à mesure.
   `Makefile:57-58` — `## Make places holders for missing images` est copié-collé de la cible `placeholders`.
   → Remplacer par une description correcte (vérification des dimensions des images).
 
-- [ ] **6. Glob fragile `*.{png,webp}` dans `copy_images.sh`**
+- [x] **6. Glob fragile `*.{png,webp}` dans `copy_images.sh`**
   `src/copy_images/copy_images.sh:18` — si `sourceDir` ne contient qu'une seule extension, la moitié non matchée
   de l'expansion d'accolades reste littérale et est traitée comme fichier manquant.
   Masqué aujourd'hui car `convert.sh` génère toujours les paires png+webp.
