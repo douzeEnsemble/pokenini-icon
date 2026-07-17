@@ -16,7 +16,9 @@ human review instead of being published.
 
 In scope: the two automated copy scripts that write into `images/` —
 `src/download-from-pokemon-db/cp.sh` (big/regular+shiny, always 256×256) and
-`src/cut-mbcmechachu-sprites/cp.sh` (small/regular+shiny, always 68×68).
+`src/cut-mbcmechachu-sprites/cp.sh` (small/regular+shiny only — expected
+dimensions read from `src/cut-mbcmechachu-sprites/config.ini`, currently
+68×68).
 
 Out of scope:
 - `images/banner` — hand-maintained from a `.xcf`/`.pxz` source, not part of
@@ -37,7 +39,9 @@ An image is valid when all of the following hold:
 3. The decoded format matches what the extension claims (a `.webp` file must
    actually decode as WEBP, a `.png` as PNG).
 4. Its pixel dimensions exactly match the expected width/height for its
-   category (256×256 for `big`, 68×68 for `small`).
+   category: 256×256 for `big` (`download-from-pokemon-db`); for `small`
+   (`cut-mbcmechachu-sprites`), whatever `icon_width`/`icon_height` currently
+   say in `src/cut-mbcmechachu-sprites/config.ini` (68×68 today).
 
 ## Design
 
@@ -63,8 +67,10 @@ existing file at the destination. That loop gains one step, run before the
 diff check:
 
 1. Call `validate_image.sh` with the expected dimensions for this script's
-   category (`cp.sh` for big is always 256×256; `cp.sh` for small/big taking
-   `$size` as today resolves 68×68 for `small`, 256×256 for `big`).
+   category: `download-from-pokemon-db/cp.sh` always uses 256×256;
+   `cut-mbcmechachu-sprites/cp.sh` reads `icon_width`/`icon_height` from its
+   `config.ini` at each run, since that script only ever processes `small`
+   images (there is no `big` mode for it).
 2. If valid → destination is unchanged: `images/<size>/<file>/<filename>`.
 3. If invalid → destination becomes `review/<size>/<file>/<filename>`
    (same relative path, new root), created with `mkdir -p` since, unlike

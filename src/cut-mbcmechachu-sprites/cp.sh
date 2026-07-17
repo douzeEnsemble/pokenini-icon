@@ -5,20 +5,8 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 size=$1
 file=$2
 
-case "$size" in
-    small)
-        expectedWidth=68
-        expectedHeight=68
-        ;;
-    big)
-        expectedWidth=256
-        expectedHeight=256
-        ;;
-    *)
-        echo "Unknown size '$size' (expected 'small' or 'big')" >&2
-        exit 1
-        ;;
-esac
+expectedWidth=$(awk -F ' *= *' '/^icon_width/{print $2; exit}' "$SCRIPT_DIR/config.ini")
+expectedHeight=$(awk -F ' *= *' '/^icon_height/{print $2; exit}' "$SCRIPT_DIR/config.ini")
 
 startAll=`date +%s`
 
