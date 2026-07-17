@@ -25,7 +25,7 @@ Liste des points à traiter un par un. Cocher au fur et à mesure.
 
 ## Petits bugs / hygiène
 
-- [ ] **4. Variable `$dimension` fantôme (log cassé)**
+- [x] **4. Variable `$dimension` fantôme (log cassé)**
   - `src/copy_images/copy_images.sh:13`
   - `src/convert_png_webp/convert_png_webp.sh:11`
   - `src/download-from-pokemon-db/convert.sh:9`

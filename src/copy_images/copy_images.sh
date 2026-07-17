@@ -10,7 +10,7 @@ expectedHeight=$5
 
 startAll=`date +%s`
 
-printf "Start %s on %s\n" "$file" "$dimension"
+printf "Start %s (%sx%s)\n" "$file" "$expectedWidth" "$expectedHeight"
 
 i=0
 count=0

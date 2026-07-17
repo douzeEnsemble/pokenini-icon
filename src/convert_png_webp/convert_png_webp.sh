@@ -8,7 +8,7 @@ startAll=`date +%s`
 
 for dir in "${directories[@]}"
 do
-    printf "Start %s on %s\n" "$dir"
+    printf "Start %s\n" "$dir"
 
     i=0
     images="$dir/*.png"

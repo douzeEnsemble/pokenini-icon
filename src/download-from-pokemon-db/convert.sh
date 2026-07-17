@@ -6,7 +6,7 @@ file=$1
 
 startAll=`date +%s`
 
-printf "Start %s on %s\n" "$file" "$dimension"
+printf "Start %s\n" "$file"
 
 iTotal=0
 iDone=0
