@@ -10,7 +10,7 @@ Liste des points à traiter un par un. Cocher au fur et à mesure.
   Aucune `Area` actuelle ne descend sous 10 sprites, mais toute zone plus petite plantera.
   → Corriger avec un garde-fou, ex. `max(1, round(total / 10))`.
 
-- [ ] **2. Rectangle mal dimensionné dans `CleanIconService.clean()`**
+- [x] **2. Rectangle mal dimensionné dans `CleanIconService.clean()`**
   `src/cut-mbcmechachu-sprites/module/Service/CleanIconService.py:28-33`
   `draw.rectangle(left, top, width, height)` — la signature Wand attend `(left, top, right, bottom, width, height, ...)`.
   Les 3ᵉ/4ᵉ arguments positionnels sont donc pris pour `right`/`bottom`, pas `width`/`height`.
