@@ -42,6 +42,6 @@ Liste des points à traiter un par un. Cocher au fur et à mesure.
   Masqué aujourd'hui car `convert.sh` génère toujours les paires png+webp.
   → Activer `shopt -s nullglob` en tête de script, ou boucler séparément sur chaque extension.
 
-- [ ] **7. Fichier de log committé par erreur**
+- [x] **7. Fichier de log committé par erreur**
   `src/cut-mbcmechachu-sprites/output.txt` (1100 lignes) — sortie `pytest` figée dans le repo depuis `3f0870a9`.
   → Supprimer le fichier et l'ajouter à `.gitignore`.
