@@ -55,8 +55,13 @@ assert_equals() {
 cp "$REPO_SCRIPT_DIR/$SCRIPT_NAME" "$workdir/$SCRIPT_NAME"
 
 # Fake wget: "good*" source names succeed with fake image bytes, "bad*"
-# source names simulate a 404 (empty output), matching how the real script
-# detects failure (-s check on the downloaded file).
+# source names simulate a 404 (empty output but exit 0), matching how the
+# real script detects that failure mode (-s check on the downloaded file).
+# "error*" source names simulate a network failure: wget exits non-zero and
+# writes nothing at all to the -O target, matching real wget behavior on a
+# connection error/timeout. This proves the fix promotes only successful
+# downloads (via a .part temp file + rename) so a failed transfer never
+# leaves a truncated/empty file at the real target path.
 # The output includes the sourceFileName from the URL to allow testing which
 # source won in race conditions.
 mkdir -p "$workdir/bin"
@@ -71,7 +76,10 @@ while [ $# -gt 0 ]; do
         *) url="$1"; shift ;;
     esac
 done
-if [[ "$url" == *"/bad"* ]]; then
+if [[ "$url" == *"/error"* ]]; then
+    # Simulate a network failure: no output written, non-zero exit.
+    exit 1
+elif [[ "$url" == *"/bad"* ]]; then
     : > "$out"
 else
     # Extract sourceFileName from URL for identification in tests
@@ -86,6 +94,7 @@ cat > "$list" <<'EOF'
 good1,home,good1
 bad1,home,bad1
 good2,home,good2
+error1,home,error1
 EOF
 list_before=$(cat "$list")
 
@@ -104,19 +113,38 @@ assert_file_exists "good2 shiny downloaded" "$workdir/images/temp/shiny/good2.pn
 assert_file_not_exists "bad1 regular not kept (empty download removed)" "$workdir/images/temp/regular/bad1.png"
 assert_file_not_exists "bad1 shiny not kept (empty download removed)" "$workdir/images/temp/shiny/bad1.png"
 
+# error1 simulates a wget network failure (non-zero exit, nothing written to
+# -O). The fix downloads to a "$targetFileName.png.part" temp file and only
+# renames it to the real target on wget success, so a failed transfer must
+# leave neither the real .png nor a stray .png.part behind. Before the fix,
+# wget's exit status was ignored, so a non-empty partial write would have
+# been silently kept as if it succeeded; this fake wget writes nothing at
+# all, so it also exercises the "no file appears at all" path.
+assert_file_not_exists "error1 regular not kept (failed download not promoted)" "$workdir/images/temp/regular/error1.png"
+assert_file_not_exists "error1 shiny not kept (failed download not promoted)" "$workdir/images/temp/shiny/error1.png"
+assert_file_not_exists "error1 regular leaves no stray .part temp file" "$workdir/images/temp/regular/error1.png.part"
+assert_file_not_exists "error1 shiny leaves no stray .part temp file" "$workdir/images/temp/shiny/error1.png.part"
+
 failedRegular=$(cat "$workdir/report_failed_regular.txt")
 failedShiny=$(cat "$workdir/report_failed_shiny.txt")
 
 assert_matches "bad1 recorded in failed-regular report" "bad1,home,bad1" "$failedRegular"
 assert_matches "bad1 recorded in failed-shiny report" "bad1,home,bad1" "$failedShiny"
+assert_matches "error1 recorded in failed-regular report" "error1,home,error1" "$failedRegular"
+assert_matches "error1 recorded in failed-shiny report" "error1,home,error1" "$failedShiny"
+
+# No stray *.png.part files should remain anywhere under images/temp after a
+# run, whether the download succeeded or failed.
+strayParts=$(find "$workdir/images/temp" -name '*.part')
+assert_equals "no stray .part files remain anywhere under images/temp" "" "$strayParts"
 
 
-# 3 list entries, both regular+shiny requested ("rs") -> totalCount is
-# doubled (count * 2 variants) = 6, regardless of the 1 failure on each
-# side — matches the original script's (buggy-but-unchanged) semantics of
-# not subtracting failures from totalCount, just now actually computing a
-# real number instead of always reading back 0.
-assert_matches "final summary line printed" "Done 6, 1\+1, in [0-9]+s" "$output"
+# 4 list entries, both regular+shiny requested ("rs") -> totalCount is
+# doubled (count * 2 variants) = 8, regardless of the 2 failures (bad1,
+# error1) on each side — matches the original script's (buggy-but-unchanged)
+# semantics of not subtracting failures from totalCount, just now actually
+# computing a real number instead of always reading back 0.
+assert_matches "final summary line printed" "Done 8, 2\+2, in [0-9]+s" "$output"
 
 
 # === Test 2: Duplicate targets (deduplication) ===

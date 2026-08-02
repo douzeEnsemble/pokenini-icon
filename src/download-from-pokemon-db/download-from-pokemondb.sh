@@ -49,6 +49,7 @@ startAll=`date +%s`
 download_one() {
     local line="$1"
     local data
+    local tmp
 
     IFS=',' read -a data <<< "$line"
 
@@ -64,8 +65,14 @@ download_one() {
     if [ "$downloadRegulars" = true ]
     then
         if [ ! -f "$SCRIPT_DIR/images/temp/regular/$targetFileName.png" ]; then
-            wget --no-cache -q "https://img.pokemondb.net/sprites/$sourceDirName/normal/$sourceFileName.png" \
-                -O "$SCRIPT_DIR/images/temp/regular/$targetFileName.png"
+            tmp="$SCRIPT_DIR/images/temp/regular/$targetFileName.png.part"
+            if wget --no-cache -q "https://img.pokemondb.net/sprites/$sourceDirName/normal/$sourceFileName.png" \
+                -O "$tmp"
+            then
+                mv "$tmp" "$SCRIPT_DIR/images/temp/regular/$targetFileName.png"
+            else
+                rm -f "$tmp"
+            fi
         fi
 
         if [ ! -s "$SCRIPT_DIR/images/temp/regular/$targetFileName.png" ]; then
@@ -77,8 +84,14 @@ download_one() {
     if [ "$downloadShinies" = true ]
     then
         if [ ! -f "$SCRIPT_DIR/images/temp/shiny/$targetFileName.png" ]; then
-            wget --no-cache -q "https://img.pokemondb.net/sprites/$sourceDirName/shiny/$sourceFileName.png" \
-                -O "$SCRIPT_DIR/images/temp/shiny/$targetFileName.png"
+            tmp="$SCRIPT_DIR/images/temp/shiny/$targetFileName.png.part"
+            if wget --no-cache -q "https://img.pokemondb.net/sprites/$sourceDirName/shiny/$sourceFileName.png" \
+                -O "$tmp"
+            then
+                mv "$tmp" "$SCRIPT_DIR/images/temp/shiny/$targetFileName.png"
+            else
+                rm -f "$tmp"
+            fi
         fi
 
         if [ ! -s "$SCRIPT_DIR/images/temp/shiny/$targetFileName.png" ]; then
