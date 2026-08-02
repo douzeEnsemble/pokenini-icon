@@ -19,3 +19,4 @@ png_files.txt
 webp_files.txt
 wget-log
 .vscode/settings.json
+.worktrees/
