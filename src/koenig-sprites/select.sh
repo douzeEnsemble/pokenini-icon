@@ -58,7 +58,13 @@ while IFS= read -r pokeniniSlug; do
 done < "$SLUGS"
 
 total=$((matched+missing))
+
+if [ "$total" -gt 0 ] && [ "$matched" -lt $((total * 90 / 100)) ]; then
+    printf "ERROR: matched only %d/%d slugs (below 90%% floor) — aborting\n" "$matched" "$total" >&2
+    exit 1
+fi
+
 printf "Matched %d/%d slugs (%d via alias, %d unmatched)\n" "$matched" "$total" "$aliased" "$missing"
 if [ "$missing" -gt 0 ]; then
-    printf "Unmatched (falls through to placeholders): %s\n" "${missingList[*]}"
+    printf "Unmatched (left untouched): %s\n" "${missingList[*]}"
 fi

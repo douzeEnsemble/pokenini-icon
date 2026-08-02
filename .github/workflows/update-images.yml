@@ -34,6 +34,11 @@ jobs:
           make koenig_select
           make koenig_copy
 
+      - name: Regenerate "small" webp sprites from the new pngs
+        run: |
+          rm -f images/small/regular/*.webp images/small/shiny/*.webp
+          make img_convert
+
       - name: Fill in missing shiny placeholders
         run: make placeholders
 

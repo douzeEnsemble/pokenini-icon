@@ -52,6 +52,12 @@ Downloads pre-cropped 68×68 icon sprites from
 [koenigderluegner/pokemon-sprites](https://github.com/koenigderluegner/pokemon-sprites),
 pinned to a specific commit in `src/koenig-sprites/SOURCE_SHA`.
 
+##### Requirement
+
+```
+sudo apt-get update && sudo apt-get install jq
+```
+
 ```
 bash src/koenig-sprites/download.sh
 bash src/koenig-sprites/select.sh
@@ -63,9 +69,18 @@ bash src/koenig-sprites/cp.sh shiny
 against the source's `data.json`, directly or via
 `src/koenig-sprites/resources/aliases.csv` for the ~70 slugs where naming differs
 (e.g. `arceus-bug` → `arceus-insectplate`). Slugs with no match in the source
-(currently 12 — see `select.sh`'s printed summary) fall through to
-`make placeholders`, same as any missing shiny does today. To pick up
-upstream updates, bump `SOURCE_SHA` deliberately and re-run.
+(currently 12 — see `select.sh`'s printed summary) are left untouched — their
+existing art in `images/small/` is preserved as-is. Note this only works for a
+slug that already has art; a brand-new slug added to `pokenini-slugs.txt` with
+no source match would get no image at all, not a placeholder. `select.sh` also
+fails hard if matched coverage drops below 90% of `pokenini-slugs.txt`, to
+catch a source rename/restructure early.
+
+`pokenini-slugs.txt` is not auto-derived from `images/` — it must be updated
+by hand whenever a new Pokémon/form slug is added to the project, otherwise
+`select.sh` will never look for it.
+
+To pick up upstream updates, bump `SOURCE_SHA` deliberately and re-run.
 
 #### PNG to WEBP
 
