@@ -46,43 +46,26 @@ bash src/download-from-pokemon-db/cp.sh big regular
 bash src/download-from-pokemon-db/cp.sh big shiny
 ```
 
-#### Cut MBCMechachu sprites
+#### Koenig sprites
 
-##### Requirement
-
-```
-cd src/cut-mbcmechachu-sprites && docker build . --rm -t cut-mbcmechachu-sprites && cd ../..
-
-rm -Rf src/cut-mbcmechachu-sprites/temp/*
-
-docker run -it --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py regular complete
-docker run -it --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py shiny complete
-```
-
-Sources: https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-824897934#image-1 and https://www.deviantart.com/mbcmechachu/art/National-Pokedex-Icon-Dex-824897934#image-2
-
-**Need fixing**
-* Abomasnow-F number: **0460.00-F** instead of 0450.00-F
-* Greninja-Mega number: **0658.00.02** instead of 0658.00.01
-* Urshifu-Single-Strike number: **0892.00.00** instead of 0892.00.00.01
-
-**Missing**
-* None
-
-To copy cut images to the final dir
+Downloads pre-cropped 68×68 icon sprites from
+[koenigderluegner/pokemon-sprites](https://github.com/koenigderluegner/pokemon-sprites),
+pinned to a specific commit in `src/koenig-sprites/SOURCE_SHA`.
 
 ```
-bash src/cut-mbcmechachu-sprites/cp.sh regular
-bash src/cut-mbcmechachu-sprites/cp.sh shiny
+bash src/koenig-sprites/download.sh
+bash src/koenig-sprites/select.sh
+bash src/koenig-sprites/cp.sh regular
+bash src/koenig-sprites/cp.sh shiny
 ```
 
-**Testing**
-
-```
-docker run -it --rm -v ./src/cut-mbcmechachu-sprites/:/usr/./src/app cut-mbcmechachu-sprites pytest --capture=tee-sys tests
-
-docker run -it --rm -v ./src/cut-mbcmechachu-sprites/:/usr/src/app cut-mbcmechachu-sprites bash
-```
+`select.sh` matches pokenini's icon slugs (`src/koenig-sprites/resources/pokenini-slugs.txt`)
+against the source's `data.json`, directly or via
+`src/koenig-sprites/resources/aliases.csv` for the ~70 slugs where naming differs
+(e.g. `arceus-bug` → `arceus-insectplate`). Slugs with no match in the source
+(currently 12 — see `select.sh`'s printed summary) fall through to
+`make placeholders`, same as any missing shiny does today. To pick up
+upstream updates, bump `SOURCE_SHA` deliberately and re-run.
 
 #### PNG to WEBP
 
