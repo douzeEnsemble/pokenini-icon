@@ -34,84 +34,91 @@ case $cat in
         ;;
 esac
 
+: "${DOWNLOAD_CONCURRENCY:=8}"
+
 # Downloads
 ## Create needed directories
 mkdir -p "$SCRIPT_DIR/images/temp/regular"
 mkdir -p "$SCRIPT_DIR/images/temp/shiny"
 
-echo '' > "$SCRIPT_DIR/report_done.txt"
 echo '' > "$SCRIPT_DIR/report_failed_regular.txt"
 echo '' > "$SCRIPT_DIR/report_failed_shiny.txt"
 
 startAll=`date +%s`
-count=$(wc -l < $list)
-i=1
 
-# Add an empty line at the end of the file
-echo '' >> "$list"
-## Download from list
-while read line; do
+download_one() {
+    local line="$1"
+    local data
+    local tmp
+
     IFS=',' read -a data <<< "$line"
 
-    sourceFileName=${data[0]}
-    sourceDirName=${data[1]}
-    targetFileName=${data[2]}
+    local sourceFileName=${data[0]}
+    local sourceDirName=${data[1]}
+    local targetFileName=${data[2]}
 
     if [ -z "$sourceFileName" ] || [ -z "$sourceDirName" ] || [ -z "$targetFileName" ]
     then
-        continue
+        return
     fi
 
     if [ "$downloadRegulars" = true ]
     then
         if [ ! -f "$SCRIPT_DIR/images/temp/regular/$targetFileName.png" ]; then
-            wget --no-cache -q "https://img.pokemondb.net/sprites/$sourceDirName/normal/$sourceFileName.png" \
-                -O "$SCRIPT_DIR/images/temp/regular/$targetFileName.png"
+            tmp="$SCRIPT_DIR/images/temp/regular/$targetFileName.png.part"
+            if wget --no-cache -q "https://img.pokemondb.net/sprites/$sourceDirName/normal/$sourceFileName.png" \
+                -O "$tmp"
+            then
+                mv "$tmp" "$SCRIPT_DIR/images/temp/regular/$targetFileName.png"
+            else
+                rm -f "$tmp"
+            fi
         fi
 
         if [ ! -s "$SCRIPT_DIR/images/temp/regular/$targetFileName.png" ]; then
-            rm  "$SCRIPT_DIR/images/temp/regular/$targetFileName.png"
-            echo $line >> "$SCRIPT_DIR/report_failed_regular.txt"
+            rm -f "$SCRIPT_DIR/images/temp/regular/$targetFileName.png"
+            echo "$line" >> "$SCRIPT_DIR/report_failed_regular.txt"
         fi
     fi
 
     if [ "$downloadShinies" = true ]
     then
         if [ ! -f "$SCRIPT_DIR/images/temp/shiny/$targetFileName.png" ]; then
-            wget --no-cache -q "https://img.pokemondb.net/sprites/$sourceDirName/shiny/$sourceFileName.png" \
-                -O "$SCRIPT_DIR/images/temp/shiny/$targetFileName.png"
+            tmp="$SCRIPT_DIR/images/temp/shiny/$targetFileName.png.part"
+            if wget --no-cache -q "https://img.pokemondb.net/sprites/$sourceDirName/shiny/$sourceFileName.png" \
+                -O "$tmp"
+            then
+                mv "$tmp" "$SCRIPT_DIR/images/temp/shiny/$targetFileName.png"
+            else
+                rm -f "$tmp"
+            fi
         fi
 
         if [ ! -s "$SCRIPT_DIR/images/temp/shiny/$targetFileName.png" ]; then
-            rm  "$SCRIPT_DIR/images/temp/shiny/$targetFileName.png"
-            echo $line >> "$SCRIPT_DIR/report_failed_shiny.txt"
+            rm -f "$SCRIPT_DIR/images/temp/shiny/$targetFileName.png"
+            echo "$line" >> "$SCRIPT_DIR/report_failed_shiny.txt"
         fi
     fi
+}
+export -f download_one
+export SCRIPT_DIR downloadRegulars downloadShinies
 
-    runtime=$(((`date +%s`)-startAll))
+# Dedupe by targetFileName (third field), preserving first-occurrence order.
+# This prevents concurrent workers from racing on duplicate target paths.
+deduped=$(cat "$list" | awk -F',' '!seen[$3]++')
+count=$(echo "$deduped" | wc -l)
 
-    if [[
-        ($count -gt 500 && 0 -eq $(expr $i % 100))
-        || ($count -lt 500 && $count -gt 50 && 0 -eq $(expr $i % 10))
-        || ($count -lt 50 && $count -gt 5)
-    ]]
-    then
-        printf "%d / %d, %d%%, %ss\n" "$i" "$count" $(( $i*100/$count )) "$runtime"
-    fi
-
-    ((i+=1))
-done < $list
+echo "$deduped" | xargs -d '\n' -P "$DOWNLOAD_CONCURRENCY" -I{} bash -c 'download_one "$@"' _ {}
 
 runtime=$(((`date +%s`)-startAll))
 
-sed -i '/^$/d' "$SCRIPT_DIR/report_done.txt"
 sed -i '/^$/d' "$SCRIPT_DIR/report_failed_regular.txt"
 sed -i '/^$/d' "$SCRIPT_DIR/report_failed_shiny.txt"
 
-totalCount=$(wc -l < "$SCRIPT_DIR/report_done.txt")
 failRegulars=$(wc -l < "$SCRIPT_DIR/report_failed_regular.txt")
 failShinies=$(wc -l < "$SCRIPT_DIR/report_failed_shiny.txt")
 
+totalCount=$count
 if [ "$downloadRegulars" = true ] && [ "$downloadShinies" = true ]
 then
     ((totalCount+=$totalCount))

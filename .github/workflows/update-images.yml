@@ -22,6 +22,13 @@ jobs:
       - name: Install image tooling
         run: sudo apt-get update && sudo apt-get install -y imagemagick webp jq
 
+      - name: Cache pokemondb temp images
+        uses: actions/cache@v4
+        with:
+          path: src/download-from-pokemon-db/images/temp
+          key: pdb-images-temp-${{ github.run_id }}
+          restore-keys: pdb-images-temp-
+
       - name: Download, convert and copy "big" sprites from pokemondb.net
         run: |
           make pdb_dl
