@@ -82,6 +82,11 @@ by hand whenever a new Pokémon/form slug is added to the project, otherwise
 
 To pick up upstream updates, bump `SOURCE_SHA` deliberately and re-run.
 
+`download.sh` skips the download entirely if `src/koenig-sprites/temp/.downloaded_sha`
+already matches `SOURCE_SHA` (and the extracted source is still present) — so
+re-running the pipeline without bumping `SOURCE_SHA` is cheap. Deleting
+`src/koenig-sprites/temp/` (or bumping `SOURCE_SHA`) forces a fresh download.
+
 #### PNG to WEBP
 
 Convert .png to .webp
