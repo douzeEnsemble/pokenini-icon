@@ -30,6 +30,7 @@ jobs:
 
       - name: Download and copy "small" sprites from koenigderluegner/pokemon-sprites
         run: |
+          make koenig_update_sha
           make koenig_dl
           make koenig_select
           make koenig_copy
@@ -55,4 +56,5 @@ jobs:
           add-paths: |
             images
             review
+            src/koenig-sprites/SOURCE_SHA
           delete-branch: true
