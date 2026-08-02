@@ -34,7 +34,9 @@ pdb_copy: ## Copy images to the images/ folder
 	bash src/download-from-pokemon-db/cp.sh shiny
 
 ## —— Koenig sprites ————————————————————————————————————————————————————————————
-.PHONY        : koenig_dl koenig_select koenig_copy
+.PHONY        : koenig_update_sha koenig_dl koenig_select koenig_copy
+koenig_update_sha: ## Bump SOURCE_SHA to the latest koenigderluegner/pokemon-sprites commit
+	bash src/koenig-sprites/update_sha.sh
 koenig_dl: ## Download the pinned koenigderluegner/pokemon-sprites tarball
 	bash src/koenig-sprites/download.sh
 koenig_select: ## Select and stage sprites matching pokenini's slugs

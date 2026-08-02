@@ -80,7 +80,12 @@ catch a source rename/restructure early.
 by hand whenever a new Pokémon/form slug is added to the project, otherwise
 `select.sh` will never look for it.
 
-To pick up upstream updates, bump `SOURCE_SHA` deliberately and re-run.
+To pick up upstream updates, bump `SOURCE_SHA` — either by hand, or by running
+`bash src/koenig-sprites/update_sha.sh` (`make koenig_update_sha`), which resolves
+the latest commit on the source repo's default branch via `git ls-remote` and
+rewrites `SOURCE_SHA` if it changed. The `update-images` GitHub workflow runs
+this automatically before every download, so upstream sprite changes flow into
+the generated PR without a manual pin bump.
 
 `download.sh` skips the download entirely if `src/koenig-sprites/temp/.downloaded_sha`
 already matches `SOURCE_SHA` (and the extracted source is still present) — so
