@@ -57,6 +57,8 @@ cp "$REPO_SCRIPT_DIR/$SCRIPT_NAME" "$workdir/$SCRIPT_NAME"
 # Fake wget: "good*" source names succeed with fake image bytes, "bad*"
 # source names simulate a 404 (empty output), matching how the real script
 # detects failure (-s check on the downloaded file).
+# The output includes the sourceFileName from the URL to allow testing which
+# source won in race conditions.
 mkdir -p "$workdir/bin"
 cat > "$workdir/bin/wget" <<'EOF'
 #!/bin/bash
@@ -72,7 +74,9 @@ done
 if [[ "$url" == *"/bad"* ]]; then
     : > "$out"
 else
-    printf 'fake-image-bytes' > "$out"
+    # Extract sourceFileName from URL for identification in tests
+    sourceFileName=$(echo "$url" | rev | cut -d'/' -f1 | rev | sed 's/\.png$//')
+    printf 'fake-image-bytes-%s' "$sourceFileName" > "$out"
 fi
 EOF
 chmod +x "$workdir/bin/wget"
@@ -113,6 +117,37 @@ assert_matches "bad1 recorded in failed-shiny report" "bad1,home,bad1" "$failedS
 # not subtracting failures from totalCount, just now actually computing a
 # real number instead of always reading back 0.
 assert_matches "final summary line printed" "Done 6, 1\+1, in [0-9]+s" "$output"
+
+
+# === Test 2: Duplicate targets (deduplication) ===
+# Two different sources targeting the same filename.
+# The deduped script should only download once, using the FIRST occurrence.
+# This test runs with higher concurrency to stress the race condition.
+
+list2="$workdir/list2.txt"
+cat > "$list2" <<'EOF'
+sourceA,home,shared
+sourceB,home,shared
+sourceC,home,other
+EOF
+
+output2=$(cd "$workdir" && PATH="$workdir/bin:$PATH" DOWNLOAD_CONCURRENCY=4 \
+    bash "./$SCRIPT_NAME" "$list2" r 2>&1)
+
+# Only one download per unique target, so 2 unique targets (shared, other)
+assert_file_exists "shared target downloaded" "$workdir/images/temp/regular/shared.png"
+assert_file_exists "other target downloaded" "$workdir/images/temp/regular/other.png"
+
+# Verify the FIRST source (sourceA) won the race for the shared target
+shared_content=$(cat "$workdir/images/temp/regular/shared.png")
+assert_equals "first source wins race for duplicate target" "fake-image-bytes-sourceA" "$shared_content"
+
+# The other target should have its source content
+other_content=$(cat "$workdir/images/temp/regular/other.png")
+assert_equals "unique target has correct content" "fake-image-bytes-sourceC" "$other_content"
+
+# Summary should report 2 unique targets (not 3 raw entries) when both r and s not both requested
+assert_matches "summary counts deduplicated targets" "Done 2, 0\+0, in [0-9]+s" "$output2"
 
 if [ "$failures" -ne 0 ]; then
     printf "\n%d assertion(s) failed\n" "$failures"

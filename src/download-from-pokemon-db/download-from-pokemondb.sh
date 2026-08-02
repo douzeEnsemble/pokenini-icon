@@ -45,7 +45,6 @@ echo '' > "$SCRIPT_DIR/report_failed_regular.txt"
 echo '' > "$SCRIPT_DIR/report_failed_shiny.txt"
 
 startAll=`date +%s`
-count=$(wc -l < "$list")
 
 download_one() {
     local line="$1"
@@ -91,7 +90,12 @@ download_one() {
 export -f download_one
 export SCRIPT_DIR downloadRegulars downloadShinies
 
-cat "$list" | xargs -d '\n' -P "$DOWNLOAD_CONCURRENCY" -I{} bash -c 'download_one "$@"' _ {}
+# Dedupe by targetFileName (third field), preserving first-occurrence order.
+# This prevents concurrent workers from racing on duplicate target paths.
+deduped=$(cat "$list" | awk -F',' '!seen[$3]++')
+count=$(echo "$deduped" | wc -l)
+
+echo "$deduped" | xargs -d '\n' -P "$DOWNLOAD_CONCURRENCY" -I{} bash -c 'download_one "$@"' _ {}
 
 runtime=$(((`date +%s`)-startAll))
 
