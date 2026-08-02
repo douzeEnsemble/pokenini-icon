@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Install image tooling
-        run: sudo apt-get update && sudo apt-get install -y imagemagick webp
+        run: sudo apt-get update && sudo apt-get install -y imagemagick webp jq
 
       - name: Download, convert and copy "big" sprites from pokemondb.net
         run: |
@@ -28,11 +28,11 @@ jobs:
           make pdb_convert
           make pdb_copy
 
-      - name: Cut and copy "small" sprites from the static spritesheet
+      - name: Download and copy "small" sprites from koenigderluegner/pokemon-sprites
         run: |
-          make mbc_prepare
-          make mbc_cut
-          make mbc_copy
+          make koenig_dl
+          make koenig_select
+          make koenig_copy
 
       - name: Fill in missing shiny placeholders
         run: make placeholders

@@ -33,16 +33,15 @@ pdb_copy: ## Copy images to the images/ folder
 	bash src/download-from-pokemon-db/cp.sh regular
 	bash src/download-from-pokemon-db/cp.sh shiny
 
-## —— MBCMechachu ————————————————————————————————————————————————————————————————
-.PHONY        : mbc_prepare mbc_cut mbc_copy
-mbc_prepare: ## Prepare the Docker image
-	docker build -f src/cut-mbcmechachu-sprites/Dockerfile src/cut-mbcmechachu-sprites --rm -t cut-mbcmechachu-sprites
-mbc_cut: ## Cut the sprites into individual images
-	docker run -i --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py regular complete
-	docker run -i --rm -v ./src/cut-mbcmechachu-sprites:/usr/src/app cut-mbcmechachu-sprites python cut-mbcmechachu-sprites.py shiny complete
-mbc_copy: ## Copy images to the images/ folder
-	bash src/cut-mbcmechachu-sprites/cp.sh regular
-	bash src/cut-mbcmechachu-sprites/cp.sh shiny
+## —— Koenig sprites ————————————————————————————————————————————————————————————
+.PHONY        : koenig_dl koenig_select koenig_copy
+koenig_dl: ## Download the pinned koenigderluegner/pokemon-sprites tarball
+	bash src/koenig-sprites/download.sh
+koenig_select: ## Select and stage sprites matching pokenini's slugs
+	bash src/koenig-sprites/select.sh
+koenig_copy: ## Copy staged images to the images/ folder
+	bash src/koenig-sprites/cp.sh regular
+	bash src/koenig-sprites/cp.sh shiny
 
 ## —— Images ————————————————————————————————————————————————————————————————
 .PHONY        : img_convert
