@@ -2,11 +2,6 @@ src/download-from-pokemon-db/images/*
 src/download-from-pokemon-db/report_*.txt
 src/download-from-pokemon-db/errors.log
 
-src/cut-mbcmechachu-sprites/images/*
-src/cut-mbcmechachu-sprites/report_*.txt
-src/cut-mbcmechachu-sprites/errors.log
-src/cut-mbcmechachu-sprites/output.txt
-
 src/placeholders/tmp/*
 
 pokenini-resources/
@@ -14,8 +9,9 @@ pokenini-resources/
 __pycache__/
 *.pyc
 
-src/cut-mbcmechachu-sprites/temp/*
+src/koenig-sprites/temp/*
 png_files.txt
 webp_files.txt
 wget-log
 .vscode/settings.json
+.worktrees/
