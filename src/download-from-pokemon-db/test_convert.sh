@@ -39,31 +39,34 @@ assert_matches() {
     fi
 }
 
-# convert.sh keys its source dir off its own SCRIPT_DIR, so it's copied
-# into the isolated workdir to run, same reasoning as
-# test_download-from-pokemondb.sh.
-cp "$REPO_SCRIPT_DIR/$SCRIPT_NAME" "$workdir/$SCRIPT_NAME"
+# convert.sh now delegates to a sibling script via a relative path
+# ($SCRIPT_DIR/../convert_webp/convert_webp.sh), so the isolated test
+# workdir must mirror that sibling directory relationship, not just hold
+# convert.sh alone, or the delegation call fails to find its target.
+mkdir -p "$workdir/download-from-pokemon-db" "$workdir/convert_webp"
+cp "$REPO_SCRIPT_DIR/$SCRIPT_NAME" "$workdir/download-from-pokemon-db/$SCRIPT_NAME"
+cp "$REPO_SCRIPT_DIR/../convert_webp/convert_webp.sh" "$workdir/convert_webp/convert_webp.sh"
 
-mkdir -p "$workdir/images/temp/regular"
-convert -size 4x4 xc:red PNG32:"$workdir/images/temp/regular/one.png"
-convert -size 4x4 xc:blue PNG32:"$workdir/images/temp/regular/two.png"
+mkdir -p "$workdir/download-from-pokemon-db/images/temp/regular"
+convert -size 4x4 xc:red PNG32:"$workdir/download-from-pokemon-db/images/temp/regular/one.png"
+convert -size 4x4 xc:blue PNG32:"$workdir/download-from-pokemon-db/images/temp/regular/two.png"
 
 # A pre-existing .webp for "two" must NOT be touched (skip-if-exists).
-printf 'sentinel-content' > "$workdir/images/temp/regular/two.webp"
-sentinel_before=$(cat "$workdir/images/temp/regular/two.webp")
+printf 'sentinel-content' > "$workdir/download-from-pokemon-db/images/temp/regular/two.webp"
+sentinel_before=$(cat "$workdir/download-from-pokemon-db/images/temp/regular/two.webp")
 
-output=$(cd "$workdir" && CONVERT_CONCURRENCY=2 bash "./$SCRIPT_NAME" regular 2>&1)
+output=$(cd "$workdir/download-from-pokemon-db" && CONVERT_CONCURRENCY=2 bash "./$SCRIPT_NAME" regular 2>&1)
 
-assert_file_exists "one.webp was converted" "$workdir/images/temp/regular/one.webp"
+assert_file_exists "one.webp was converted" "$workdir/download-from-pokemon-db/images/temp/regular/one.webp"
 
-sentinel_after=$(cat "$workdir/images/temp/regular/two.webp")
+sentinel_after=$(cat "$workdir/download-from-pokemon-db/images/temp/regular/two.webp")
 assert_equals "pre-existing two.webp is left untouched" "$sentinel_before" "$sentinel_after"
 
 assert_matches "summary reports 1 done of 2" "Done 1 of 2 regular, in [0-9]+s" "$output"
 
 # Empty directory: must not error and must report 0 of 0 (nullglob case).
-mkdir -p "$workdir/images/temp/shiny"
-output_empty=$(cd "$workdir" && CONVERT_CONCURRENCY=2 bash "./$SCRIPT_NAME" shiny 2>&1)
+mkdir -p "$workdir/download-from-pokemon-db/images/temp/shiny"
+output_empty=$(cd "$workdir/download-from-pokemon-db" && CONVERT_CONCURRENCY=2 bash "./$SCRIPT_NAME" shiny 2>&1)
 assert_matches "empty directory reports 0 of 0" "Done 0 of 0 shiny, in [0-9]+s" "$output_empty"
 
 if [ "$failures" -ne 0 ]; then
