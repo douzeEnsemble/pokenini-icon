@@ -9,18 +9,22 @@ file=$3
 expectedWidth=$4
 expectedHeight=$5
 
+: "${COPY_CONCURRENCY:=$(nproc)}"
+
 startAll=`date +%s`
 
 printf "Start %s (%sx%s)\n" "$file" "$expectedWidth" "$expectedHeight"
 
-i=0
-count=0
-countNew=0
-for image in "$sourceDir"/*.{png,webp}
-do
-    filename=${image##*/}
+RESULTS_FILE=$(mktemp)
+trap 'rm -f "$RESULTS_FILE"' EXIT
 
-    destinationFile="images/$category/$file/$filename"
+copy_one() {
+    local image="$1"
+    local filename=${image##*/}
+    local destinationFile="images/$category/$file/$filename"
+    local targetFile reason
+    local countDifference=99999999999
+    local isNew=0
 
     if reason=$("$SCRIPT_DIR/../validate_image/validate_image.sh" "$image" "$expectedWidth" "$expectedHeight"); then
         targetFile="$destinationFile"
@@ -31,24 +35,35 @@ do
 
     mkdir -p "$(dirname "$targetFile")"
 
-    countDifference=99999999999
     if test -f "$targetFile"
     then
         countDifference=$(compare -metric AE "$image" "$targetFile" null: 2>&1)
     else
-        ((countNew+=1))
+        isNew=1
     fi
 
     if [[ $countDifference -ne 0 ]]
     then
         cp "$image" "$targetFile"
         printf "Copy %s\n" "$filename"
-
-        ((count+=1))
+        printf "COPY\n" >> "$RESULTS_FILE"
+        [ "$isNew" -eq 1 ] && printf "NEW\n" >> "$RESULTS_FILE"
     fi
 
-    ((i+=1))
-done
+    printf "SEEN\n" >> "$RESULTS_FILE"
+}
+export -f copy_one
+export SCRIPT_DIR category file expectedWidth expectedHeight RESULTS_FILE
+
+images=("$sourceDir"/*.{png,webp})
+
+if [ "${#images[@]}" -gt 0 ]; then
+    printf '%s\0' "${images[@]}" | xargs -0 -P "$COPY_CONCURRENCY" -I{} bash -c 'copy_one "$@"' _ {}
+fi
+
+i=$(grep -c '^SEEN$' "$RESULTS_FILE")
+count=$(grep -c '^COPY$' "$RESULTS_FILE")
+countNew=$(grep -c '^NEW$' "$RESULTS_FILE")
 
 runtime=$(((`date +%s`)-startAll))
 

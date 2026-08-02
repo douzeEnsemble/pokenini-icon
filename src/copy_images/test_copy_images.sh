@@ -82,6 +82,42 @@ output=$(cd "$workdir/new-dir" && bash "$SCRIPT" small "$newDirTest" baz 4 4 2>&
 assert_file_exists "accept-path destination dir is created even if it didn't pre-exist" \
     "$workdir/new-dir/images/small/baz/baz.png"
 
+# Multiple files processed under concurrency: 1 brand-new, 1 changed
+# (differs from existing destination), 1 unchanged (must be skipped, not
+# recopied) — exercises the parallel accounting (count/countNew/i) that
+# used to be simple in-loop counters.
+manyDir="$workdir/many/source"
+mkdir -p "$manyDir" "$workdir/many/images/small/qux"
+convert -size 4x4 xc:red PNG32:"$manyDir/new-one.png"
+convert -size 4x4 xc:blue PNG32:"$manyDir/changed-one.png"
+convert -size 4x4 xc:green PNG32:"$manyDir/unchanged-one.png"
+
+# Pre-seed destinations for "changed" (different pixels) and "unchanged"
+# (identical pixels) so compare -metric AE finds a real difference only
+# for "changed-one". A separate reference copy of the unchanged file is
+# kept outside the destination tree so a later `cmp` can prove the
+# destination was never touched — reading binary PNG bytes through a
+# bash string variable (e.g. `cat file` into `$(...)`) is unreliable
+# (bash mangles NUL bytes), so this uses `cmp -s` on the files directly
+# instead of a text-based assertion.
+convert -size 4x4 xc:black PNG32:"$workdir/many/images/small/qux/changed-one.png"
+convert -size 4x4 xc:green PNG32:"$workdir/many/images/small/qux/unchanged-one.png"
+cp "$workdir/many/images/small/qux/unchanged-one.png" "$workdir/unchanged-one.reference.png"
+
+output=$(cd "$workdir/many" && COPY_CONCURRENCY=3 bash "$SCRIPT" small "$manyDir" qux 4 4 2>&1)
+
+assert_file_exists "new-one.png copied" "$workdir/many/images/small/qux/new-one.png"
+
+if cmp -s "$workdir/unchanged-one.reference.png" "$workdir/many/images/small/qux/unchanged-one.png"; then
+    printf "PASS %s\n" "unchanged-one.png is not recopied (bytes identical)"
+else
+    printf "FAIL %s\n" "unchanged-one.png is not recopied (bytes identical): destination was overwritten"
+    failures=$((failures + 1))
+fi
+
+assert_matches "summary counts: 2 copied (1 new) of 3 total" \
+    'Done 2 \(1 new\) of 3 qux,' "$output"
+
 if [ "$failures" -ne 0 ]; then
     printf "\n%d assertion(s) failed\n" "$failures"
     exit 1
