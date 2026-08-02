@@ -29,9 +29,6 @@ assert_matches() {
     fi
 }
 
-# convert_png_webp.sh reads/writes "images/..." relative to the cwd it's
-# run from (see its hardcoded `directories` array) — unlike convert.sh, no
-# need to copy it, just cd into the workdir before invoking it.
 mkdir -p "$workdir/images/banner" "$workdir/images/big/regular" \
     "$workdir/images/big/shiny" "$workdir/images/small/regular" \
     "$workdir/images/small/shiny"
@@ -44,8 +41,8 @@ output=$(cd "$workdir" && CONVERT_CONCURRENCY=2 bash "$SCRIPT" 2>&1)
 assert_file_exists "banner png converted" "$workdir/images/banner/a.webp"
 assert_file_exists "big/regular png converted" "$workdir/images/big/regular/b.webp"
 
-assert_matches "banner dir reports 1 done" "Done 1 images/banner, in [0-9]+s" "$output"
-assert_matches "empty small/regular dir reports 0 done" "Done 0 images/small/regular, in [0-9]+s" "$output"
+assert_matches "banner dir reports 1 of 1 done" "Done 1 of 1 images/banner, in [0-9]+s" "$output"
+assert_matches "empty small/regular dir reports 0 of 0 done" "Done 0 of 0 images/small/regular, in [0-9]+s" "$output"
 
 if [ "$failures" -ne 0 ]; then
     printf "\n%d assertion(s) failed\n" "$failures"
