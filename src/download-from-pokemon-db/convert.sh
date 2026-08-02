@@ -1,31 +1,40 @@
 #!/bin/bash
+shopt -s nullglob
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 file=$1
 
+: "${CONVERT_CONCURRENCY:=$(nproc)}"
+
 startAll=`date +%s`
 
 printf "Start %s\n" "$file"
 
-iTotal=0
-iDone=0
-images="$SCRIPT_DIR/images/temp/$file/*.png"
-for image in $images
-do
-    filename=${image%.*}
+DONE_FILE=$(mktemp)
+trap 'rm -f "$DONE_FILE"' EXIT
 
-    destinationFile="$filename.webp"
+convert_one() {
+    local image="$1"
+    local filename=${image%.*}
+    local destinationFile="$filename.webp"
 
     if [ ! -f "$destinationFile" ]; then
-        cwebp -quiet -q 100 -z 9 -m 6 "$image" -o "$destinationFile" 
-        ((iDone+=1))
-
-        printf "%d\n" "$iDone"
+        cwebp -quiet -q 100 -z 9 -m 6 "$image" -o "$destinationFile"
+        printf "DONE\n" >> "$DONE_FILE"
     fi
-    
-    ((iTotal+=1))
-done
+}
+export -f convert_one
+export DONE_FILE
+
+pngs=("$SCRIPT_DIR/images/temp/$file"/*.png)
+iTotal=${#pngs[@]}
+
+if [ "$iTotal" -gt 0 ]; then
+    printf '%s\0' "${pngs[@]}" | xargs -0 -P "$CONVERT_CONCURRENCY" -I{} bash -c 'convert_one "$@"' _ {}
+fi
+
+iDone=$(wc -l < "$DONE_FILE")
 
 runtime=$(((`date +%s`)-startAll))
 
