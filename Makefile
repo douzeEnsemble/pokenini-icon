@@ -21,14 +21,11 @@ stop: ## Stop the project
 	docker stop pokenini-icon
 
 ## —— Pokemon DB ————————————————————————————————————————————————————————————————
-.PHONY        : pdb_dl pdb_convert pdb_copy
+.PHONY        : pdb_dl pdb_copy
 pdb_dl: ## Download from pokemondb.net
 	rm -f src/download-from-pokemon-db/errors.log
 	rm -f src/download-from-pokemon-db/reports*
 	bash src/download-from-pokemon-db/download-from-pokemondb.sh src/download-from-pokemon-db/pokemons-list.txt rs 2> src/download-from-pokemon-db/errors.log
-pdb_convert: ## Convert images into .webp
-	bash src/download-from-pokemon-db/convert.sh regular
-	bash src/download-from-pokemon-db/convert.sh shiny
 pdb_copy: ## Copy images to the images/ folder
 	bash src/download-from-pokemon-db/cp.sh regular
 	bash src/download-from-pokemon-db/cp.sh shiny

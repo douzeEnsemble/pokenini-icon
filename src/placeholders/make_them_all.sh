@@ -49,9 +49,6 @@ do
 
     cp "$destinationDirPath/$filename" "$shinyDirPath/$filename"
 
-    webpFilename="${filename%.*}.webp"
-    cwebp -quiet -q 100 -z 9 -m 6 "$shinyDirPath/$filename" -o "$shinyDirPath/$webpFilename"
-
     ((i+=1))
     ((count+=1))
 

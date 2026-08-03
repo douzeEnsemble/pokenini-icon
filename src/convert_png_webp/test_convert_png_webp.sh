@@ -36,10 +36,22 @@ mkdir -p "$workdir/images/banner" "$workdir/images/big/regular" \
 convert -size 4x4 xc:green PNG32:"$workdir/images/banner/a.png"
 convert -size 4x4 xc:yellow PNG32:"$workdir/images/big/regular/b.png"
 
+# A stale .webp (e.g. left over from a previous run, no longer matching its
+# .png) must be regenerated, not skipped as "already converted".
+printf 'stale-content' > "$workdir/images/banner/a.webp"
+
 output=$(cd "$workdir" && CONVERT_CONCURRENCY=2 bash "$SCRIPT" 2>&1)
 
 assert_file_exists "banner png converted" "$workdir/images/banner/a.webp"
 assert_file_exists "big/regular png converted" "$workdir/images/big/regular/b.webp"
+
+staleContent=$(cat "$workdir/images/banner/a.webp")
+if [ "$staleContent" != "stale-content" ]; then
+    printf "PASS %s\n" "stale banner webp was regenerated, not left untouched"
+else
+    printf "FAIL %s\n" "stale banner webp was regenerated, not left untouched"
+    failures=$((failures + 1))
+fi
 
 assert_matches "banner dir reports 1 of 1 done" "Done 1 of 1 images/banner, in [0-9]+s" "$output"
 assert_matches "empty small/regular dir reports 0 of 0 done" "Done 0 of 0 images/small/regular, in [0-9]+s" "$output"

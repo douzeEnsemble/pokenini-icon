@@ -29,10 +29,9 @@ jobs:
           key: pdb-images-temp-${{ github.run_id }}
           restore-keys: pdb-images-temp-
 
-      - name: Download, convert and copy "big" sprites from pokemondb.net
+      - name: Download and copy "big" sprites from pokemondb.net
         run: |
           make pdb_dl
-          make pdb_convert
           make pdb_copy
 
       - name: Download and copy "small" sprites from koenigderluegner/pokemon-sprites
@@ -42,13 +41,11 @@ jobs:
           make koenig_select
           make koenig_copy
 
-      - name: Regenerate "small" webp sprites from the new pngs
-        run: |
-          rm -f images/small/regular/*.webp images/small/shiny/*.webp
-          make img_convert
-
       - name: Fill in missing shiny placeholders
         run: make placeholders
+
+      - name: Convert all .png sprites to .webp
+        run: make img_convert
 
       - name: Check image dimensions
         run: make check_size | tee check_size_report.txt

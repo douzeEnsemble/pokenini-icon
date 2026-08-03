@@ -32,13 +32,6 @@ bash src/download-from-pokemon-db/download-from-pokemondb.sh src/download-from-p
 
 And see report_*.txt and errors.log files
 
-To convert png to webp
-
-```
-bash src/download-from-pokemon-db/convert.sh regular
-bash src/download-from-pokemon-db/convert.sh shiny
-```
-
 To copy downloaded images to the final dir
 
 ```
@@ -92,14 +85,6 @@ already matches `SOURCE_SHA` (and the extracted source is still present) — so
 re-running the pipeline without bumping `SOURCE_SHA` is cheap. Deleting
 `src/koenig-sprites/temp/` (or bumping `SOURCE_SHA`) forces a fresh download.
 
-#### PNG to WEBP
-
-Convert .png to .webp
-
-```
-bash src/convert_png_webp.sh
-```
-
 #### Placeholders sprites
 
 ##### Requirement
@@ -111,4 +96,13 @@ sudo apt-get update && sudo apt-get install webp imagemagick
 ```
 bash src/placeholders/make_them_all.sh s
 bash src/placeholders/make_them_all.sh b
+```
+
+#### PNG to WEBP
+
+Once all sources (PokemonDB, Koenig, placeholders) have been downloaded/copied,
+convert every `.png` under `images/` to `.webp` in a single pass:
+
+```
+bash src/convert_png_webp/convert_png_webp.sh
 ```

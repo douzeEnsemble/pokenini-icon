@@ -53,7 +53,7 @@ assert_file_missing "skips icon that already has a shiny counterpart" \
     "$workdir/src/placeholders/tmp/small/shiny/has-shiny.png"
 assert_file_exists "publishes generated placeholder as PNG in images/" \
     "$shinyDir/missing-shiny.png"
-assert_file_exists "publishes generated placeholder as WEBP in images/" \
+assert_file_missing "does not convert to WEBP (that's img_convert's job, run once afterwards)" \
     "$shinyDir/missing-shiny.webp"
 
 if [ "$failures" -ne 0 ]; then
