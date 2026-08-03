@@ -48,6 +48,17 @@ copy_one() {
         printf "Copy %s\n" "$filename"
         printf "COPY\n" >> "$RESULTS_FILE"
         [ "$isNew" -eq 1 ] && printf "NEW\n" >> "$RESULTS_FILE"
+
+        # If this is a .png with no sibling .webp in the source (the .webp
+        # counterpart is generated later, once, by img_convert), any existing
+        # target .webp is now stale — drop it so img_convert regenerates just
+        # this one, instead of forcing a full webp rebuild that would turn
+        # every unrelated image into a spurious git diff. A source that
+        # provides its own .webp is copied as-is by its own copy_one call and
+        # must be left alone here.
+        if [[ "$targetFile" == *.png && ! -f "${image%.png}.webp" ]]; then
+            rm -f "${targetFile%.png}.webp"
+        fi
     fi
 
     printf "SEEN\n" >> "$RESULTS_FILE"

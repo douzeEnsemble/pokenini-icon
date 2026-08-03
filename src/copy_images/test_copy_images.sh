@@ -19,6 +19,16 @@ assert_file_exists() {
     fi
 }
 
+assert_file_missing() {
+    local desc="$1" file="$2"
+    if [ ! -f "$file" ]; then
+        printf "PASS %s\n" "$desc"
+    else
+        printf "FAIL %s: expected %s to NOT exist\n" "$desc" "$file"
+        failures=$((failures + 1))
+    fi
+}
+
 assert_not_contains() {
     local desc="$1" needle="$2" haystack="$3"
     if [[ "$haystack" != *"$needle"* ]]; then
@@ -104,9 +114,21 @@ convert -size 4x4 xc:black PNG32:"$workdir/many/images/small/qux/changed-one.png
 convert -size 4x4 xc:green PNG32:"$workdir/many/images/small/qux/unchanged-one.png"
 cp "$workdir/many/images/small/qux/unchanged-one.png" "$workdir/unchanged-one.reference.png"
 
+# Pre-existing .webp siblings: "changed-one"'s must be dropped since its .png
+# is about to be overwritten with different content (it would otherwise go
+# stale, silently mismatching the new png). "unchanged-one"'s must survive,
+# since its .png is never touched.
+printf 'stale-webp' > "$workdir/many/images/small/qux/changed-one.webp"
+printf 'current-webp' > "$workdir/many/images/small/qux/unchanged-one.webp"
+
 output=$(cd "$workdir/many" && COPY_CONCURRENCY=3 bash "$SCRIPT" small "$manyDir" qux 4 4 2>&1)
 
 assert_file_exists "new-one.png copied" "$workdir/many/images/small/qux/new-one.png"
+
+assert_file_missing "stale webp sibling of an overwritten png is dropped" \
+    "$workdir/many/images/small/qux/changed-one.webp"
+assert_file_exists "webp sibling of an untouched png is left alone" \
+    "$workdir/many/images/small/qux/unchanged-one.webp"
 
 if cmp -s "$workdir/unchanged-one.reference.png" "$workdir/many/images/small/qux/unchanged-one.png"; then
     printf "PASS %s\n" "unchanged-one.png is not recopied (bytes identical)"

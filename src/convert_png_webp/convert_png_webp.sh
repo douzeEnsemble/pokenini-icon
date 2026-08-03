@@ -6,7 +6,6 @@ directories=("images/banner" "images/big/regular" "images/big/shiny" "images/sma
 
 for dir in "${directories[@]}"
 do
-    rm -f "$dir"/*.webp
     "$SCRIPT_DIR/../convert_webp/convert_webp.sh" "$dir"
 done
 

@@ -36,20 +36,23 @@ mkdir -p "$workdir/images/banner" "$workdir/images/big/regular" \
 convert -size 4x4 xc:green PNG32:"$workdir/images/banner/a.png"
 convert -size 4x4 xc:yellow PNG32:"$workdir/images/big/regular/b.png"
 
-# A stale .webp (e.g. left over from a previous run, no longer matching its
-# .png) must be regenerated, not skipped as "already converted".
-printf 'stale-content' > "$workdir/images/banner/a.webp"
+# A pre-existing .webp must be left untouched (skip-if-exists) — copy_images.sh
+# is responsible for invalidating a stale .webp when its .png actually
+# changes, so that an unrelated re-run doesn't touch every image and turn
+# every file into a spurious git diff.
+convert -size 4x4 xc:purple PNG32:"$workdir/images/small/shiny/c.png"
+printf 'sentinel-content' > "$workdir/images/small/shiny/c.webp"
 
 output=$(cd "$workdir" && CONVERT_CONCURRENCY=2 bash "$SCRIPT" 2>&1)
 
 assert_file_exists "banner png converted" "$workdir/images/banner/a.webp"
 assert_file_exists "big/regular png converted" "$workdir/images/big/regular/b.webp"
 
-staleContent=$(cat "$workdir/images/banner/a.webp")
-if [ "$staleContent" != "stale-content" ]; then
-    printf "PASS %s\n" "stale banner webp was regenerated, not left untouched"
+sentinelContent=$(cat "$workdir/images/small/shiny/c.webp")
+if [ "$sentinelContent" = "sentinel-content" ]; then
+    printf "PASS %s\n" "pre-existing webp is left untouched"
 else
-    printf "FAIL %s\n" "stale banner webp was regenerated, not left untouched"
+    printf "FAIL %s\n" "pre-existing webp is left untouched: was overwritten"
     failures=$((failures + 1))
 fi
 
