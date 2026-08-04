@@ -11,7 +11,7 @@ failures=0
 
 assert_file_exists() {
     local desc="$1" file="$2"
-    if [ -e "$file" ]; then
+    if [ -f "$file" ]; then
         printf "PASS %s\n" "$desc"
     else
         printf "FAIL %s: expected %s to exist\n" "$desc" "$file"
@@ -35,6 +35,16 @@ assert_matches() {
         printf "PASS %s\n" "$desc"
     else
         printf "FAIL %s: output didn't match /%s/\n" "$desc" "$pattern"
+        failures=$((failures + 1))
+    fi
+}
+
+assert_dir_exists() {
+    local desc="$1" dir="$2"
+    if [ -d "$dir" ]; then
+        printf "PASS %s\n" "$desc"
+    else
+        printf "FAIL %s: expected %s to exist\n" "$desc" "$dir"
         failures=$((failures + 1))
     fi
 }
@@ -67,7 +77,7 @@ dest2="$workdir/dir2/thumb"
 
 bash "$SCRIPT" "$dir2" "$dest2" > /dev/null 2>&1
 
-assert_file_exists "destDir auto-created" "$dest2"
+assert_dir_exists "destDir auto-created" "$dest2"
 assert_file_exists "three.png thumbnail created in auto-created destDir" "$dest2/three.png"
 
 # Scenario 3: custom width argument (100) resizes 578x325 to 100x56.
