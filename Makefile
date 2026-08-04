@@ -59,5 +59,6 @@ placeholders: ## Make places holders for missing images
 .PHONY        : check_size
 check_size: ## Check that images have the expected dimensions
 	bash src/check_size/check_size.sh images/banner 578 325
+	bash src/check_size/check_size.sh images/banner/thumb 343 193
 	bash src/check_size/check_size.sh images/big 256 256
 	bash src/check_size/check_size.sh images/small 68 68
