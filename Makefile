@@ -47,6 +47,10 @@ koenig_copy: ## Copy staged images to the images/ folder
 img_convert: ## Convert all .png images in images/ to .webp
 	bash src/convert_png_webp/convert_png_webp.sh
 
+.PHONY        : banner_thumb
+banner_thumb: ## Generate 343px-wide banner thumbnails
+	bash src/banner_thumb/banner_thumb.sh images/banner images/banner/thumb
+
 .PHONY        : placeholders
 placeholders: ## Make places holders for missing images
 	bash src/placeholders/make_them_all.sh b
