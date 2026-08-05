@@ -63,7 +63,7 @@ against the source's `data.json`, directly or via
 `src/koenig-sprites/resources/aliases.csv` for the ~70 slugs where naming differs
 (e.g. `arceus-bug` → `arceus-insectplate`). Slugs with no match in the source
 (currently 12 — see `select.sh`'s printed summary) are left untouched — their
-existing art in `images/small/` is preserved as-is. Note this only works for a
+existing art in `images/pokemon/small/` is preserved as-is. Note this only works for a
 slug that already has art; a brand-new slug added to `pokenini-slugs.txt` with
 no source match would get no image at all, not a placeholder. `select.sh` also
 fails hard if matched coverage drops below 90% of `pokenini-slugs.txt`, to

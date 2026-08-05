@@ -34,8 +34,8 @@ assert_file_missing() {
 mkdir -p "$workdir/src/placeholders"
 cp "$SCRIPT_DIR/make_them_all.sh" "$workdir/src/placeholders/make_them_all.sh"
 
-regularDir="$workdir/images/small/regular"
-shinyDir="$workdir/images/small/shiny"
+regularDir="$workdir/images/pokemon/small/regular"
+shinyDir="$workdir/images/pokemon/small/shiny"
 mkdir -p "$regularDir" "$shinyDir"
 
 # Real icons always carry an alpha channel (transparent background); the script's

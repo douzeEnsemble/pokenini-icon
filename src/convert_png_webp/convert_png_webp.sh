@@ -2,7 +2,7 @@
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-directories=("images/banner" "images/big/regular" "images/big/shiny" "images/small/regular" "images/small/shiny")
+directories=("images/dex/banner" "images/pokemon/big/regular" "images/pokemon/big/shiny" "images/pokemon/small/regular" "images/pokemon/small/shiny")
 
 for dir in "${directories[@]}"
 do
