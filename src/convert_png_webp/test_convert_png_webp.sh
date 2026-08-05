@@ -29,11 +29,11 @@ assert_matches() {
     fi
 }
 
-mkdir -p "$workdir/images/banner/large" "$workdir/images/pokemon/big/regular" \
+mkdir -p "$workdir/images/dex/large" "$workdir/images/pokemon/big/regular" \
     "$workdir/images/pokemon/big/shiny" "$workdir/images/pokemon/small/regular" \
     "$workdir/images/pokemon/small/shiny"
 
-convert -size 4x4 xc:green PNG32:"$workdir/images/banner/large/a.png"
+convert -size 4x4 xc:green PNG32:"$workdir/images/dex/large/a.png"
 convert -size 4x4 xc:yellow PNG32:"$workdir/images/pokemon/big/regular/b.png"
 
 # A pre-existing .webp must be left untouched (skip-if-exists) — copy_images.sh
@@ -45,7 +45,7 @@ printf 'sentinel-content' > "$workdir/images/pokemon/small/shiny/c.webp"
 
 output=$(cd "$workdir" && CONVERT_CONCURRENCY=2 bash "$SCRIPT" 2>&1)
 
-assert_file_exists "banner png converted" "$workdir/images/banner/large/a.webp"
+assert_file_exists "banner png converted" "$workdir/images/dex/large/a.webp"
 assert_file_exists "big/regular png converted" "$workdir/images/pokemon/big/regular/b.webp"
 
 sentinelContent=$(cat "$workdir/images/pokemon/small/shiny/c.webp")
@@ -56,7 +56,7 @@ else
     failures=$((failures + 1))
 fi
 
-assert_matches "banner dir reports 1 of 1 done" "Done 1 of 1 images/banner/large, in [0-9]+s" "$output"
+assert_matches "banner dir reports 1 of 1 done" "Done 1 of 1 images/dex/large, in [0-9]+s" "$output"
 assert_matches "empty small/regular dir reports 0 of 0 done" "Done 0 of 0 images/pokemon/small/regular, in [0-9]+s" "$output"
 
 if [ "$failures" -ne 0 ]; then
