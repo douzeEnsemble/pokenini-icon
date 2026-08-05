@@ -22,8 +22,8 @@ esac
 
 limit=${2:-9999}
 
-regularDirPath="$SCRIPT_DIR/../../images/$dir/regular"
-shinyDirPath="$SCRIPT_DIR/../../images/$dir/shiny"
+regularDirPath="$SCRIPT_DIR/../../images/pokemon/$dir/regular"
+shinyDirPath="$SCRIPT_DIR/../../images/pokemon/$dir/shiny"
 
 destinationDirPath="$SCRIPT_DIR/tmp/$dir/shiny"
 
