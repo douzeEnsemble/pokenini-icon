@@ -12,7 +12,7 @@ if ! command -v identify >/dev/null 2>&1; then
     exit 1
 fi
 
-find "$DIR" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \) -not -path "$DIR/thumb/*" | while read -r img; do
+find "$DIR" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \) | while read -r img; do
     size=$(identify -format "%w %h" "$img" 2>/dev/null)
     if [ -z "$size" ]; then
         echo "Impossible de lire l'image : $img"
