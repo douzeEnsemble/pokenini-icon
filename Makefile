@@ -60,5 +60,5 @@ placeholders: ## Make places holders for missing images
 check_size: ## Check that images have the expected dimensions
 	bash src/check_size/check_size.sh images/banner/large 578 325
 	bash src/check_size/check_size.sh images/banner/thumbs 343 193
-	bash src/check_size/check_size.sh images/big 256 256
-	bash src/check_size/check_size.sh images/small 68 68
+	bash src/check_size/check_size.sh images/pokemon/big 256 256
+	bash src/check_size/check_size.sh images/pokemon/small 68 68
