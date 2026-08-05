@@ -49,7 +49,7 @@ assert_dir_exists() {
     fi
 }
 
-# Scenario 1: default width (343) resizes a 578x325 source to 343x193,
+# Scenario 1: default width (123) resizes a 578x325 source to 123x69,
 # skip-if-exists leaves a pre-existing thumbnail untouched, and destDir
 # is created automatically.
 dir1="$workdir/dir1"
@@ -64,7 +64,7 @@ output=$(CONVERT_CONCURRENCY=2 bash "$SCRIPT" "$dir1" "$dest1" 2>&1)
 
 assert_file_exists "one.png thumbnail created" "$dest1/one.png"
 size_one=$(identify -format "%wx%h" "$dest1/one.png")
-assert_equals "one.png thumbnail is 343x193 (578x325 scaled to 343 wide)" "343x193" "$size_one"
+assert_equals "one.png thumbnail is 123x69 (578x325 scaled to 123 wide)" "123x69" "$size_one"
 sentinel_after=$(cat "$dest1/two.png")
 assert_equals "pre-existing two.png thumbnail is left untouched" "sentinel-content" "$sentinel_after"
 assert_matches "summary reports 1 of 2" "Done 1 of 2 $dir1, in [0-9]+s" "$output"

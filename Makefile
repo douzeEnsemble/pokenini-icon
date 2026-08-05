@@ -48,7 +48,7 @@ img_convert: ## Convert all .png images in images/ to .webp
 	bash src/convert_png_webp/convert_png_webp.sh
 
 .PHONY        : banner_thumb
-banner_thumb: ## Generate 343px-wide banner thumbnails
+banner_thumb: ## Generate 123px-wide banner thumbnails
 	bash src/banner_thumb/banner_thumb.sh images/dex/banner images/dex/thumbs
 
 .PHONY        : placeholders
@@ -59,6 +59,6 @@ placeholders: ## Make places holders for missing images
 .PHONY        : check_size
 check_size: ## Check that images have the expected dimensions
 	bash src/check_size/check_size.sh images/dex/banner 578 325
-	bash src/check_size/check_size.sh images/dex/thumbs 343 193
+	bash src/check_size/check_size.sh images/dex/thumbs 123 69
 	bash src/check_size/check_size.sh images/pokemon/big 256 256
 	bash src/check_size/check_size.sh images/pokemon/small 68 68

@@ -3,7 +3,7 @@ shopt -s nullglob
 
 sourceDir=$1
 destDir=$2
-width=${3:-343}
+width=${3:-123}
 
 : "${CONVERT_CONCURRENCY:=$(nproc)}"
 
