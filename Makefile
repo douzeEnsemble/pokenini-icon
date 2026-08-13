@@ -51,6 +51,10 @@ img_convert: ## Convert all .png images in images/ to .webp
 banner_thumb: ## Generate 123px-wide banner thumbnails
 	bash src/banner_thumb/banner_thumb.sh images/dex/banner images/dex/thumbs
 
+.PHONY        : banner_generate
+banner_generate: ## Composite banner PNGs from base.png + layers/ per banners.json
+	bash src/banner_generate/generate.sh
+
 .PHONY        : placeholders
 placeholders: ## Make places holders for missing images
 	bash src/placeholders/make_them_all.sh b
