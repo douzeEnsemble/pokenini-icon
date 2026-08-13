@@ -1,6 +1,5 @@
 #!/bin/bash
 set -euo pipefail
-shopt -s nullglob
 
 scriptDir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
@@ -11,12 +10,12 @@ scriptDir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 destDir=${1:-images/dex/banner}
 
-mkdir -p "$destDir"
-
 if [ ! -f "$BANNER_BASE_IMAGE" ]; then
     printf "ERROR: base image not found: %s\n" "$BANNER_BASE_IMAGE" >&2
     exit 1
 fi
+
+mkdir -p "$destDir"
 
 mapfile -t slugs < <(jq -r 'keys[]' "$BANNER_CONFIG_FILE")
 
@@ -46,7 +45,7 @@ export destDir BANNER_BASE_IMAGE BANNER_LAYERS_DIR BANNER_CONFIG_FILE DONE_FILE
 
 xargsExit=0
 if [ "${#slugs[@]}" -gt 0 ]; then
-    printf '%s\0' "${slugs[@]}" | xargs -0 -P "$CONVERT_CONCURRENCY" -I{} bash -c 'generate_one "$@"' _ {} || xargsExit=$?
+    printf '%s\0' "${slugs[@]}" | xargs -0 -P "$CONVERT_CONCURRENCY" -I{} bash -c 'set -euo pipefail; generate_one "$@"' _ {} || xargsExit=$?
 fi
 
 iDone=$(wc -l < "$DONE_FILE")

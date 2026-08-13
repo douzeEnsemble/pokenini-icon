@@ -106,6 +106,26 @@ set -e
 assert_equals "missing base image exits non-zero" "1" "$exit_code4"
 assert_matches "missing base image error is clear" "ERROR: base image not found" "$output4"
 
+# Scenario 5: a banner referencing a present-but-corrupt layer fails loudly
+# (a `convert` failure inside the parallel worker must not be swallowed).
+dir5="$workdir/dir5"
+mkdir -p "$dir5/layers"
+convert -size 578x325 xc:red PNG32:"$dir5/base.png"
+printf 'not a valid png' > "$dir5/layers/corrupt.png"
+cat > "$dir5/banners.json" <<'JSON'
+{
+  "brokenconvert": ["corrupt"]
+}
+JSON
+dest5="$workdir/dir5/out"
+
+set +e
+output5=$(BANNER_BASE_IMAGE="$dir5/base.png" BANNER_LAYERS_DIR="$dir5/layers" BANNER_CONFIG_FILE="$dir5/banners.json" bash "$SCRIPT" "$dest5" 2>&1)
+exit_code5=$?
+set -e
+
+assert_equals "corrupt layer (convert failure) exits non-zero" "1" "$exit_code5"
+
 if [ "$failures" -ne 0 ]; then
     printf "\n%d assertion(s) failed\n" "$failures"
     exit 1
