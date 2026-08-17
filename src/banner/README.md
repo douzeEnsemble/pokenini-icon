@@ -9,8 +9,10 @@ Export to `.png` into `public/img/dex/banner`
 > file and how it's edited). The export/generation step is automated by
 > `src/banner_generate/generate.sh` (see the "Banner generator" section in
 > the repo's top-level `README.md`) — export each layer as a named PNG,
-> reference it from `src/banner_generate/banners.json`, and the script
-> composites the final banners instead of manual pixlr/GIMP exports.
+> reference it in the slug -> layers config (fetched live from
+> `pokenini-api`'s `GET /istration/dex-banner-layers` endpoint in CI, not
+> committed to this repo), and the script composites the final banners
+> instead of manual pixlr/GIMP exports.
 
 ## Exporting layers from `pokenini_banner.xcf`
 
@@ -50,11 +52,12 @@ interface) — not `/tmp`, and not arbitrary paths outside `$HOME`. A
 `/tmp` output path fails to write with **no error message at all**, so
 this isn't just a style preference.
 
-**What layer names apply to which banner slug in
-`src/banner_generate/banners.json` is not yet mapped out.** That
+**What layer names apply to which banner slug is tracked in
+`pokenini-api`'s Dex tab "Banner Layers" column (fetched at generation
+time via `GET /istration/dex-banner-layers`), not in this repo.** That
 correspondence still needs to be worked out by hand (or with help) once
-this file's layer tree has been reorganized — see the banner generator's
-"Placeholder status" note in the top-level `README.md`.
+this file's layer tree has been reorganized — see the "Banner generator"
+section in the top-level `README.md` for how the mapping is fetched.
 
 ### GIMP 3 batch-mode gotchas this script works around
 
