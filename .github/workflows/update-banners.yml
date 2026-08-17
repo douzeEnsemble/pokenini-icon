@@ -34,11 +34,11 @@ jobs:
       - name: Generate banner PNGs from base + layers
         env:
           BANNER_CONFIG_FILE: ${{ runner.temp }}/dex-banner-layers.json
-        run: make banner_generate
+        run: make banner_generate | tee "$RUNNER_TEMP/generate-output.log"
 
       - name: Remove stale .webp/thumbnail for regenerated banners
         run: |
-          jq -r 'keys[]' "$RUNNER_TEMP/dex-banner-layers.json" | while IFS= read -r slug; do
+          sed -n 's/^GENERATED: //p' "$RUNNER_TEMP/generate-output.log" | while IFS= read -r slug; do
             rm -f "images/dex/banner/$slug.webp" "images/dex/thumbs/$slug.png"
           done
 

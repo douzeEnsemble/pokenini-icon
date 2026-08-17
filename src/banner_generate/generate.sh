@@ -76,6 +76,7 @@ generate_one() {
     fi
 
     convert "${args[@]}" "$destinationFile"
+    printf "GENERATED: %s\n" "$slug"
     printf "DONE\n" >> "$DONE_FILE"
 }
 export -f generate_one
