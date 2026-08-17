@@ -52,7 +52,7 @@ banner_thumb: ## Generate 123px-wide banner thumbnails
 	bash src/banner_thumb/banner_thumb.sh images/dex/banner images/dex/thumbs
 
 .PHONY        : banner_generate
-banner_generate: ## Composite banner PNGs from base.png + layers/ per banners.json
+banner_generate: ## Composite banner PNGs from base.png + layers/ per $BANNER_CONFIG_FILE (see generate.sh; CI fetches this from pokenini-api, see .github/workflows/update-banners.yml)
 	bash src/banner_generate/generate.sh
 
 .PHONY        : placeholders

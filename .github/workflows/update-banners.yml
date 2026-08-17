@@ -22,12 +22,23 @@ jobs:
       - name: Install image tooling
         run: sudo apt-get update && sudo apt-get install -y imagemagick webp jq
 
+      - name: Fetch dex banner-layers config from pokenini-api
+        env:
+          POKENINI_API_URL: ${{ secrets.POKENINI_API_URL }}
+          ICON_API_PASSWORD: ${{ secrets.ICON_API_PASSWORD }}
+        run: |
+          curl -sf -u "icon:$ICON_API_PASSWORD" \
+            "$POKENINI_API_URL/istration/dex-banner-layers" \
+            -o "$RUNNER_TEMP/dex-banner-layers.json"
+
       - name: Generate banner PNGs from base + layers
+        env:
+          BANNER_CONFIG_FILE: ${{ runner.temp }}/dex-banner-layers.json
         run: make banner_generate
 
       - name: Remove stale .webp/thumbnail for regenerated banners
         run: |
-          jq -r 'keys[]' src/banner_generate/banners.json | while IFS= read -r slug; do
+          jq -r 'keys[]' "$RUNNER_TEMP/dex-banner-layers.json" | while IFS= read -r slug; do
             rm -f "images/dex/banner/$slug.webp" "images/dex/thumbs/$slug.png"
           done
 
