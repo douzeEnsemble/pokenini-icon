@@ -5,7 +5,7 @@ scriptDir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 : "${BANNER_BASE_IMAGE:=$scriptDir/base.png}"
 : "${BANNER_LAYERS_DIR:=$scriptDir/layers}"
-: "${BANNER_CONFIG_FILE:=$scriptDir/banners.json}"
+: "${BANNER_CONFIG_FILE:?BANNER_CONFIG_FILE must be set (point to a JSON file with slug -> [layer] mappings)}"
 : "${CONVERT_CONCURRENCY:=$(nproc)}"
 
 destDir=${1:-images/dex/banner}

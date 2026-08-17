@@ -120,7 +120,7 @@ Overridable env vars:
 
 - `BANNER_BASE_IMAGE` (default `src/banner_generate/base.png`) — the base canvas every banner starts from.
 - `BANNER_LAYERS_DIR` (default `src/banner_generate/layers`) — directory containing the named `<layer>.png` overlay files.
-- `BANNER_CONFIG_FILE` (default `src/banner_generate/banners.json`, which no longer exists in this repo — always set this explicitly) — the slug -> layers config.
+- `BANNER_CONFIG_FILE` (required, no default) — the slug -> layers config. In CI, this is fetched from `pokenini-api` and passed explicitly; for local use, provide a config file path.
 - `CONVERT_CONCURRENCY` (default `nproc`) — parallel `convert` workers.
 
 The script hard-fails (non-zero exit, no files written) if the config file is
