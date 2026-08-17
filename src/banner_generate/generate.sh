@@ -66,6 +66,7 @@ generate_one() {
     done < <(jq -r --arg slug "$slug" '.[$slug][]' "$BANNER_CONFIG_FILE")
 
     convert "${args[@]}" "$destinationFile"
+    printf "GENERATED: %s\n" "$slug"
     printf "DONE\n" >> "$DONE_FILE"
 }
 export -f generate_one

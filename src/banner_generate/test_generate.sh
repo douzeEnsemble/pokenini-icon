@@ -70,6 +70,9 @@ assert_file_exists "multi.png created" "$dest1/multi.png"
 size_single=$(identify -format "%wx%h" "$dest1/single.png")
 assert_equals "single.png keeps the 578x325 canvas" "578x325" "$size_single"
 assert_matches "summary reports 3 of 3" "Generated 3 of 3 banners" "$output1"
+assert_matches "GENERATED line is printed for each newly generated slug" "GENERATED: single" "$output1"
+assert_matches "GENERATED line is printed for each newly generated slug (multi)" "GENERATED: multi" "$output1"
+assert_matches "GENERATED line is printed for each newly generated slug (overlap)" "GENERATED: overlap" "$output1"
 
 pixel() {
     identify -format '%[pixel:p{'"$2"','"$3"'}]' "$1"
@@ -255,6 +258,12 @@ postHash=$(md5sum "$dest10/existing.png" | awk '{print $1}')
 assert_equals "existing banner file is left byte-for-byte untouched" "$preHash" "$postHash"
 assert_matches "skip is logged for the existing banner" "SKIP: existing already exists" "$output10"
 assert_matches "summary reports 0 generated, 1 skipped" "Generated 0 of 1 banners \(1 already existed, skipped\)" "$output10"
+if [[ "$output10" == *"GENERATED:"* ]]; then
+    printf "FAIL a skipped banner must not print a GENERATED: line: got:\n%s\n" "$output10"
+    failures=$((failures + 1))
+else
+    printf "PASS no GENERATED: line is printed for a skipped banner\n"
+fi
 
 if [ "$failures" -ne 0 ]; then
     printf "\n%d assertion(s) failed\n" "$failures"
