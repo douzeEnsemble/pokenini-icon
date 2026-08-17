@@ -30,6 +30,16 @@ if ! jq -e 'type == "object" and all(.[]; type == "array" and all(.[]; type == "
     exit 1
 fi
 
+if ! jq -e '[keys[] | test("^[A-Za-z0-9_-]+$")] | all' "$BANNER_CONFIG_FILE" > /dev/null; then
+    printf "ERROR: banner config file contains a slug with unsafe characters (only letters, digits, underscore and hyphen are allowed): %s\n" "$BANNER_CONFIG_FILE" >&2
+    exit 1
+fi
+
+if ! jq -e '[.[][] | test("^[A-Za-z0-9_-]+$")] | all' "$BANNER_CONFIG_FILE" > /dev/null; then
+    printf "ERROR: banner config file contains a layer name with unsafe characters (only letters, digits, underscore and hyphen are allowed): %s\n" "$BANNER_CONFIG_FILE" >&2
+    exit 1
+fi
+
 emptySlugs=$(jq -r 'to_entries[] | select(.value | length == 0) | .key' "$BANNER_CONFIG_FILE")
 if [ -n "$emptySlugs" ]; then
     printf "ERROR: the following banner(s) have an empty layer list ([]) in %s and would produce a blank (base-only) image:\n%s\n" "$BANNER_CONFIG_FILE" "$emptySlugs" >&2
@@ -49,14 +59,20 @@ generate_one() {
     local args=("$BANNER_BASE_IMAGE")
     local layer layerFile
 
-    while IFS= read -r layer; do
-        layerFile="$BANNER_LAYERS_DIR/$layer.png"
-        if [ ! -f "$layerFile" ]; then
-            printf "ERROR: layer '%s' referenced by banner '%s' not found: %s\n" "$layer" "$slug" "$layerFile" >&2
-            exit 1
-        fi
-        args+=("$layerFile" -composite)
-    done < <(jq -r --arg slug "$slug" '.[$slug][]' "$BANNER_CONFIG_FILE")
+    layersOutput=$(jq -r --arg slug "$slug" '.[$slug][]' "$BANNER_CONFIG_FILE") || {
+        printf "ERROR: failed to read layers for banner '%s' from %s\n" "$slug" "$BANNER_CONFIG_FILE" >&2
+        exit 1
+    }
+    if [ -n "$layersOutput" ]; then
+        while IFS= read -r layer; do
+            layerFile="$BANNER_LAYERS_DIR/$layer.png"
+            if [ ! -f "$layerFile" ]; then
+                printf "ERROR: layer '%s' referenced by banner '%s' not found: %s\n" "$layer" "$slug" "$layerFile" >&2
+                exit 1
+            fi
+            args+=("$layerFile" -composite)
+        done <<< "$layersOutput"
+    fi
 
     convert "${args[@]}" "$destinationFile"
     printf "DONE\n" >> "$DONE_FILE"
