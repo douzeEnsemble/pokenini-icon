@@ -85,32 +85,55 @@ scheme=$(cat <<EOF
 (gimp-image-delete src-image)
 
 (define top (car (gimp-image-get-layers work-image)))
-(let loop ((i 0))
-  (if (< i (vector-length top))
-      (begin
-        (gimp-item-set-visible (vector-ref top i) FALSE)
-        (loop (+ i 1)))))
 
-(define (find-and-show items target-name)
+; Find target-name under items, returning the full ancestor chain (a list
+; of item ids, target first, each ancestor group after it, up to but not
+; including top-level) if found, or #f. This does NOT touch visibility --
+; visibility is applied in one pass at the end (see apply-visibility
+; below), so that searching for a second item-name can never re-hide
+; anything a prior item-name's search already decided to keep visible.
+(define (find-chain items target-name)
   (let loop ((i 0))
     (if (>= i (vector-length items))
         #f
         (let* ((lid (vector-ref items i))
                (name (car (gimp-item-get-name lid))))
           (if (string=? name target-name)
-              (begin (gimp-item-set-visible lid TRUE) lid)
+              (list lid)
               (if (= (car (gimp-item-is-group lid)) 1)
-                  (let ((sub (find-and-show (car (gimp-item-get-children lid)) target-name)))
+                  (let ((sub (find-chain (car (gimp-item-get-children lid)) target-name)))
                     (if sub
-                        (begin (gimp-item-set-visible lid TRUE) sub)
+                        (cons lid sub)
                         (loop (+ i 1))))
                   (loop (+ i 1))))))))
 
+(define keep-visible '())
+
 (for-each
   (lambda (item-name)
-    (let ((found (find-and-show top item-name)))
-      (log (string-append "shown: " item-name (if found "" "  *** NOT FOUND ***")))))
+    (let ((chain (find-chain top item-name)))
+      (if chain
+          (set! keep-visible (append chain keep-visible))
+          (log (string-append "shown: " item-name "  *** NOT FOUND ***")))
+      (if chain
+          (log (string-append "shown: " item-name)))))
   item-names)
+
+; Single sweep over the WHOLE tree: every item's visibility is set purely
+; from whether it's in keep-visible. This is what prevents a sibling that
+; was saved visible=TRUE in the .xcf from leaking into the composite --
+; every item not on a requested path is explicitly forced invisible here,
+; not just left untouched.
+(define (apply-visibility items)
+  (let loop ((i 0))
+    (if (< i (vector-length items))
+        (begin
+          (let ((lid (vector-ref items i)))
+            (gimp-item-set-visible lid (if (memv lid keep-visible) TRUE FALSE))
+            (if (= (car (gimp-item-is-group lid)) 1)
+                (apply-visibility (car (gimp-item-get-children lid)))))
+          (loop (+ i 1))))))
+(apply-visibility top)
 
 (define merged (car (gimp-image-merge-visible-layers work-image CLIP-TO-IMAGE)))
 (gimp-layer-resize-to-image-size merged)
