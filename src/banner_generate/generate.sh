@@ -91,8 +91,10 @@ generate_one() {
     # $destinationFile, where the skip-existing check above would treat
     # it as done and never touch it again.
     tmpFile=$(mktemp --suffix=.png "$destDir/.${slug}.XXXXXX")
-    trap 'rm -f "$tmpFile"' RETURN
-    convert "${args[@]}" "$tmpFile"
+    if ! convert "${args[@]}" "$tmpFile"; then
+        rm -f "$tmpFile"
+        exit 1
+    fi
     mv -f "$tmpFile" "$destinationFile"
     printf "GENERATED: %s\n" "$slug"
     printf "DONE\n" >> "$DONE_FILE"
