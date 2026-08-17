@@ -265,6 +265,49 @@ else
     printf "PASS no GENERATED: line is printed for a skipped banner\n"
 fi
 
+# Scenario 11: a slug whose output PNG already exists (so it would be
+# skipped) but whose config now references a layer that doesn't exist
+# must still fail loudly -- the skip check must never bypass layer
+# validation, or a layer renamed/removed after a banner was generated
+# would go undetected forever.
+dir11="$workdir/dir11"
+mkdir -p "$dir11/layers" "$dir11/out"
+convert -size 578x325 xc:red PNG32:"$dir11/base.png"
+cat > "$dir11/banners.json" <<'JSON'
+{
+  "stale": ["does-not-exist-anymore"]
+}
+JSON
+dest11="$dir11/out"
+convert -size 578x325 xc:green PNG32:"$dest11/stale.png"
+
+set +e
+output11=$(BANNER_BASE_IMAGE="$dir11/base.png" BANNER_LAYERS_DIR="$dir11/layers" BANNER_CONFIG_FILE="$dir11/banners.json" bash "$SCRIPT" "$dest11" 2>&1)
+exit_code11=$?
+set -e
+
+assert_equals "stale layer reference on an already-generated banner still exits non-zero" "1" "$exit_code11"
+assert_matches "stale layer reference error names the layer and the banner" "ERROR: layer 'does-not-exist-anymore' referenced by banner 'stale' not found" "$output11"
+
+# Scenario 12: no leftover hidden temp file after a normal successful
+# generation -- proves the atomic temp-file-then-rename write cleans up
+# after itself instead of littering $destDir.
+dir12="$workdir/dir12"
+mkdir -p "$dir12/layers"
+convert -size 578x325 xc:red PNG32:"$dir12/base.png"
+convert -size 578x325 xc:none -fill blue -draw "rectangle 0,0 100,100" PNG32:"$dir12/layers/logoA.png"
+cat > "$dir12/banners.json" <<'JSON'
+{
+  "clean": ["logoA"]
+}
+JSON
+dest12="$dir12/out"
+
+BANNER_BASE_IMAGE="$dir12/base.png" BANNER_LAYERS_DIR="$dir12/layers" BANNER_CONFIG_FILE="$dir12/banners.json" bash "$SCRIPT" "$dest12" > /dev/null 2>&1
+
+leftoverTempFiles=$(find "$dest12" -maxdepth 1 -name '.clean.*.png' 2>/dev/null)
+assert_equals "no leftover hidden temp file after a successful generation" "" "$leftoverTempFiles"
+
 if [ "$failures" -ne 0 ]; then
     printf "\n%d assertion(s) failed\n" "$failures"
     exit 1
