@@ -41,13 +41,20 @@ mkdir -p "$destDir"
 mapfile -t slugs < <(jq -r 'keys[]' "$BANNER_CONFIG_FILE")
 
 DONE_FILE=$(mktemp)
-trap 'rm -f "$DONE_FILE"' EXIT
+SKIP_FILE=$(mktemp)
+trap 'rm -f "$DONE_FILE" "$SKIP_FILE"' EXIT
 
 generate_one() {
     local slug="$1"
     local destinationFile="$destDir/$slug.png"
     local args=("$BANNER_BASE_IMAGE")
     local layer layerFile
+
+    if [ -f "$destinationFile" ]; then
+        printf "SKIP: %s already exists: %s\n" "$slug" "$destinationFile"
+        printf "SKIP\n" >> "$SKIP_FILE"
+        return 0
+    fi
 
     while IFS= read -r layer; do
         layerFile="$BANNER_LAYERS_DIR/$layer.png"
@@ -62,7 +69,7 @@ generate_one() {
     printf "DONE\n" >> "$DONE_FILE"
 }
 export -f generate_one
-export destDir BANNER_BASE_IMAGE BANNER_LAYERS_DIR BANNER_CONFIG_FILE DONE_FILE
+export destDir BANNER_BASE_IMAGE BANNER_LAYERS_DIR BANNER_CONFIG_FILE DONE_FILE SKIP_FILE
 
 xargsExit=0
 if [ "${#slugs[@]}" -gt 0 ]; then
@@ -70,7 +77,8 @@ if [ "${#slugs[@]}" -gt 0 ]; then
 fi
 
 iDone=$(wc -l < "$DONE_FILE")
-printf "Generated %d of %d banners\n" "$iDone" "${#slugs[@]}"
+iSkip=$(wc -l < "$SKIP_FILE")
+printf "Generated %d of %d banners (%d already existed, skipped)\n" "$iDone" "${#slugs[@]}" "$iSkip"
 
 if [ "$xargsExit" -ne 0 ]; then
     exit 1

@@ -231,6 +231,31 @@ set -e
 assert_equals "non-array slug value exits non-zero" "1" "$exit_code9"
 assert_matches "non-array slug value error is clear" "ERROR: banner config file must be an object mapping each slug to an array of layer-name strings" "$output9"
 
+# Scenario 10: a slug whose output PNG already exists is skipped entirely
+# (not regenerated) -- this lets a run avoid re-doing work for banners
+# that haven't changed since the last run.
+dir10="$workdir/dir10"
+mkdir -p "$dir10/layers" "$dir10/out"
+convert -size 578x325 xc:red PNG32:"$dir10/base.png"
+convert -size 578x325 xc:none -fill blue -draw "rectangle 0,0 100,100" PNG32:"$dir10/layers/logoA.png"
+cat > "$dir10/banners.json" <<'JSON'
+{
+  "existing": ["logoA"]
+}
+JSON
+dest10="$dir10/out"
+# Pre-create the output as something the real composite would NOT produce
+# (solid green, not red+blue), so "untouched" is provable, not coincidental.
+convert -size 578x325 xc:green PNG32:"$dest10/existing.png"
+preHash=$(md5sum "$dest10/existing.png" | awk '{print $1}')
+
+output10=$(BANNER_BASE_IMAGE="$dir10/base.png" BANNER_LAYERS_DIR="$dir10/layers" BANNER_CONFIG_FILE="$dir10/banners.json" bash "$SCRIPT" "$dest10" 2>&1)
+postHash=$(md5sum "$dest10/existing.png" | awk '{print $1}')
+
+assert_equals "existing banner file is left byte-for-byte untouched" "$preHash" "$postHash"
+assert_matches "skip is logged for the existing banner" "SKIP: existing already exists" "$output10"
+assert_matches "summary reports 0 generated, 1 skipped" "Generated 0 of 1 banners \(1 already existed, skipped\)" "$output10"
+
 if [ "$failures" -ne 0 ]; then
     printf "\n%d assertion(s) failed\n" "$failures"
     exit 1
