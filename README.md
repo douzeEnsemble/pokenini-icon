@@ -130,6 +130,8 @@ composite to "just the base image", producing a blank/placeholder-looking
 banner instead of failing loudly. A slug whose output PNG already exists in
 `destDir` is skipped (not regenerated) rather than erroring.
 
+To force a banner to be regenerated, delete its `images/dex/banner/<slug>.png` first — the workflow only ever *adds* banners that don't exist yet.
+
 The `update-banners` GitHub workflow fetches the config from `pokenini-api`,
 runs `generate.sh`, then deletes each regenerated banner's stale `.webp` and
 thumbnail before `make img_convert` / `make banner_thumb` run (those two
