@@ -2,7 +2,7 @@
 
 ## Problem
 
-Banners in `images/banner/` are 578×325 PNGs (checked by `make check_size`).
+Banners in `images/dex/banner/` are 578×325 PNGs (checked by `make check_size`).
 A new use case needs a smaller variant — 343px wide, ratio preserved — but
 nothing in the repo generates resized copies of an image; every existing
 script in `src/` either copies, validates, or converts format (png→webp) at
@@ -14,17 +14,17 @@ sibling scripts under `src/`.
 
 In scope:
 - New `src/banner_thumb/banner_thumb.sh` — generates width-resized PNG
-  thumbnails from `images/banner/*.png` into `images/banner/thumb/`.
+  thumbnails from `images/dex/banner/*.png` into `images/dex/thumbs/`.
 - New `src/banner_thumb/test_banner_thumb.sh` — direct test of the script.
 - New Makefile target `banner_thumb`.
 
 Out of scope:
 - `.webp` generation for thumbnails — the user confirmed PNG-only for now;
   `img_convert` / `convert_png_webp.sh` already converts any `.png` under
-  `images/` to `.webp`, so adding `images/banner/thumb` to its directory
+  `images/` to `.webp`, so adding `images/dex/thumbs` to its directory
   list (a one-line change in `convert_png_webp.sh`) is a natural follow-up
   but not part of this change.
-- Resizing anything other than `images/banner/*.png` (e.g. `images/big`,
+- Resizing anything other than `images/dex/banner/*.png` (e.g. `images/big`,
   `images/small`) — no stated need today.
 - `check_size.sh` coverage of the new `thumb/` directory — its expected
   dimensions are derived (see below), not a fixed constant, so a
@@ -38,9 +38,9 @@ Executable script, invoked directly (same sibling-path convention as
 `copy_images.sh` calling `convert_webp.sh`), not sourced.
 
 - `sourceDir` (required): directory to scan for `*.png`, non-recursive
-  (e.g. `images/banner`).
+  (e.g. `images/dex/banner`).
 - `destDir` (required): directory thumbnails are written to (e.g.
-  `images/banner/thumb`). Created with `mkdir -p` if missing.
+  `images/dex/thumbs`). Created with `mkdir -p` if missing.
 - `width` (optional): target width in pixels, default `343`.
 - For each `$sourceDir/*.png`, if `$destDir/<filename>` does not already
   exist, generate it with:
@@ -64,7 +64,7 @@ Executable script, invoked directly (same sibling-path convention as
 ```makefile
 .PHONY        : banner_thumb
 banner_thumb: ## Generate 343px-wide banner thumbnails
-	bash src/banner_thumb/banner_thumb.sh images/banner images/banner/thumb
+	bash src/banner_thumb/banner_thumb.sh images/dex/banner images/dex/thumbs
 ```
 
 A dedicated target, run on demand — not chained into `img_convert` or
