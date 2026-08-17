@@ -27,7 +27,7 @@ jobs:
           POKENINI_API_URL: ${{ secrets.POKENINI_API_URL }}
           ICON_API_PASSWORD: ${{ secrets.ICON_API_PASSWORD }}
         run: |
-          curl -sf -u "icon:$ICON_API_PASSWORD" \
+          curl -fsS -u "icon:$ICON_API_PASSWORD" \
             "$POKENINI_API_URL/istration/dex-banner-layers" \
             -o "$RUNNER_TEMP/dex-banner-layers.json"
 
