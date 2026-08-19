@@ -5,6 +5,58 @@ Banner are made with https://pixlr.com/fr/e/#editor.
 Use `.pxz` file to have layers and data.
 Export to `.png` into `public/img/dex/banner`
 
+## Layer blend mode and opacity
+
+By default, `generate.sh` composites every layer with plain alpha blending
+(GIMP's "Normal" mode, full opacity). A layer can instead be composited with
+a specific blend mode and/or opacity by adding an entry to the optional
+`src/banner_generate/layer-modes.json` file:
+
+```json
+{
+  "shiny": { "mode": "ColorDodge", "opacity": 80 }
+}
+```
+
+- `mode` and `opacity` are both optional; an entry (or the whole file) can
+  be absent, which keeps the default Normal / 100% behavior.
+- `opacity` is an integer 0-100.
+- `mode` must be one of ImageMagick's actual `-compose` operators (run
+  `convert -list compose` to see the full list) -- `generate.sh` validates
+  this at run time and fails loudly on a typo.
+
+### French (GIMP) -> `mode` correspondence
+
+GIMP's blend-mode names are localized in French. Look up the mode you
+picked in GIMP's Layers dialog here to find the value to write in
+`layer-modes.json` (extracted from GIMP 3's own French translation
+catalog, non-legacy modes only):
+
+| GIMP (FR) | GIMP (EN) | `mode` value |
+|---|---|---|
+| Normal | Normal | *(omit -- default)* |
+| Dissoudre | Dissolve | `Dissolve` |
+| Multiplier | Multiply | `Multiply` |
+| Écran | Screen | `Screen` |
+| Éclaircir | Dodge | `ColorDodge` |
+| Assombrir | Burn | `ColorBurn` |
+| Éclaircir seulement | Lighten only | `Lighten` |
+| Assombrir seulement | Darken only | `Darken` |
+| Différence | Difference | `Difference` |
+| Superposer | Overlay | `Overlay` |
+| Lumière dure | Hard light | `HardLight` |
+| Lumière douce | Soft light | `SoftLight` |
+| Mélange dur | Hard mix | `HardMix` |
+| Exclusion | Exclusion | `Exclusion` |
+| Lumière vive | Vivid light | `VividLight` |
+| Lumière linéaire | Linear light | `LinearLight` |
+| Lumière ponctuelle | Pin light | `PinLight` |
+| Assombrissement linéaire | Linear burn | `LinearBurn` |
+| Remplacer | Replace | `Replace` |
+
+Note: GIMP's "Éclaircir" is the `Dodge` mode, not `Screen` (GIMP's
+`Screen` mode is labeled "Écran" in French) -- easy to mix up.
+
 > This doc now describes the design source only (the `.pxz`/`.xcf` layered
 > file and how it's edited). The export/generation step is automated by
 > `src/banner_generate/generate.sh` (see the "Banner generator" section in

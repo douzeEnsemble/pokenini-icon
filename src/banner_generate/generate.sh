@@ -6,6 +6,7 @@ scriptDir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 : "${BANNER_BASE_IMAGE:=$scriptDir/base.png}"
 : "${BANNER_LAYERS_DIR:=$scriptDir/layers}"
 : "${BANNER_CONFIG_FILE:?BANNER_CONFIG_FILE must be set (point to a JSON file with slug -> [layer] mappings)}"
+: "${BANNER_LAYER_MODES_FILE:=$(dirname "$BANNER_LAYERS_DIR")/layer-modes.json}"
 : "${CONVERT_CONCURRENCY:=$(nproc)}"
 
 destDir=${1:-images/dex/banner}
@@ -46,6 +47,52 @@ if [ -n "$emptySlugs" ]; then
     exit 1
 fi
 
+# layer-modes.json is optional: an absent file means every layer composites
+# with plain Over at full opacity, same as before this feature existed.
+if [ -f "$BANNER_LAYER_MODES_FILE" ]; then
+    jqParseError=$(jq empty "$BANNER_LAYER_MODES_FILE" 2>&1 >/dev/null) || {
+        printf "ERROR: layer modes file is not valid JSON: %s\n%s\n" "$BANNER_LAYER_MODES_FILE" "$jqParseError" >&2
+        exit 1
+    }
+
+    if ! jq -e 'type == "object" and all(.[]; type == "object")' "$BANNER_LAYER_MODES_FILE" > /dev/null; then
+        printf "ERROR: layer modes file must be an object mapping each layer name to a {mode, opacity} object: %s\n" "$BANNER_LAYER_MODES_FILE" >&2
+        exit 1
+    fi
+
+    # Every key must reference a real layer file -- otherwise a typo'd or
+    # stale entry (e.g. a renamed layer) would silently never apply,
+    # instead of failing loudly like every other validation in this script.
+    unknownLayers=""
+    while IFS= read -r name; do
+        [ -f "$BANNER_LAYERS_DIR/$name.png" ] || unknownLayers+="$name"$'\n'
+    done < <(jq -r 'keys[]' "$BANNER_LAYER_MODES_FILE")
+    if [ -n "$unknownLayers" ]; then
+        printf "ERROR: layer modes file references layer(s) with no matching file in %s:\n%s" "$BANNER_LAYERS_DIR" "$unknownLayers" >&2
+        exit 1
+    fi
+
+    if ! jq -e '[.[] | select(has("mode")) | .mode | type == "string"] | all' "$BANNER_LAYER_MODES_FILE" > /dev/null; then
+        printf "ERROR: layer modes file has a non-string \"mode\" value: %s\n" "$BANNER_LAYER_MODES_FILE" >&2
+        exit 1
+    fi
+
+    composeList=$(convert -list compose)
+    invalidModes=""
+    while IFS= read -r mode; do
+        grep -qxF "$mode" <<< "$composeList" || invalidModes+="$mode"$'\n'
+    done < <(jq -r '.[] | select(has("mode")) | .mode' "$BANNER_LAYER_MODES_FILE" | sort -u)
+    if [ -n "$invalidModes" ]; then
+        printf "ERROR: layer modes file has unsupported \"mode\" value(s) (must be one of ImageMagick's -compose operators: %s):\n%s" "$(tr '\n' ' ' <<< "$composeList")" "$invalidModes" >&2
+        exit 1
+    fi
+
+    if ! jq -e '[.[] | select(has("opacity")) | .opacity | type == "number" and . >= 0 and . <= 100] | all' "$BANNER_LAYER_MODES_FILE" > /dev/null; then
+        printf "ERROR: layer modes file has an \"opacity\" value outside 0-100: %s\n" "$BANNER_LAYER_MODES_FILE" >&2
+        exit 1
+    fi
+fi
+
 mkdir -p "$destDir"
 
 mapfile -t slugs < <(jq -r 'keys[]' "$BANNER_CONFIG_FILE")
@@ -71,7 +118,29 @@ generate_one() {
                 printf "ERROR: layer '%s' referenced by banner '%s' not found: %s\n" "$layer" "$slug" "$layerFile" >&2
                 exit 1
             fi
-            args+=("$layerFile" -composite)
+
+            mode="Over"
+            opacity="100"
+            if [ -f "$BANNER_LAYER_MODES_FILE" ]; then
+                mode=$(jq -r --arg l "$layer" '.[$l].mode // "Over"' "$BANNER_LAYER_MODES_FILE")
+                opacity=$(jq -r --arg l "$layer" '.[$l].opacity // 100' "$BANNER_LAYER_MODES_FILE")
+            fi
+
+            # Opacity < 100 scales the layer's alpha channel before the
+            # compose step -- the standard way to fade a blend-mode layer
+            # toward the destination, same as a GIMP/Photoshop layer's
+            # mode + opacity combination.
+            if [ "$opacity" = "100" ]; then
+                args+=("$layerFile")
+            else
+                # LC_NUMERIC=C: under a locale like fr_FR, awk's printf
+                # emits a comma decimal separator ("0,4000"), which
+                # ImageMagick's -evaluate multiply can't parse -- it
+                # silently zeroes the alpha instead of scaling it.
+                fraction=$(LC_NUMERIC=C awk -v p="$opacity" 'BEGIN { printf "%.4f", p / 100 }')
+                args+=("(" "$layerFile" -channel A -evaluate multiply "$fraction" +channel ")")
+            fi
+            args+=(-compose "$mode" -composite)
         done <<< "$layersOutput"
     fi
 
@@ -80,7 +149,7 @@ generate_one() {
     printf "DONE\n" >> "$DONE_FILE"
 }
 export -f generate_one
-export destDir BANNER_BASE_IMAGE BANNER_LAYERS_DIR BANNER_CONFIG_FILE DONE_FILE SKIP_FILE
+export destDir BANNER_BASE_IMAGE BANNER_LAYERS_DIR BANNER_CONFIG_FILE BANNER_LAYER_MODES_FILE DONE_FILE SKIP_FILE
 
 xargsExit=0
 if [ "${#slugs[@]}" -gt 0 ]; then
