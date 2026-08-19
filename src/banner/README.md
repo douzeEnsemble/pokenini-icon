@@ -10,7 +10,7 @@ Export to `.png` into `public/img/dex/banner`
 By default, `generate.sh` composites every layer with plain alpha blending
 (GIMP's "Normal" mode, full opacity). A layer can instead be composited with
 a specific blend mode and/or opacity by adding an entry to the optional
-`src/banner_generate/layer-modes.json` file:
+`src/banner/layer-modes.json` file:
 
 ```json
 {
@@ -76,14 +76,14 @@ history for the full tree dump if needed.
 
 `export_layers.sh` exports one or more named layers/groups (by exact
 GIMP layer name) as a single flattened, transparent PNG at full canvas
-size, ready to drop into `src/banner_generate/layers/<name>.png`:
+size, ready to drop into `src/banner/layers/<name>.png`:
 
 ```bash
 src/banner/export_layers.sh <output.png> "<layer-or-group-name>" ["<layer-or-group-name>" ...]
 
 # examples
-src/banner/export_layers.sh src/banner_generate/layers/shiny.png "Shiny filter"
-src/banner/export_layers.sh src/banner_generate/layers/megashiny.png "Mega Symbol" "Shiny filter"
+src/banner/export_layers.sh src/banner/layers/shiny.png "Shiny filter"
+src/banner/export_layers.sh src/banner/layers/megashiny.png "Mega Symbol" "Shiny filter"
 ```
 
 Naming a **group** exports its whole subtree (as if you'd shown that

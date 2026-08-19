@@ -119,8 +119,9 @@ bash src/banner_generate/generate.sh [destDir]
 Overridable env vars:
 
 - `BANNER_BASE_IMAGE` (default `src/banner_generate/base.png`) — the base canvas every banner starts from. **`base.png` is currently still a transparent placeholder, not real artwork** — nothing checks its content, so composing a brand-new slug (one that doesn't already have a PNG in `destDir`) before the real base image lands produces a placeholder-looking banner with no error, caught only by human PR review.
-- `BANNER_LAYERS_DIR` (default `src/banner_generate/layers`) — directory containing the named `<layer>.png` overlay files.
+- `BANNER_LAYERS_DIR` (default `src/banner/layers`) — directory containing the named `<layer>.png` overlay files.
 - `BANNER_CONFIG_FILE` (required, no default) — the slug -> layers config. In CI, this is fetched from `pokenini-api` and passed explicitly; for local use, provide a config file path.
+- `BANNER_LAYER_MODES_FILE` (default `src/banner/layer-modes.json`) — optional sidecar mapping a layer name to a `{mode, opacity}` override (blend mode / opacity), see `src/banner/README.md`. A layer absent from this file (or the whole file absent) composites with plain Over at 100%, same as before this option existed.
 - `CONVERT_CONCURRENCY` (default `nproc`) — parallel `convert` workers.
 
 The script hard-fails (non-zero exit, no files written) if the config file is

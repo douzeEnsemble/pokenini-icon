@@ -4,14 +4,14 @@ set -euo pipefail
 # Exports one or more named layers/groups from the layered source file
 # (pokenini_banner.xcf) as a single flattened, transparent PNG at full
 # canvas size -- suitable for dropping into
-# src/banner_generate/layers/<name>.png for use by generate.sh.
+# src/banner/layers/<name>.png for use by generate.sh.
 #
 # Usage:
 #   src/banner/export_layers.sh <output.png> <layer-or-group-name> [<layer-or-group-name> ...]
 #
 # Example:
-#   src/banner/export_layers.sh src/banner_generate/layers/shiny.png "Shiny filter"
-#   src/banner/export_layers.sh src/banner_generate/layers/megashiny.png "Mega Symbol" "Shiny filter"
+#   src/banner/export_layers.sh src/banner/layers/shiny.png "Shiny filter"
+#   src/banner/export_layers.sh src/banner/layers/megashiny.png "Mega Symbol" "Shiny filter"
 #
 # A named group exports everything inside it (its whole subtree), exactly
 # as if you'd shown that group in the GIMP UI. Everything else in the file

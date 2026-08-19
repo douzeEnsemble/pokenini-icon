@@ -4,7 +4,7 @@ set -euo pipefail
 scriptDir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 : "${BANNER_BASE_IMAGE:=$scriptDir/base.png}"
-: "${BANNER_LAYERS_DIR:=$scriptDir/layers}"
+: "${BANNER_LAYERS_DIR:=$(dirname "$scriptDir")/banner/layers}"
 : "${BANNER_CONFIG_FILE:?BANNER_CONFIG_FILE must be set (point to a JSON file with slug -> [layer] mappings)}"
 : "${BANNER_LAYER_MODES_FILE:=$(dirname "$BANNER_LAYERS_DIR")/layer-modes.json}"
 : "${CONVERT_CONCURRENCY:=$(nproc)}"
