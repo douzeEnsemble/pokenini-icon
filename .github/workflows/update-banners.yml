@@ -1,0 +1,53 @@
+name: Update banners
+
+on:
+  workflow_dispatch:
+    inputs:
+      correlation_id:
+        required: true
+        type: string
+
+run-name: "Update banners (${{ inputs.correlation_id }})"
+
+jobs:
+  update-banners:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout pokenini-icon
+        uses: actions/checkout@v5
+
+      - name: Install image tooling
+        run: sudo apt-get update && sudo apt-get install -y imagemagick webp jq
+
+      - name: Generate banner PNGs from base + layers
+        run: make banner_generate
+
+      - name: Remove stale .webp/thumbnail for regenerated banners
+        run: |
+          jq -r 'keys[]' src/banner_generate/banners.json | while IFS= read -r slug; do
+            rm -f "images/dex/banner/$slug.webp" "images/dex/thumbs/$slug.png"
+          done
+
+      - name: Convert all .png images to .webp
+        run: make img_convert
+
+      - name: Generate banner thumbnails
+        run: make banner_thumb
+
+      - name: Check image dimensions
+        run: make check_size | tee check_size_report.txt
+
+      - name: Open a PR with any changed banners
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "Update banners"
+          branch: update-banners-${{ github.run_id }}
+          title: "Update banners"
+          body-path: check_size_report.txt
+          add-paths: |
+            images/dex/banner
+            images/dex/thumbs
+          delete-branch: true
