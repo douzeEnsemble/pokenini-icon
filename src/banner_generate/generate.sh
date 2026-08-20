@@ -65,8 +65,12 @@ generate_one() {
     local slug="$1"
     local destinationFile="$destDir/$slug.png"
     local args=("$BANNER_BASE_IMAGE")
-    local layer layerFile
+    local layer layerFile tmpFile
 
+    # Layer references are validated unconditionally, even for a slug
+    # that turns out to already exist below -- this catches a layer
+    # renamed/removed in the config after its banner was generated,
+    # instead of silently never re-checking it once the PNG exists.
     layersOutput=$(jq -r --arg slug "$slug" '.[$slug][]' "$BANNER_CONFIG_FILE") || {
         printf "ERROR: failed to read layers for banner '%s' from %s\n" "$slug" "$BANNER_CONFIG_FILE" >&2
         exit 1
@@ -129,7 +133,23 @@ generate_one() {
         done <<< "$layersOutput"
     fi
 
-    convert "${args[@]}" "$destinationFile"
+    if [ -f "$destinationFile" ]; then
+        printf "SKIP: %s already exists: %s\n" "$slug" "$destinationFile"
+        printf "SKIP\n" >> "$SKIP_FILE"
+        return 0
+    fi
+
+    # Write to a hidden temp file first, then rename into place -- a
+    # `convert` that's interrupted or fails partway (disk space race,
+    # non-fatal delegate warning) never leaves a truncated file at
+    # $destinationFile, where the skip-existing check above would treat
+    # it as done and never touch it again.
+    tmpFile=$(mktemp --suffix=.png "$destDir/.${slug}.XXXXXX")
+    if ! convert "${args[@]}" "$tmpFile"; then
+        rm -f "$tmpFile"
+        exit 1
+    fi
+    mv -f "$tmpFile" "$destinationFile"
     printf "GENERATED: %s\n" "$slug"
     printf "DONE\n" >> "$DONE_FILE"
 }
