@@ -308,30 +308,27 @@ BANNER_BASE_IMAGE="$dir12/base.png" BANNER_LAYERS_DIR="$dir12/layers" BANNER_CON
 leftoverTempFiles=$(find "$dest12" -maxdepth 1 -name '.clean.*.png' 2>/dev/null)
 assert_equals "no leftover hidden temp file after a successful generation" "" "$leftoverTempFiles"
 
-# Scenario 13: a layer listed in the optional layer-modes.json sidecar file
-# is composited with that ImageMagick -compose operator instead of plain
-# Over. An opaque BLACK probe layer is used because it makes the two
-# outcomes unambiguous: under Over, opaque black completely hides the base
-# (red -> black); under ColorDodge, the formula is dst / (1 - src), and with
-# src=0 that's dst / 1 = dst unchanged, so the base color must show through
-# where only Over would have painted black.
-# Bundled in the same fixture: a second layer (logoA) that IS present in
-# layers/ but NOT mentioned in layer-modes.json must still composite with
-# plain Over, proving the sidecar file only affects the layers it lists.
+# Scenario 13: a layer with an optional <layer>.json sidecar file (next to
+# <layer>.png in layers/) is composited with that ImageMagick -compose
+# operator instead of plain Over. An opaque BLACK probe layer is used
+# because it makes the two outcomes unambiguous: under Over, opaque black
+# completely hides the base (red -> black); under ColorDodge, the formula
+# is dst / (1 - src), and with src=0 that's dst / 1 = dst unchanged, so the
+# base color must show through where only Over would have painted black.
+# Bundled in the same fixture: a second layer (logoA) that has NO sidecar
+# .json file must still composite with plain Over.
 dir13="$workdir/dir13"
 mkdir -p "$dir13/layers"
 convert -size 578x325 xc:red PNG32:"$dir13/base.png"
 convert -size 578x325 xc:none -fill black -draw "rectangle 0,0 100,100" PNG32:"$dir13/layers/blackbox.png"
 convert -size 578x325 xc:none -fill blue -draw "rectangle 0,0 100,100" PNG32:"$dir13/layers/logoA.png"
+cat > "$dir13/layers/blackbox.json" <<'JSON'
+{ "mode": "ColorDodge" }
+JSON
 cat > "$dir13/banners.json" <<'JSON'
 {
   "dodged": ["blackbox"],
   "plain": ["logoA"]
-}
-JSON
-cat > "$dir13/layer-modes.json" <<'JSON'
-{
-  "blackbox": { "mode": "ColorDodge" }
 }
 JSON
 dest13="$dir13/out"
@@ -339,7 +336,7 @@ dest13="$dir13/out"
 output13=$(BANNER_BASE_IMAGE="$dir13/base.png" BANNER_LAYERS_DIR="$dir13/layers" BANNER_CONFIG_FILE="$dir13/banners.json" bash "$SCRIPT" "$dest13" 2>&1)
 
 assert_equals "mode: ColorDodge with a black source leaves the destination color untouched (proves mode, not plain Over, was applied)" "srgb(255,0,0)" "$(pixel "$dest13/dodged.png" 50 50)"
-assert_equals "mode: a layer absent from layer-modes.json still composites with plain Over" "srgb(0,0,255)" "$(pixel "$dest13/plain.png" 50 50)"
+assert_equals "mode: a layer with no sidecar .json file still composites with plain Over" "srgb(0,0,255)" "$(pixel "$dest13/plain.png" 50 50)"
 
 # Scenario 14: an "opacity" entry (mode omitted -> Over) fades the layer
 # toward the destination instead of fully replacing it. An opaque BLACK
@@ -352,14 +349,12 @@ dir14="$workdir/dir14"
 mkdir -p "$dir14/layers"
 convert -size 578x325 xc:red PNG32:"$dir14/base.png"
 convert -size 578x325 xc:none -fill black -draw "rectangle 0,0 100,100" PNG32:"$dir14/layers/blackbox.png"
+cat > "$dir14/layers/blackbox.json" <<'JSON'
+{ "opacity": 40 }
+JSON
 cat > "$dir14/banners.json" <<'JSON'
 {
   "faded": ["blackbox"]
-}
-JSON
-cat > "$dir14/layer-modes.json" <<'JSON'
-{
-  "blackbox": { "opacity": 40 }
 }
 JSON
 dest14="$dir14/out"
@@ -380,14 +375,12 @@ dir15="$workdir/dir15"
 mkdir -p "$dir15/layers"
 convert -size 578x325 xc:red PNG32:"$dir15/base.png"
 convert -size 578x325 xc:none -fill black -draw "rectangle 0,0 100,100" PNG32:"$dir15/layers/blackbox.png"
+cat > "$dir15/layers/blackbox.json" <<'JSON'
+{ "mode": "NotARealMode" }
+JSON
 cat > "$dir15/banners.json" <<'JSON'
 {
   "bad": ["blackbox"]
-}
-JSON
-cat > "$dir15/layer-modes.json" <<'JSON'
-{
-  "blackbox": { "mode": "NotARealMode" }
 }
 JSON
 dest15="$dir15/out"
@@ -398,21 +391,19 @@ exit_code15=$?
 set -e
 
 assert_equals "mode: unsupported mode value exits non-zero" "1" "$exit_code15"
-assert_matches "mode: unsupported mode value error names the bad mode" "NotARealMode" "$output15"
+assert_matches "mode: unsupported mode value error names the layer and the bad mode" "blackbox.*NotARealMode" "$output15"
 
 # Scenario 16: an out-of-range "opacity" value (outside 0-100) fails loudly.
 dir16="$workdir/dir16"
 mkdir -p "$dir16/layers"
 convert -size 578x325 xc:red PNG32:"$dir16/base.png"
 convert -size 578x325 xc:none -fill black -draw "rectangle 0,0 100,100" PNG32:"$dir16/layers/blackbox.png"
+cat > "$dir16/layers/blackbox.json" <<'JSON'
+{ "opacity": 150 }
+JSON
 cat > "$dir16/banners.json" <<'JSON'
 {
   "bad": ["blackbox"]
-}
-JSON
-cat > "$dir16/layer-modes.json" <<'JSON'
-{
-  "blackbox": { "opacity": 150 }
 }
 JSON
 dest16="$dir16/out"
@@ -423,23 +414,18 @@ exit_code16=$?
 set -e
 
 assert_equals "mode: out-of-range opacity exits non-zero" "1" "$exit_code16"
-assert_matches "mode: out-of-range opacity error is clear" 'ERROR: layer modes file has an "opacity" value outside 0-100' "$output16"
+assert_matches "mode: out-of-range opacity error names the layer" 'ERROR: layer mode file for .blackbox. has an "opacity" value outside 0-100' "$output16"
 
-# Scenario 17: layer-modes.json references a layer name with no matching
-# file in layers/ (a typo, or a stale entry for a removed layer) fails
-# loudly instead of the entry silently never applying.
+# Scenario 17: a sidecar .json file that isn't a JSON object (e.g. an
+# array) fails loudly.
 dir17="$workdir/dir17"
 mkdir -p "$dir17/layers"
 convert -size 578x325 xc:red PNG32:"$dir17/base.png"
 convert -size 578x325 xc:none -fill black -draw "rectangle 0,0 100,100" PNG32:"$dir17/layers/blackbox.png"
+printf '["Multiply"]' > "$dir17/layers/blackbox.json"
 cat > "$dir17/banners.json" <<'JSON'
 {
-  "ok": ["blackbox"]
-}
-JSON
-cat > "$dir17/layer-modes.json" <<'JSON'
-{
-  "blackbxo": { "mode": "Multiply" }
+  "bad": ["blackbox"]
 }
 JSON
 dest17="$dir17/out"
@@ -449,21 +435,21 @@ output17=$(BANNER_BASE_IMAGE="$dir17/base.png" BANNER_LAYERS_DIR="$dir17/layers"
 exit_code17=$?
 set -e
 
-assert_equals "mode: layer-modes.json referencing an unknown layer exits non-zero" "1" "$exit_code17"
-assert_matches "mode: unknown layer name error names the offending entry" "blackbxo" "$output17"
+assert_equals "mode: non-object sidecar file exits non-zero" "1" "$exit_code17"
+assert_matches "mode: non-object sidecar file error names the layer" "blackbox" "$output17"
 
-# Scenario 18: a syntactically malformed layer-modes.json fails loudly
-# instead of being silently ignored like a genuinely absent file.
+# Scenario 18: a syntactically malformed <layer>.json sidecar file fails
+# loudly, naming the offending layer.
 dir18="$workdir/dir18"
 mkdir -p "$dir18/layers"
 convert -size 578x325 xc:red PNG32:"$dir18/base.png"
 convert -size 578x325 xc:none -fill black -draw "rectangle 0,0 100,100" PNG32:"$dir18/layers/blackbox.png"
+printf '{ not valid json' > "$dir18/layers/blackbox.json"
 cat > "$dir18/banners.json" <<'JSON'
 {
   "ok": ["blackbox"]
 }
 JSON
-printf '{ not valid json' > "$dir18/layer-modes.json"
 dest18="$dir18/out"
 
 set +e
@@ -471,8 +457,8 @@ output18=$(BANNER_BASE_IMAGE="$dir18/base.png" BANNER_LAYERS_DIR="$dir18/layers"
 exit_code18=$?
 set -e
 
-assert_equals "mode: malformed layer-modes.json exits non-zero" "1" "$exit_code18"
-assert_matches "mode: malformed layer-modes.json error is clear" "ERROR: layer modes file is not valid JSON" "$output18"
+assert_equals "mode: malformed sidecar file exits non-zero" "1" "$exit_code18"
+assert_matches "mode: malformed sidecar file error names the layer" "ERROR: layer mode file for 'blackbox' is not valid JSON" "$output18"
 
 if [ "$failures" -ne 0 ]; then
     printf "\n%d assertion(s) failed\n" "$failures"

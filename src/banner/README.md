@@ -9,17 +9,16 @@ Export to `.png` into `public/img/dex/banner`
 
 By default, `generate.sh` composites every layer with plain alpha blending
 (GIMP's "Normal" mode, full opacity). A layer can instead be composited with
-a specific blend mode and/or opacity by adding an entry to the optional
-`src/banner/layer-modes.json` file:
+a specific blend mode and/or opacity by adding an optional `<name>.json`
+file next to that layer's `<name>.png` in `src/banner/layers/`:
 
 ```json
-{
-  "shiny": { "mode": "ColorDodge", "opacity": 80 }
-}
+// src/banner/layers/shiny.json, next to shiny.png
+{ "mode": "ColorDodge", "opacity": 80 }
 ```
 
-- `mode` and `opacity` are both optional; an entry (or the whole file) can
-  be absent, which keeps the default Normal / 100% behavior.
+- `mode` and `opacity` are both optional; the whole file can also be
+  absent, which keeps the default Normal / 100% behavior.
 - `opacity` is an integer 0-100.
 - `mode` must be one of ImageMagick's actual `-compose` operators (run
   `convert -list compose` to see the full list) -- `generate.sh` validates
@@ -28,8 +27,8 @@ a specific blend mode and/or opacity by adding an entry to the optional
 ### French (GIMP) -> `mode` correspondence
 
 GIMP's blend-mode names are localized in French. Look up the mode you
-picked in GIMP's Layers dialog here to find the value to write in
-`layer-modes.json` (extracted from GIMP 3's own French translation
+picked in GIMP's Layers dialog here to find the value to write in the
+layer's `.json` file (extracted from GIMP 3's own French translation
 catalog, non-legacy modes only):
 
 | GIMP (FR) | GIMP (EN) | `mode` value |
