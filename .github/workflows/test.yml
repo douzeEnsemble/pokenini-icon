@@ -1,0 +1,19 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  banner-generate-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install image tooling
+        run: sudo apt-get update && sudo apt-get install -y imagemagick jq
+
+      - name: Run generate.sh test suite
+        run: bash src/banner_generate/test_generate.sh

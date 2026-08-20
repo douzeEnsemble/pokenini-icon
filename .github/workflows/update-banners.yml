@@ -22,25 +22,53 @@ jobs:
       - name: Install image tooling
         run: sudo apt-get update && sudo apt-get install -y imagemagick webp jq
 
-      - name: Generate banner PNGs from base + layers
-        run: make banner_generate
-
-      - name: Remove stale .webp/thumbnail for regenerated banners
+      - name: Fetch dex banner-layers config from pokenini-api
+        env:
+          POKENINI_API_URL: ${{ secrets.POKENINI_API_URL }}
+          ICON_API_PASSWORD: ${{ secrets.ICON_API_PASSWORD }}
         run: |
-          jq -r 'keys[]' src/banner_generate/banners.json | while IFS= read -r slug; do
+          curl -fsS -u "icon:$ICON_API_PASSWORD" \
+            "$POKENINI_API_URL/istration/dex-banner-layers" \
+            -o "$RUNNER_TEMP/dex-banner-layers.json"
+
+      - name: Generate banner PNGs from base + layers
+        id: generate
+        env:
+          BANNER_CONFIG_FILE: ${{ runner.temp }}/dex-banner-layers.json
+        run: |
+          make banner_generate | tee "$RUNNER_TEMP/generate-output.log"
+          if grep -q '^GENERATED: ' "$RUNNER_TEMP/generate-output.log"; then
+            echo "generated_any=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "generated_any=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # The remaining steps only have work to do when at least one banner
+      # was actually generated this run -- with skip-existing in place,
+      # most routine runs generate nothing, and img_convert/check_size
+      # otherwise unconditionally scan the whole image corpus (including
+      # thousands of unrelated Pokémon sprite files) for no reason.
+      - name: Remove stale .webp/thumbnail for regenerated banners
+        if: steps.generate.outputs.generated_any == 'true'
+        run: |
+          sed -n 's/^GENERATED: //p' "$RUNNER_TEMP/generate-output.log" | while IFS= read -r slug; do
             rm -f "images/dex/banner/$slug.webp" "images/dex/thumbs/$slug.png"
           done
 
       - name: Convert all .png images to .webp
+        if: steps.generate.outputs.generated_any == 'true'
         run: make img_convert
 
       - name: Generate banner thumbnails
+        if: steps.generate.outputs.generated_any == 'true'
         run: make banner_thumb
 
       - name: Check image dimensions
+        if: steps.generate.outputs.generated_any == 'true'
         run: make check_size | tee check_size_report.txt
 
       - name: Open a PR with any changed banners
+        if: steps.generate.outputs.generated_any == 'true'
         uses: peter-evans/create-pull-request@v7
         with:
           commit-message: "Update banners"

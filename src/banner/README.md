@@ -5,12 +5,65 @@ Banner are made with https://pixlr.com/fr/e/#editor.
 Use `.pxz` file to have layers and data.
 Export to `.png` into `public/img/dex/banner`
 
+## Layer blend mode and opacity
+
+By default, `generate.sh` composites every layer with plain alpha blending
+(GIMP's "Normal" mode, full opacity). A layer can instead be composited with
+a specific blend mode and/or opacity by adding an optional `<name>.json`
+file next to that layer's `<name>.png` in `src/banner/layers/`:
+
+```json
+// src/banner/layers/shiny.json, next to shiny.png
+{ "mode": "ColorDodge", "opacity": 80 }
+```
+
+- `mode` and `opacity` are both optional; the whole file can also be
+  absent, which keeps the default Normal / 100% behavior.
+- `opacity` is an integer 0-100.
+- `mode` must be one of ImageMagick's actual `-compose` operators (run
+  `convert -list compose` to see the full list) -- `generate.sh` validates
+  this at run time and fails loudly on a typo.
+
+### French (GIMP) -> `mode` correspondence
+
+GIMP's blend-mode names are localized in French. Look up the mode you
+picked in GIMP's Layers dialog here to find the value to write in the
+layer's `.json` file (extracted from GIMP 3's own French translation
+catalog, non-legacy modes only):
+
+| GIMP (FR) | GIMP (EN) | `mode` value |
+|---|---|---|
+| Normal | Normal | *(omit -- default)* |
+| Dissoudre | Dissolve | `Dissolve` |
+| Multiplier | Multiply | `Multiply` |
+| Écran | Screen | `Screen` |
+| Éclaircir | Dodge | `ColorDodge` |
+| Assombrir | Burn | `ColorBurn` |
+| Éclaircir seulement | Lighten only | `Lighten` |
+| Assombrir seulement | Darken only | `Darken` |
+| Différence | Difference | `Difference` |
+| Superposer | Overlay | `Overlay` |
+| Lumière dure | Hard light | `HardLight` |
+| Lumière douce | Soft light | `SoftLight` |
+| Mélange dur | Hard mix | `HardMix` |
+| Exclusion | Exclusion | `Exclusion` |
+| Lumière vive | Vivid light | `VividLight` |
+| Lumière linéaire | Linear light | `LinearLight` |
+| Lumière ponctuelle | Pin light | `PinLight` |
+| Assombrissement linéaire | Linear burn | `LinearBurn` |
+| Remplacer | Replace | `Replace` |
+
+Note: GIMP's "Éclaircir" is the `Dodge` mode, not `Screen` (GIMP's
+`Screen` mode is labeled "Écran" in French) -- easy to mix up.
+
 > This doc now describes the design source only (the `.pxz`/`.xcf` layered
 > file and how it's edited). The export/generation step is automated by
 > `src/banner_generate/generate.sh` (see the "Banner generator" section in
 > the repo's top-level `README.md`) — export each layer as a named PNG,
-> reference it from `src/banner_generate/banners.json`, and the script
-> composites the final banners instead of manual pixlr/GIMP exports.
+> reference it in the slug -> layers config (fetched live from
+> `pokenini-api`'s `GET /istration/dex-banner-layers` endpoint in CI, not
+> committed to this repo), and the script composites the final banners
+> instead of manual pixlr/GIMP exports.
 
 ## Exporting layers from `pokenini_banner.xcf`
 
@@ -22,14 +75,14 @@ history for the full tree dump if needed.
 
 `export_layers.sh` exports one or more named layers/groups (by exact
 GIMP layer name) as a single flattened, transparent PNG at full canvas
-size, ready to drop into `src/banner_generate/layers/<name>.png`:
+size, ready to drop into `src/banner/layers/<name>.png`:
 
 ```bash
 src/banner/export_layers.sh <output.png> "<layer-or-group-name>" ["<layer-or-group-name>" ...]
 
 # examples
-src/banner/export_layers.sh src/banner_generate/layers/shiny.png "Shiny filter"
-src/banner/export_layers.sh src/banner_generate/layers/megashiny.png "Mega Symbol" "Shiny filter"
+src/banner/export_layers.sh src/banner/layers/shiny.png "Shiny filter"
+src/banner/export_layers.sh src/banner/layers/megashiny.png "Mega Symbol" "Shiny filter"
 ```
 
 Naming a **group** exports its whole subtree (as if you'd shown that
@@ -50,11 +103,12 @@ interface) — not `/tmp`, and not arbitrary paths outside `$HOME`. A
 `/tmp` output path fails to write with **no error message at all**, so
 this isn't just a style preference.
 
-**What layer names apply to which banner slug in
-`src/banner_generate/banners.json` is not yet mapped out.** That
+**What layer names apply to which banner slug is tracked in
+`pokenini-api`'s Dex tab "Banner Layers" column (fetched at generation
+time via `GET /istration/dex-banner-layers`), not in this repo.** That
 correspondence still needs to be worked out by hand (or with help) once
-this file's layer tree has been reorganized — see the banner generator's
-"Placeholder status" note in the top-level `README.md`.
+this file's layer tree has been reorganized — see the "Banner generator"
+section in the top-level `README.md` for how the mapping is fetched.
 
 ### GIMP 3 batch-mode gotchas this script works around
 

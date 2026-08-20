@@ -70,6 +70,9 @@ assert_file_exists "multi.png created" "$dest1/multi.png"
 size_single=$(identify -format "%wx%h" "$dest1/single.png")
 assert_equals "single.png keeps the 578x325 canvas" "578x325" "$size_single"
 assert_matches "summary reports 3 of 3" "Generated 3 of 3 banners" "$output1"
+assert_matches "GENERATED line is printed for each newly generated slug" "GENERATED: single" "$output1"
+assert_matches "GENERATED line is printed for each newly generated slug (multi)" "GENERATED: multi" "$output1"
+assert_matches "GENERATED line is printed for each newly generated slug (overlap)" "GENERATED: overlap" "$output1"
 
 pixel() {
     identify -format '%[pixel:p{'"$2"','"$3"'}]' "$1"
@@ -230,6 +233,232 @@ set -e
 
 assert_equals "non-array slug value exits non-zero" "1" "$exit_code9"
 assert_matches "non-array slug value error is clear" "ERROR: banner config file must be an object mapping each slug to an array of layer-name strings" "$output9"
+
+# Scenario 10: a slug whose output PNG already exists is skipped entirely
+# (not regenerated) -- this lets a run avoid re-doing work for banners
+# that haven't changed since the last run.
+dir10="$workdir/dir10"
+mkdir -p "$dir10/layers" "$dir10/out"
+convert -size 578x325 xc:red PNG32:"$dir10/base.png"
+convert -size 578x325 xc:none -fill blue -draw "rectangle 0,0 100,100" PNG32:"$dir10/layers/logoA.png"
+cat > "$dir10/banners.json" <<'JSON'
+{
+  "existing": ["logoA"]
+}
+JSON
+dest10="$dir10/out"
+# Pre-create the output as something the real composite would NOT produce
+# (solid green, not red+blue), so "untouched" is provable, not coincidental.
+convert -size 578x325 xc:green PNG32:"$dest10/existing.png"
+preHash=$(md5sum "$dest10/existing.png" | awk '{print $1}')
+
+output10=$(BANNER_BASE_IMAGE="$dir10/base.png" BANNER_LAYERS_DIR="$dir10/layers" BANNER_CONFIG_FILE="$dir10/banners.json" bash "$SCRIPT" "$dest10" 2>&1)
+postHash=$(md5sum "$dest10/existing.png" | awk '{print $1}')
+
+assert_equals "existing banner file is left byte-for-byte untouched" "$preHash" "$postHash"
+assert_matches "skip is logged for the existing banner" "SKIP: existing already exists" "$output10"
+assert_matches "summary reports 0 generated, 1 skipped" "Generated 0 of 1 banners \(1 already existed, skipped\)" "$output10"
+if [[ "$output10" == *"GENERATED:"* ]]; then
+    printf "FAIL a skipped banner must not print a GENERATED: line: got:\n%s\n" "$output10"
+    failures=$((failures + 1))
+else
+    printf "PASS no GENERATED: line is printed for a skipped banner\n"
+fi
+
+# Scenario 11: a slug whose output PNG already exists (so it would be
+# skipped) but whose config now references a layer that doesn't exist
+# must still fail loudly -- the skip check must never bypass layer
+# validation, or a layer renamed/removed after a banner was generated
+# would go undetected forever.
+dir11="$workdir/dir11"
+mkdir -p "$dir11/layers" "$dir11/out"
+convert -size 578x325 xc:red PNG32:"$dir11/base.png"
+cat > "$dir11/banners.json" <<'JSON'
+{
+  "stale": ["does-not-exist-anymore"]
+}
+JSON
+dest11="$dir11/out"
+convert -size 578x325 xc:green PNG32:"$dest11/stale.png"
+
+set +e
+output11=$(BANNER_BASE_IMAGE="$dir11/base.png" BANNER_LAYERS_DIR="$dir11/layers" BANNER_CONFIG_FILE="$dir11/banners.json" bash "$SCRIPT" "$dest11" 2>&1)
+exit_code11=$?
+set -e
+
+assert_equals "stale layer reference on an already-generated banner still exits non-zero" "1" "$exit_code11"
+assert_matches "stale layer reference error names the layer and the banner" "ERROR: layer 'does-not-exist-anymore' referenced by banner 'stale' not found" "$output11"
+
+# Scenario 12: no leftover hidden temp file after a normal successful
+# generation -- proves the atomic temp-file-then-rename write cleans up
+# after itself instead of littering $destDir.
+dir12="$workdir/dir12"
+mkdir -p "$dir12/layers"
+convert -size 578x325 xc:red PNG32:"$dir12/base.png"
+convert -size 578x325 xc:none -fill blue -draw "rectangle 0,0 100,100" PNG32:"$dir12/layers/logoA.png"
+cat > "$dir12/banners.json" <<'JSON'
+{
+  "clean": ["logoA"]
+}
+JSON
+dest12="$dir12/out"
+
+BANNER_BASE_IMAGE="$dir12/base.png" BANNER_LAYERS_DIR="$dir12/layers" BANNER_CONFIG_FILE="$dir12/banners.json" bash "$SCRIPT" "$dest12" > /dev/null 2>&1
+
+leftoverTempFiles=$(find "$dest12" -maxdepth 1 -name '.clean.*.png' 2>/dev/null)
+assert_equals "no leftover hidden temp file after a successful generation" "" "$leftoverTempFiles"
+
+# Scenario 13: a layer with an optional <layer>.json sidecar file (next to
+# <layer>.png in layers/) is composited with that ImageMagick -compose
+# operator instead of plain Over. An opaque BLACK probe layer is used
+# because it makes the two outcomes unambiguous: under Over, opaque black
+# completely hides the base (red -> black); under ColorDodge, the formula
+# is dst / (1 - src), and with src=0 that's dst / 1 = dst unchanged, so the
+# base color must show through where only Over would have painted black.
+# Bundled in the same fixture: a second layer (logoA) that has NO sidecar
+# .json file must still composite with plain Over.
+dir13="$workdir/dir13"
+mkdir -p "$dir13/layers"
+convert -size 578x325 xc:red PNG32:"$dir13/base.png"
+convert -size 578x325 xc:none -fill black -draw "rectangle 0,0 100,100" PNG32:"$dir13/layers/blackbox.png"
+convert -size 578x325 xc:none -fill blue -draw "rectangle 0,0 100,100" PNG32:"$dir13/layers/logoA.png"
+cat > "$dir13/layers/blackbox.json" <<'JSON'
+{ "mode": "ColorDodge" }
+JSON
+cat > "$dir13/banners.json" <<'JSON'
+{
+  "dodged": ["blackbox"],
+  "plain": ["logoA"]
+}
+JSON
+dest13="$dir13/out"
+
+output13=$(BANNER_BASE_IMAGE="$dir13/base.png" BANNER_LAYERS_DIR="$dir13/layers" BANNER_CONFIG_FILE="$dir13/banners.json" bash "$SCRIPT" "$dest13" 2>&1)
+
+assert_equals "mode: ColorDodge with a black source leaves the destination color untouched (proves mode, not plain Over, was applied)" "srgb(255,0,0)" "$(pixel "$dest13/dodged.png" 50 50)"
+assert_equals "mode: a layer with no sidecar .json file still composites with plain Over" "srgb(0,0,255)" "$(pixel "$dest13/plain.png" 50 50)"
+
+# Scenario 14: an "opacity" entry (mode omitted -> Over) fades the layer
+# toward the destination instead of fully replacing it. An opaque BLACK
+# layer at 40% opacity over a RED base must land strictly between full-black
+# (Over @ 100%, red channel 0) and full-red (layer absent, red channel 255) --
+# checked as a range rather than an exact value since the precise rounding
+# of alpha-channel scaling is an ImageMagick implementation detail, not part
+# of this script's contract.
+dir14="$workdir/dir14"
+mkdir -p "$dir14/layers"
+convert -size 578x325 xc:red PNG32:"$dir14/base.png"
+convert -size 578x325 xc:none -fill black -draw "rectangle 0,0 100,100" PNG32:"$dir14/layers/blackbox.png"
+cat > "$dir14/layers/blackbox.json" <<'JSON'
+{ "opacity": 40 }
+JSON
+cat > "$dir14/banners.json" <<'JSON'
+{
+  "faded": ["blackbox"]
+}
+JSON
+dest14="$dir14/out"
+
+BANNER_BASE_IMAGE="$dir14/base.png" BANNER_LAYERS_DIR="$dir14/layers" BANNER_CONFIG_FILE="$dir14/banners.json" bash "$SCRIPT" "$dest14" > /dev/null 2>&1
+redChannel=$(identify -format '%[fx:int(255*p{50,50}.r+0.5)]' "$dest14/faded.png")
+if [ "$redChannel" -gt 100 ] && [ "$redChannel" -lt 200 ]; then
+    printf "PASS opacity: 40%% opacity lands strictly between full-black (0) and full-red (255): got red=%s\n" "$redChannel"
+else
+    printf "FAIL opacity: 40%% opacity expected red channel roughly 100-200, got %s\n" "$redChannel"
+    failures=$((failures + 1))
+fi
+
+# Scenario 15: an unsupported "mode" value (not one of ImageMagick's actual
+# -compose operators) fails loudly instead of letting `convert` silently
+# fall back to some default behavior.
+dir15="$workdir/dir15"
+mkdir -p "$dir15/layers"
+convert -size 578x325 xc:red PNG32:"$dir15/base.png"
+convert -size 578x325 xc:none -fill black -draw "rectangle 0,0 100,100" PNG32:"$dir15/layers/blackbox.png"
+cat > "$dir15/layers/blackbox.json" <<'JSON'
+{ "mode": "NotARealMode" }
+JSON
+cat > "$dir15/banners.json" <<'JSON'
+{
+  "bad": ["blackbox"]
+}
+JSON
+dest15="$dir15/out"
+
+set +e
+output15=$(BANNER_BASE_IMAGE="$dir15/base.png" BANNER_LAYERS_DIR="$dir15/layers" BANNER_CONFIG_FILE="$dir15/banners.json" bash "$SCRIPT" "$dest15" 2>&1)
+exit_code15=$?
+set -e
+
+assert_equals "mode: unsupported mode value exits non-zero" "1" "$exit_code15"
+assert_matches "mode: unsupported mode value error names the layer and the bad mode" "blackbox.*NotARealMode" "$output15"
+
+# Scenario 16: an out-of-range "opacity" value (outside 0-100) fails loudly.
+dir16="$workdir/dir16"
+mkdir -p "$dir16/layers"
+convert -size 578x325 xc:red PNG32:"$dir16/base.png"
+convert -size 578x325 xc:none -fill black -draw "rectangle 0,0 100,100" PNG32:"$dir16/layers/blackbox.png"
+cat > "$dir16/layers/blackbox.json" <<'JSON'
+{ "opacity": 150 }
+JSON
+cat > "$dir16/banners.json" <<'JSON'
+{
+  "bad": ["blackbox"]
+}
+JSON
+dest16="$dir16/out"
+
+set +e
+output16=$(BANNER_BASE_IMAGE="$dir16/base.png" BANNER_LAYERS_DIR="$dir16/layers" BANNER_CONFIG_FILE="$dir16/banners.json" bash "$SCRIPT" "$dest16" 2>&1)
+exit_code16=$?
+set -e
+
+assert_equals "mode: out-of-range opacity exits non-zero" "1" "$exit_code16"
+assert_matches "mode: out-of-range opacity error names the layer" 'ERROR: layer mode file for .blackbox. has an "opacity" value outside 0-100' "$output16"
+
+# Scenario 17: a sidecar .json file that isn't a JSON object (e.g. an
+# array) fails loudly.
+dir17="$workdir/dir17"
+mkdir -p "$dir17/layers"
+convert -size 578x325 xc:red PNG32:"$dir17/base.png"
+convert -size 578x325 xc:none -fill black -draw "rectangle 0,0 100,100" PNG32:"$dir17/layers/blackbox.png"
+printf '["Multiply"]' > "$dir17/layers/blackbox.json"
+cat > "$dir17/banners.json" <<'JSON'
+{
+  "bad": ["blackbox"]
+}
+JSON
+dest17="$dir17/out"
+
+set +e
+output17=$(BANNER_BASE_IMAGE="$dir17/base.png" BANNER_LAYERS_DIR="$dir17/layers" BANNER_CONFIG_FILE="$dir17/banners.json" bash "$SCRIPT" "$dest17" 2>&1)
+exit_code17=$?
+set -e
+
+assert_equals "mode: non-object sidecar file exits non-zero" "1" "$exit_code17"
+assert_matches "mode: non-object sidecar file error names the layer" "blackbox" "$output17"
+
+# Scenario 18: a syntactically malformed <layer>.json sidecar file fails
+# loudly, naming the offending layer.
+dir18="$workdir/dir18"
+mkdir -p "$dir18/layers"
+convert -size 578x325 xc:red PNG32:"$dir18/base.png"
+convert -size 578x325 xc:none -fill black -draw "rectangle 0,0 100,100" PNG32:"$dir18/layers/blackbox.png"
+printf '{ not valid json' > "$dir18/layers/blackbox.json"
+cat > "$dir18/banners.json" <<'JSON'
+{
+  "ok": ["blackbox"]
+}
+JSON
+dest18="$dir18/out"
+
+set +e
+output18=$(BANNER_BASE_IMAGE="$dir18/base.png" BANNER_LAYERS_DIR="$dir18/layers" BANNER_CONFIG_FILE="$dir18/banners.json" bash "$SCRIPT" "$dest18" 2>&1)
+exit_code18=$?
+set -e
+
+assert_equals "mode: malformed sidecar file exits non-zero" "1" "$exit_code18"
+assert_matches "mode: malformed sidecar file error names the layer" "ERROR: layer mode file for 'blackbox' is not valid JSON" "$output18"
 
 if [ "$failures" -ne 0 ]; then
     printf "\n%d assertion(s) failed\n" "$failures"

@@ -100,42 +100,44 @@ bash src/placeholders/make_them_all.sh b
 
 #### Banner generator
 
-Composites banner PNGs from a base image plus named overlay layers, driven by
-`src/banner_generate/banners.json` (slug -> ordered list of layer names). This
+Composites banner PNGs from a base image plus named overlay layers. The
+slug → layers mapping is no longer a committed file — it's fetched at
+generation time from `pokenini-api`'s `GET /istration/dex-banner-layers`
+endpoint (Basic auth, `icon` user), which reflects the "Banner Layers"
+column of the Dex tab in the Google Sheet `pokenini-api` syncs from. This
 replaces the old manual pixlr/GIMP export workflow described in
-`src/banner/README.md`.
+`src/banner/README.md` (still current for exporting individual named
+layers, see `src/banner/export_layers.sh`) as well as the earlier
+committed-`banners.json` approach.
 
 ```
 bash src/banner_generate/generate.sh [destDir]
 ```
 
-`destDir` defaults to `images/dex/banner`. Also runnable via `make banner_generate`.
+`destDir` defaults to `images/dex/banner`. Also runnable via `make banner_generate`, but note `BANNER_CONFIG_FILE` must point at a real config file you provide yourself — there is no committed default anymore (see below).
 
 Overridable env vars:
 
-- `BANNER_BASE_IMAGE` (default `src/banner_generate/base.png`) — the base canvas every banner starts from.
-- `BANNER_LAYERS_DIR` (default `src/banner_generate/layers`) — directory containing the named `<layer>.png` overlay files.
-- `BANNER_CONFIG_FILE` (default `src/banner_generate/banners.json`) — the slug -> layers config.
+- `BANNER_BASE_IMAGE` (default `src/banner_generate/base.png`) — the base canvas every banner starts from. **`base.png` is currently still a transparent placeholder, not real artwork** — nothing checks its content, so composing a brand-new slug (one that doesn't already have a PNG in `destDir`) before the real base image lands produces a placeholder-looking banner with no error, caught only by human PR review.
+- `BANNER_LAYERS_DIR` (default `src/banner/layers`) — directory containing the named `<layer>.png` overlay files.
+- `BANNER_CONFIG_FILE` (required, no default) — the slug -> layers config. In CI, this is fetched from `pokenini-api` and passed explicitly; for local use, provide a config file path.
+- Per-layer blend mode / opacity: an optional `<layer>.json` file next to `<layer>.png` in `BANNER_LAYERS_DIR` (e.g. `shiny.json` next to `shiny.png`), see `src/banner/README.md`. A layer with no sidecar file composites with plain Over at 100%, same as before this option existed.
 - `CONVERT_CONCURRENCY` (default `nproc`) — parallel `convert` workers.
 
 The script hard-fails (non-zero exit, no files written) if the config file is
 missing, isn't valid JSON, has a non-array value for any slug, or has any slug
 mapped to an empty layer list `[]` — an empty list would otherwise silently
 composite to "just the base image", producing a blank/placeholder-looking
-banner instead of failing loudly.
+banner instead of failing loudly. A slug whose output PNG already exists in
+`destDir` is skipped (not regenerated) rather than erroring.
 
-**Placeholder status:** `src/banner_generate/base.png` is currently a fully
-transparent placeholder, and every slug in `banners.json` is still seeded to
-`[]` pending migration of the real layer artwork out of
-`src/banner/pokenini_banner.pxz`/`.xcf`. Do **not** run this against
-`images/dex/banner` until that migration lands — and per the empty-layer-list
-guard above, the script will currently refuse to run against the checked-in
-`banners.json` anyway.
+To force a banner to be regenerated, delete its `images/dex/banner/<slug>.png` first — the workflow only ever *adds* banners that don't exist yet.
 
-The `update-banners` GitHub workflow runs `generate.sh`, then deletes each
-regenerated banner's stale `.webp` and thumbnail before `make img_convert` /
-`make banner_thumb` run (those two scripts skip files that already exist, so
-without this cleanup a regenerated PNG's derived outputs would never refresh).
+The `update-banners` GitHub workflow fetches the config from `pokenini-api`,
+runs `generate.sh`, then deletes each regenerated banner's stale `.webp` and
+thumbnail before `make img_convert` / `make banner_thumb` run (those two
+scripts skip files that already exist, so without this cleanup a
+regenerated PNG's derived outputs would never refresh).
 
 #### PNG to WEBP
 
