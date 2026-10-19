@@ -11,13 +11,13 @@ run-name: "Update banners (${{ inputs.correlation_id }})"
 
 jobs:
   update-banners:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
       pull-requests: write
     steps:
       - name: Checkout pokenini-icon
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Install image tooling
         run: sudo apt-get update && sudo apt-get install -y imagemagick webp jq
@@ -69,7 +69,7 @@ jobs:
 
       - name: Open a PR with any changed banners
         if: steps.generate.outputs.generated_any == 'true'
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           commit-message: "Update banners"
           branch: update-banners-${{ github.run_id }}

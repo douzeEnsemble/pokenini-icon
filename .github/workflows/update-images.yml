@@ -11,19 +11,19 @@ run-name: "Update images (${{ inputs.correlation_id }})"
 
 jobs:
   update-images:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
       pull-requests: write
     steps:
       - name: Checkout pokenini-icon
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Install image tooling
         run: sudo apt-get update && sudo apt-get install -y imagemagick webp jq
 
       - name: Cache pokemondb temp images
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: src/download-from-pokemon-db/images/temp
           key: pdb-images-temp-${{ github.run_id }}
@@ -51,7 +51,7 @@ jobs:
         run: make check_size | tee check_size_report.txt
 
       - name: Open a PR with any changed images
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           commit-message: "Update Pokémon images"
           branch: update-images-${{ github.run_id }}
