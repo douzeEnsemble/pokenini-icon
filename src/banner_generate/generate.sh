@@ -66,6 +66,7 @@ generate_one() {
     local destinationFile="$destDir/$slug.png"
     local args=("$BANNER_BASE_IMAGE")
     local layer layerFile tmpFile
+    local -a layerArgs
 
     # Layer references are validated unconditionally, even for a slug
     # that turns out to already exist below -- this catches a layer
@@ -120,16 +121,27 @@ generate_one() {
             # toward the destination, same as a GIMP/Photoshop layer's
             # mode + opacity combination.
             if [ "$opacity" = "100" ]; then
-                args+=("$layerFile")
+                layerArgs=("$layerFile")
             else
                 # LC_NUMERIC=C: under a locale like fr_FR, awk's printf
                 # emits a comma decimal separator ("0,4000"), which
                 # ImageMagick's -evaluate multiply can't parse -- it
                 # silently zeroes the alpha instead of scaling it.
                 fraction=$(LC_NUMERIC=C awk -v p="$opacity" 'BEGIN { printf "%.4f", p / 100 }')
-                args+=("(" "$layerFile" -channel A -evaluate multiply "$fraction" +channel ")")
+                layerArgs=("(" "$layerFile" -channel A -evaluate multiply "$fraction" +channel ")")
             fi
-            args+=(-compose "$mode" -composite)
+            if [ "$mode" = "Over" ]; then
+                args+=("${layerArgs[@]}" -compose Over -composite)
+            else
+                # A blend-mode layer is clipped to the backdrop, like
+                # GIMP's default ("Auto" -> "Clip to backdrop") for every
+                # mode but Normal: blend a copy of the canvas with the
+                # layer, then put the result back ATop the canvas so it
+                # only shows where the canvas is already painted. Without
+                # this, ImageMagick unions the alpha and the layer is
+                # pasted as-is over the transparent parts of the canvas.
+                args+=("(" -clone 0 "${layerArgs[@]}" -compose "$mode" -composite ")" -compose ATop -composite)
+            fi
         done <<< "$layersOutput"
     fi
 
