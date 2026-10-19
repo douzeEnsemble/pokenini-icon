@@ -338,6 +338,30 @@ output13=$(BANNER_BASE_IMAGE="$dir13/base.png" BANNER_LAYERS_DIR="$dir13/layers"
 assert_equals "mode: ColorDodge with a black source leaves the destination color untouched (proves mode, not plain Over, was applied)" "srgb(255,0,0)" "$(pixel "$dest13/dodged.png" 50 50)"
 assert_equals "mode: a layer with no sidecar .json file still composites with plain Over" "srgb(0,0,255)" "$(pixel "$dest13/plain.png" 50 50)"
 
+# Scenario 13b: a blend-mode layer is clipped to the backdrop, like GIMP's
+# default for every mode but Normal. Over a base that is opaque RED on its
+# left half and fully transparent on its right half, an opaque WHITE
+# ColorDodge layer must brighten the painted half (red -> white) and leave
+# the transparent half transparent, instead of pasting itself there.
+dir13b="$workdir/dir13b"
+mkdir -p "$dir13b/layers"
+convert -size 578x325 xc:none -fill red -draw "rectangle 0,0 288,324" PNG32:"$dir13b/base.png"
+convert -size 578x325 xc:white PNG32:"$dir13b/layers/whitebox.png"
+cat > "$dir13b/layers/whitebox.json" <<'JSON'
+{ "mode": "ColorDodge" }
+JSON
+cat > "$dir13b/banners.json" <<'JSON'
+{
+  "clipped": ["whitebox"]
+}
+JSON
+dest13b="$dir13b/out"
+
+BANNER_BASE_IMAGE="$dir13b/base.png" BANNER_LAYERS_DIR="$dir13b/layers" BANNER_CONFIG_FILE="$dir13b/banners.json" bash "$SCRIPT" "$dest13b" > /dev/null 2>&1
+
+assert_equals "mode: a blend-mode layer still applies where the backdrop is painted" "255,255,255,255" "$(identify -format '%[fx:int(255*p{50,50}.r+0.5)],%[fx:int(255*p{50,50}.g+0.5)],%[fx:int(255*p{50,50}.b+0.5)],%[fx:int(255*p{50,50}.a+0.5)]' "$dest13b/clipped.png")"
+assert_equals "mode: a blend-mode layer is clipped to the backdrop (transparent area stays transparent)" "0" "$(identify -format '%[fx:int(255*p{450,50}.a+0.5)]' "$dest13b/clipped.png")"
+
 # Scenario 14: an "opacity" entry (mode omitted -> Over) fades the layer
 # toward the destination instead of fully replacing it. An opaque BLACK
 # layer at 40% opacity over a RED base must land strictly between full-black

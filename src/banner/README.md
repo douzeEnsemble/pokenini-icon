@@ -20,6 +20,10 @@ file next to that layer's `<name>.png` in `src/banner/layers/`:
 - `mode` and `opacity` are both optional; the whole file can also be
   absent, which keeps the default Normal / 100% behavior.
 - `opacity` is an integer 0-100.
+- Any `mode` other than the default is clipped to the backdrop, like
+  GIMP's default composite mode: the layer only affects the parts of the
+  banner already painted by the layers below it, and leaves the
+  transparent parts transparent.
 - `mode` must be one of ImageMagick's actual `-compose` operators (run
   `convert -list compose` to see the full list) -- `generate.sh` validates
   this at run time and fails loudly on a typo.
