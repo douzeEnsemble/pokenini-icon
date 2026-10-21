@@ -66,3 +66,8 @@ check_size: ## Check that images have the expected dimensions
 	bash src/check_size/check_size.sh images/dex/thumbs 123 69
 	bash src/check_size/check_size.sh images/pokemon/big 256 256
 	bash src/check_size/check_size.sh images/pokemon/small 68 68
+
+## —— Colours ————————————————————————————————————————————————————————————————
+.PHONY        : colours
+colours: ## Fill the colour game columns of a Pokémons CSV export (CSV=path/to/pokemons.csv)
+	python3 src/colours/remplir_couleurs.py "$(CSV)" --cache src/colours/cache
