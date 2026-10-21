@@ -16,3 +16,6 @@ wget-log
 .vscode/settings.json
 .worktrees/
 .claude/
+
+src/colours/cache/
+*_couleurs.csv

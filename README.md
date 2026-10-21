@@ -147,3 +147,41 @@ convert every `.png` under `images/` to `.webp` in a single pass:
 ```
 bash src/convert_png_webp/convert_png_webp.sh
 ```
+
+#### Colour game sets
+
+Fills the six colour columns of the Google Sheet `Pokémons` tab, used by the
+colour game: `Regular colours codes`, `Shiny coulours codes`,
+`Regular colours names`, `Shiny coulours names`, `Noms Couleurs normal` and
+`Noms Couleurs chromatique`.
+
+For each row, the script reads the `Small Regular Url` and `Small Shiny Url`
+images, extracts their dominant colours (sprite outline excluded) and writes
+5 sets per cell, separated by ` | ` (colours of a set separated by `;`). Set 1
+is the right one, sets 2 to 5 are plausible decoys (other Pokémon palettes, or
+the real palette with a hue shift). Sets are aligned across the codes, English
+names and French names columns. The output is deterministic.
+
+Only empty cells are filled: cells holding `-` and cells already filled are
+kept (`--force` rewrites filled cells but still keeps `-`). Images are cached,
+so the script can be run again without downloading everything.
+
+##### Requirement
+
+```
+pip install -r src/colours/requirements.txt
+```
+
+Export the `Pokémons` tab as CSV, then:
+
+```
+python3 src/colours/remplir_couleurs.py pokemons.csv -o pokemons_couleurs.csv --cache src/colours/cache
+```
+
+Also runnable via `make colours CSV=pokemons.csv`, which writes
+`pokemons_couleurs.csv` next to the input. `--limit N` processes only the first
+N rows to fill (trial run), `--offline` uses only cached images. See
+`python3 src/colours/remplir_couleurs.py --help` for all options.
+
+Import the output CSV back into the Sheet, then run the `pokenini-api`
+Pokémons sync.
