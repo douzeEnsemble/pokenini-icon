@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout pokenini-icon
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           path: pokenini-icon
 
       - name: Checkout pokenini-resources
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: douzeensemble/pokenini-resources
           token: ${{ secrets.RESOURCES_PUSH_TOKEN }}
