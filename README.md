@@ -168,6 +168,8 @@ so the script can be run again without downloading everything.
 
 ##### Requirement
 
+Python 3.12 or later.
+
 ```
 pip install -r src/colours/requirements.txt
 ```
