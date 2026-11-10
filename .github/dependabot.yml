@@ -4,7 +4,7 @@ updates:
   - package-ecosystem: "pip"
     directory: "/src/colours"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     groups:
       pip:
         patterns:
@@ -12,7 +12,7 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     groups:
       github-actions:
         patterns:
