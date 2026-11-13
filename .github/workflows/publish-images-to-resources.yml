@@ -31,7 +31,7 @@ jobs:
         with:
           token: ${{ secrets.RESOURCES_PUSH_TOKEN }}
           path: pokenini-resources
-          commit-message: "Sync images from pokenini-icon@${{ github.sha }}"
+          commit-message: "chore(images): sync images from pokenini-icon@${{ github.sha }}"
           branch: sync-images-${{ github.sha }}
-          title: "Sync images from pokenini-icon@${{ github.sha }}"
+          title: "chore(images): sync images from pokenini-icon@${{ github.sha }}"
           delete-branch: true

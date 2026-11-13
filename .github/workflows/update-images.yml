@@ -53,9 +53,9 @@ jobs:
       - name: Open a PR with any changed images
         uses: peter-evans/create-pull-request@v8
         with:
-          commit-message: "Update Pokémon images"
+          commit-message: "chore(images): update Pokémon images"
           branch: update-images-${{ github.run_id }}
-          title: "Update Pokémon images"
+          title: "chore(images): update Pokémon images"
           body-path: check_size_report.txt
           add-paths: |
             images

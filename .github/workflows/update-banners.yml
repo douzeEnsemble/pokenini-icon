@@ -71,9 +71,9 @@ jobs:
         if: steps.generate.outputs.generated_any == 'true'
         uses: peter-evans/create-pull-request@v8
         with:
-          commit-message: "Update banners"
+          commit-message: "chore(banners): update banners"
           branch: update-banners-${{ github.run_id }}
-          title: "Update banners"
+          title: "chore(banners): update banners"
           body-path: check_size_report.txt
           add-paths: |
             images/dex/banner
