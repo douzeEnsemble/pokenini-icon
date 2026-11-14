@@ -5,6 +5,9 @@ updates:
     directory: "/src/colours"
     schedule:
       interval: "daily"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
     groups:
       pip:
         patterns:
@@ -13,6 +16,9 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
     groups:
       github-actions:
         patterns:
