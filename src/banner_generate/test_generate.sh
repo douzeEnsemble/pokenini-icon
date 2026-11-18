@@ -145,7 +145,7 @@ JSON
 dest5="$workdir/dir5/out"
 
 set +e
-output5=$(BANNER_BASE_IMAGE="$dir5/base.png" BANNER_LAYERS_DIR="$dir5/layers" BANNER_CONFIG_FILE="$dir5/banners.json" bash "$SCRIPT" "$dest5" 2>&1)
+BANNER_BASE_IMAGE="$dir5/base.png" BANNER_LAYERS_DIR="$dir5/layers" BANNER_CONFIG_FILE="$dir5/banners.json" bash "$SCRIPT" "$dest5" >/dev/null 2>&1
 exit_code5=$?
 set -e
 
@@ -333,7 +333,7 @@ cat > "$dir13/banners.json" <<'JSON'
 JSON
 dest13="$dir13/out"
 
-output13=$(BANNER_BASE_IMAGE="$dir13/base.png" BANNER_LAYERS_DIR="$dir13/layers" BANNER_CONFIG_FILE="$dir13/banners.json" bash "$SCRIPT" "$dest13" 2>&1)
+BANNER_BASE_IMAGE="$dir13/base.png" BANNER_LAYERS_DIR="$dir13/layers" BANNER_CONFIG_FILE="$dir13/banners.json" bash "$SCRIPT" "$dest13" >/dev/null 2>&1
 
 assert_equals "mode: ColorDodge with a black source leaves the destination color untouched (proves mode, not plain Over, was applied)" "srgb(255,0,0)" "$(pixel "$dest13/dodged.png" 50 50)"
 assert_equals "mode: a layer with no sidecar .json file still composites with plain Over" "srgb(0,0,255)" "$(pixel "$dest13/plain.png" 50 50)"
