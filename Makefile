@@ -71,3 +71,8 @@ check_size: ## Check that images have the expected dimensions
 .PHONY        : colours
 colours: ## Fill the colour game columns of a Pokémons CSV export (CSV=path/to/pokemons.csv)
 	python3 src/colours/remplir_couleurs.py "$(CSV)" --cache src/colours/cache
+
+## —— Git hooks ——————————————————————————————————————————————————————————————
+hooks: ## Enable the Conventional Commits git hook
+	git config core.hooksPath .githooks
+.PHONY: hooks
