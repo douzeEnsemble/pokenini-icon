@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout pokenini-icon
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           path: pokenini-icon
 
       - name: Checkout pokenini-resources
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           repository: douzeensemble/pokenini-resources
           token: ${{ secrets.RESOURCES_PUSH_TOKEN }}
@@ -27,7 +27,7 @@ jobs:
         run: make copy
 
       - name: Open a PR on pokenini-resources with the synced images
-        uses: peter-evans/create-pull-request@v8
+        uses: peter-evans/create-pull-request@3ffccacd46053766916f087ce41d627c0b8cf2d1 # v8
         with:
           token: ${{ secrets.RESOURCES_PUSH_TOKEN }}
           path: pokenini-resources
